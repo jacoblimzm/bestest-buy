@@ -5,4 +5,6 @@
 
 #### Group Members:
 - Jacob
+- Eleanor
 - Kah Shin
+
