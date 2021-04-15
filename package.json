@@ -1,0 +1,21 @@
+{
+  "name": "bestest-buy",
+  "version": "1.0.0",
+  "description": "ga project 3",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.generalassemb.ly:jacoblimzm/bestest-buy.git"
+  },
+  "author": "eleanor, kah shin, jacob",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.12.3",
+    "nodemon": "^2.0.7"
+  }
+}
