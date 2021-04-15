@@ -5,3 +5,4 @@
 
 #### Group Members:
 - Jacob
+- Kah Shin
