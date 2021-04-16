@@ -1,5 +1,6 @@
 require("dotenv-safe").config();
 const express = require("express");
+const passport = require("passport");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
@@ -14,7 +15,7 @@ const SECRET = process.env.SECRET;
 app.use(express.json()); // for parsing raw json information
 app.use(express.urlencoded({ extended: true })); // for parsing form information.
 app.use(cors({
-    origin: "http://localhost:3000", //location of the react app that is connect
+    origin: "http://localhost:3000", //location of the react app that is connected to
     credentials: true
 }))
 app.use(session({
@@ -22,6 +23,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }))
+// KEY: passport middleware must come AFTER the session support has been set up
+//initialise passport using the built in initialise() method which will set up automatically for authentication.
+app.use(passport.initialize());
+//then use passport to initialise sessions as we are using persistent login sessions. 
+app.use(passport.session());
 
 // --------------------------------------- CONTROLLERS ---------------------------------------
 const usersController = require("./controllers/usersController");
