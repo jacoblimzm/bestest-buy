@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/users");
 
-const passportFunction = (passport) => {
+module.exports = function(passport) {
   passport.use(
     new LocalStrategy((username, password, done) => {
       //verify callback will execute everytime a local strategy is used
@@ -43,4 +43,3 @@ const passportFunction = (passport) => {
   });
 };
 
-module.exports = { passportFunction };
