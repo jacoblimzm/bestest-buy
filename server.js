@@ -8,12 +8,13 @@ const app = express();
 const PORT = process.env.PORT;
 
 // MIDDLEWARE
-app.use(express.urlencoded({ extended: false })); // for parsing form information.
+app.use(express.urlencoded({ extended: true })); // for parsing form information.
 app.use(express.json()); // for parsing raw json information
 
 
 // CONTROLLERS
-
+const usersController = require("./controllers/usersController");
+app.use("/usersbackend", usersController); 
 
 // CONNECTIONS
 app.listen(PORT, () => {
