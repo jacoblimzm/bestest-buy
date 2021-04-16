@@ -1,16 +1,26 @@
 require("dotenv-safe").config();
 const express = require("express");
+const cors = require("cors");
 // express session
 const mongoose = require("mongoose");
+const productsController = require("./controllers/productsController.js");
+
 
 // CONSTANTS
 const app = express();
 const PORT = process.env.PORT;
 
 // MIDDLEWARE
+app.use(cors());
 app.use(express.urlencoded({ extended: false })); // for parsing form information.
 app.use(express.json()); // for parsing raw json information
+app.use("/products", productsController);
 
+
+//TEST
+app.get('/', (req, res) => {
+  res.send('hi');
+});
 
 // CONTROLLERS
 
