@@ -14,7 +14,7 @@ const PORT = process.env.PORT;
 app.use(cors());
 app.use(express.urlencoded({ extended: false })); // for parsing form information.
 app.use(express.json()); // for parsing raw json information
-app.use("/products", productsController);
+app.use("/productsbackend", productsController);
 
 
 //TEST
