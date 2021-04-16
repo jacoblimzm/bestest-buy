@@ -2,11 +2,11 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/users");
 
-// CONSTANTS
+// --------------------------------------- CONSTANTS ---------------------------------------
 const users = express.Router();
 const saltRounds = 10;
 
-// ROUTES
+// --------------------------------------- ROUTES ---------------------------------------
 
 // SHOW User route
 users.get("/:id", (req, res) => {
