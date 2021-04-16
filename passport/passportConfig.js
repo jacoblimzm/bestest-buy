@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const LocalStrategy = require("passport-local").Strategy;
 const User = require("../models/users");
 
-module.exports = function(passport) {
+module.exports = (passport) => {
   passport.use(
     new LocalStrategy((username, password, done) => {
       //verify callback will execute everytime a local strategy is used
@@ -22,7 +22,7 @@ module.exports = function(passport) {
               return done(null, false, { message: "Incorrect Password." });
             } else {
               // if all is good and password is correct, error is "null" as there are no errors. also return the authenticated user object
-              return done(null, user);
+              return done(null, foundUser);
             }
           });
         }
@@ -36,10 +36,14 @@ module.exports = function(passport) {
   });
 
   passport.deserializeUser((id, done) => {
-    // takes a cookie, unrvels it and returns a user from it with the id.
+    // takes a cookie, unravels it and returns a user from it with the id that is passed into it.
+    // you can control the data that the cookie unravels and sends back. see commented code below.
     User.findById(id, (err, foundUser) => {
       done(err, foundUser);
+      // const userInformation = {
+      //   username: foundUser.username
+      // }
+      // done(err, userInformation);
     });
   });
 };
-
