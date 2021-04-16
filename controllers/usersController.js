@@ -9,8 +9,8 @@ const saltRounds = 10;
 // --------------------------------------- ROUTES ---------------------------------------
 
 // SHOW User route
-users.get("/:id", (req, res) => {
-    console.log(req.params.id);
+users.get("/", (req, res) => {
+    res.send(req.user); //recall that the entire user and session is stored inside of req.user when authenticated with passport.
 })
 
 // CREATE User route
