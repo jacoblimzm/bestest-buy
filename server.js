@@ -32,8 +32,10 @@ app.use(passport.session());
 // --------------------------------------- CONTROLLERS ---------------------------------------
 const usersController = require("./controllers/usersController");
 const sessionsController = require("./controllers/sessionsController");
+const ordersController = require("./controllers/ordersController");
 app.use("/usersbackend", usersController); 
 app.use("/sessionsbackend", sessionsController);
+app.use("/ordersbackend", ordersController);
 
 // --------------------------------------- CONNECTIONS ---------------------------------------
 app.listen(PORT, () => {
