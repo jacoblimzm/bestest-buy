@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema(
     username: {
       type: String,
       required: true,
-      unique: [true, "Username already exists"],
+      //   unique: [true, "Username already exists"],
     },
     password: {
       type: String,
@@ -25,15 +25,18 @@ const userSchema = mongoose.Schema(
       },
     },
     address: { type: String },
-  },
-  {
-    timestamps: {
-      createdAt: "created_at",
-      updatedAt: "updated_at",
-    },
+    createdAt: { type: Date, default: Date.now },
   }
 );
 
 const User = mongoose.model("user", userSchema);
 
 module.exports = User;
+
+// ,
+//   {
+//     timestamps: {
+//       createdAt: "created_at",
+//       updatedAt: "updated_at",
+//     },
+//   }
