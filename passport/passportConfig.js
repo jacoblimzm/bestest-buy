@@ -29,6 +29,18 @@ const passportFunction = (passport) => {
       });
     })
   );
+
+  passport.serializeUser((user, done) => {
+    // stores a cookie inside the browser. takes the "user" created using local strategy and create a cookie with the userId
+    done(null, user.id);
+  });
+
+  passport.deserializeUser((id, done) => {
+    // takes a cookie, unrvels it and returns a user from it with the id.
+    User.findById(id, (err, foundUser) => {
+      done(err, foundUser);
+    });
+  });
 };
 
-module.exports = passportFunction
+module.exports = { passportFunction };
