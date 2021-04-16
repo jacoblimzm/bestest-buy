@@ -8,7 +8,12 @@ const saltRounds = 10;
 
 // ROUTES
 
-// CREATE user route
+// SHOW User route
+users.get("/:id", (req, res) => {
+    console.log(req.params.id);
+})
+
+// CREATE User route
 users.post("/", (req, res) => {
   const newUser = req.body;
   console.log(newUser);
@@ -21,6 +26,7 @@ users.post("/", (req, res) => {
       User.create(newUser, (err, createdUser) => {
         if (err) {
           console.log(err);
+          res.send(err);
         } else {
           console.log(createdUser);
           res.send(createdUser) // send the createdUser obj back to client as a response.
