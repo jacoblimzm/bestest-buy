@@ -24,7 +24,7 @@ products.post("/", (req, res) => {
     });
 });
 
-
+// edit product
 products.put("/:id", (req, res) => {
     Product.findByIdAndUpdate(req.params.id, req.body, { new: true },
         (err, updatedProducts) => {
