@@ -9,4 +9,4 @@ const productsSchema = mongoose.Schema({
     price: { type: Number },
     createdAt: { type: Date, default: Date.now }
 });
-module.exports = mongoose.model("Products", productsSchema);
+module.exports = mongoose.model("products", productsSchema);

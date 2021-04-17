@@ -20,9 +20,10 @@ router.get("/seed", (req, res) => {
 products.get("/", (req, res) => {
     Product.find({}, (err, allProduct) => {
         if (err) {
-            res.status(400).json({ error: err.message });
+            res.status(400).send({ error: err.message });
+        }else {
+            res.status(200).send(allProduct);
         }
-        res.status(200).json(allProduct);
     });
 });
 
@@ -30,9 +31,10 @@ products.get("/", (req, res) => {
 products.post("/", (req, res) => {
     Product.create(req.body, (error, createProducts) => {
         if (error) {
-            res.status(400).json({ error: error.message });
+            res.status(400).send({ error: error.message });
+        }else{
+            res.status(200).send(createProducts);
         }
-        res.status(200).json(createProducts);
     });
 });
 
@@ -41,9 +43,10 @@ products.put("/:id", (req, res) => {
     Product.findByIdAndUpdate(req.params.id, req.body, { new: true },
         (err, updatedProducts) => {
             if (err) {
-                res.status(400).json({ error: err.message });
+                res.status(400).send({ error: err.message });
+            } else{
+                res.status(200).send(updatedProducts);
             }
-            res.status(200).json(updatedProducts);
         }
     );
 });
@@ -52,9 +55,10 @@ products.put("/:id", (req, res) => {
 products.delete("/:id", (req, res) => {
     Product.findByIdAndRemove(req.params.id, (err, deletedProduct) => {
         if (err) {
-            res.status(400).json({ error: err.message });
+            res.status(400).send({ error: err.message });
+        }else{
+            res.status(200).send(deletedProduct);
         }
-        res.status(200).json(deletedProduct);
     });
 });
 
