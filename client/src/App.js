@@ -3,7 +3,7 @@ import "./App.css";
 import { useState } from "react";
 
 function App() {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState({});
   const handleRegister = (e) => {
     e.preventDefault();
 
@@ -64,7 +64,7 @@ function App() {
       .get("/sessionsbackend")
       .then((res) => {
         console.log(res.data);
-        setCurrentUser(null);
+        setCurrentUser({});
       })
       .catch((err) => {
         console.log(err);
@@ -89,7 +89,7 @@ function App() {
           <input type="submit" name="submit" value="Log In" />
         </form>
       </div>
-      {currentUser && (
+      {currentUser.username && (
         <div>
           <h1>Get User</h1>
           <form onSubmit={handleGetUser}>
