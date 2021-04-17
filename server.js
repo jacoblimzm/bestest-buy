@@ -1,17 +1,13 @@
 require("dotenv-safe").config();
 const express = require("express");
-<<<<<<< HEAD
-const cors = require("cors");
-// express session
-const mongoose = require("mongoose");
-const productsController = require("./controllers/productsController.js");
 
-=======
 const passport = require("passport");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
->>>>>>> a2c877f0f2f18f2b454b8ece1be90b0d5c258eef
+const productsController = require("./controllers/productsController.js");
+
+
 
 
 // --------------------------------------- CONSTANTS ---------------------------------------
@@ -19,12 +15,6 @@ const app = express();
 const PORT = process.env.PORT;
 const SECRET = process.env.SECRET;
 
-<<<<<<< HEAD
-// MIDDLEWARE
-app.use(cors());
-app.use(express.urlencoded({ extended: false })); // for parsing form information.
-app.use(express.json()); // for parsing raw json information
-app.use("/productsbackend", productsController);
 
 
 //TEST
@@ -32,22 +22,19 @@ app.get('/', (req, res) => {
   res.send('hi');
 });
 
-// CONTROLLERS
-
-
-// CONNECTIONS
-=======
 // --------------------------------------- MIDDLEWARE ---------------------------------------
 app.use(express.json()); // for parsing raw json information
 app.use(express.urlencoded({ extended: true })); // for parsing form information.
 app.use(cors({
-    origin: "http://localhost:3000", //location of the react app that is connected to
-    credentials: true
+  origin: "http://localhost:3000", //location of the react app that is connected to
+  credentials: true
 }))
+app.use(express.json()); // for parsing raw json information
+app.use("/productsbackend", productsController);
 app.use(session({
-    secret: SECRET,
-    resave: false,
-    saveUninitialized: false,
+  secret: SECRET,
+  resave: false,
+  saveUninitialized: false,
 }))
 // KEY: passport middleware must come AFTER the session support has been set up
 //initialise passport using the built in initialise() method which will set up automatically for authentication.
@@ -58,11 +45,10 @@ app.use(passport.session());
 // --------------------------------------- CONTROLLERS ---------------------------------------
 const usersController = require("./controllers/usersController");
 const sessionsController = require("./controllers/sessionsController");
-app.use("/usersbackend", usersController); 
+app.use("/usersbackend", usersController);
 app.use("/sessionsbackend", sessionsController);
 
 // --------------------------------------- CONNECTIONS ---------------------------------------
->>>>>>> a2c877f0f2f18f2b454b8ece1be90b0d5c258eef
 app.listen(PORT, () => {
   console.log("server is listening at port", PORT);
 });
