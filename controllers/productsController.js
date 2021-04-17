@@ -1,7 +1,19 @@
 const express = require("express");
 const products = express.Router();
 const Product = require("../models/products.js");
+const router = express.Router();
 
+router.get("/seed", (req, res) => {
+    Product.create(
+        {
+            brand: ["Apple", "HP", "Dell"],
+            category: ["Electronics",],
+        },
+        (err, data) => {
+            res.redirect("/productsbackend");
+        }
+    );
+});
 
 
 //list all products
@@ -38,7 +50,7 @@ products.put("/:id", (req, res) => {
 
 // delete products in the catergory page e.g electronic page all the electronic items will be listed
 products.delete("/:id", (req, res) => {
-    Product.findByIdAndRemove(req.params.catergory, (err, deletedProduct) => {
+    Product.findByIdAndRemove(req.params.id, (err, deletedProduct) => {
         if (err) {
             res.status(400).json({ error: err.message });
         }
