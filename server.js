@@ -1,13 +1,9 @@
 require("dotenv-safe").config();
 const express = require("express");
-
 const passport = require("passport");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
-
-
-
 
 
 // --------------------------------------- CONSTANTS ---------------------------------------
@@ -15,12 +11,6 @@ const app = express();
 const PORT = process.env.PORT;
 const SECRET = process.env.SECRET;
 
-
-
-//TEST
-app.get('/', (req, res) => {
-  res.send('hi');
-});
 
 // --------------------------------------- MIDDLEWARE ---------------------------------------
 app.use(express.json()); // for parsing raw json information
@@ -46,7 +36,7 @@ const usersController = require("./controllers/usersController");
 const sessionsController = require("./controllers/sessionsController");
 const cartsController = require("./controllers/cartsController");
 const productsController = require("./controllers/productsController.js");
-app.use("/usersbackend", usersController); 
+app.use("/usersbackend", usersController);
 app.use("/sessionsbackend", sessionsController);
 app.use("/cartsbackend", cartsController);
 app.use("/productsbackend", productsController);

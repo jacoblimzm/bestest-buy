@@ -1,4 +1,4 @@
-const seed = [{
+const productsSeed = [{
     name: "T-Shirt",
     brand: "Zara",
     description: "White crew neck",
@@ -16,15 +16,15 @@ const seed = [{
 },
 {
     name: "Air-fryer",
-    brand: "Phillips",
-    description: "5 litre, black",
+    brand: "Philips",
+    description: "Black 5 litre",
     category: "Household",
     image: "x",
     price: 700,
 },
 {
     name: "Ice-cream",
-    brand: "Haägen Daź",
+    brand: "Häagen Dazs",
     description: "Chocolate",
     category: "Food & Beverages",
     image: "x",
@@ -40,10 +40,10 @@ const seed = [{
 },
 {
     name: "Facial Cleanser",
-    brand: "Innis free",
+    brand: "Innisfree",
     description: "Whitening, 100ml",
     category: "Beauty & personal care",
     image: "x",
     price: 28,
 }]
-module.exports = seed;
+module.exports = productsSeed;
