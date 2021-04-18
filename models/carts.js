@@ -5,7 +5,7 @@ const cartSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId, ref: 'user', required: [true, "userId is required"]
   },
   
-  orders: [
+  currentCart: [
     {
       productId: {
         type: mongoose.Schema.Types.ObjectId, ref: 'products'
@@ -16,10 +16,21 @@ const cartSchema = mongoose.Schema({
       }
     }
   ],
-  totalBill: { type:Number , default: 0},
+  currentCartTotalBill: { type:Number , default: 0},
+  ordersHistory: [
+    {
+      productId: {
+        type: mongoose.Schema.Types.ObjectId, ref: 'products'
+      },
+      quantity: {
+        type: Number,
+        min: 1,
+      }
+    }
+  ],
+  ordersHistoryTotalBill: { type:Number , default: 0},
   createdAt: { type: Date, default: Date.now },
 });
-
 
 const Cart = mongoose.model("carts", cartSchema);
 
