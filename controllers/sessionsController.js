@@ -8,7 +8,6 @@ require("../passport/passportConfig")(passport);
 const sessions = express.Router();
 
 
-
 // --------------------------------------- ROUTES ---------------------------------------
 
 // LOG IN Route

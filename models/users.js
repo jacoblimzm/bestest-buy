@@ -24,7 +24,7 @@ const userSchema = mongoose.Schema({
     },
   },
   address: { type: String },
-  isAdmin: { type: Boolean, default: false },
+  role: { type: String, default: "member" },
   createdAt: { type: Date, default: Date.now },
 });
 
