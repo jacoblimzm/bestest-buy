@@ -38,7 +38,7 @@ function App() {
       })
       .then((res) => {
         // console.log(res.data); // the backend responds with a json object!!
-        setCurrentUser(res.data)
+        setCurrentUser(res.data);
         // handleAddBookmark(res.data); // need to haul the user object to the TOP;
       })
       .catch((err) => {
@@ -89,15 +89,13 @@ function App() {
           <input type="submit" name="submit" value="Log In" />
         </form>
       </div>
+      <h1>Get User</h1>
+      <form onSubmit={handleGetUser}>
+        <input type="submit" name="submit" value="Get User" />
+      </form>
       {currentUser.username && (
         <div>
-          <h1>Get User</h1>
-          <form onSubmit={handleGetUser}>
-            {/* <input type="text" name="username" placeholder="username" />
-          <input type="password" name="password" placeholder="password" /> */}
-            <input type="submit" name="submit" value="Get User" />
-            <button onClick={handleLogOut}>Log Out</button>
-          </form>
+          <button onClick={handleLogOut}>Log Out</button>
         </div>
       )}
     </div>
