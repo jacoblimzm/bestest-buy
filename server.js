@@ -8,7 +8,7 @@ const cors = require("cors");
 
 // --------------------------------------- CONSTANTS ---------------------------------------
 const app = express();
-const PORT = process.env.PORT;
+const PORT = process.env.PORT || 8080;
 const SECRET = process.env.SECRET;
 
 
@@ -43,6 +43,11 @@ app.use("/productsbackend", productsController);
 
 
 // --------------------------------------- CONNECTIONS ---------------------------------------
+if (process.env.NODE_ENV === "production") {
+  // FOR HEROKU CRA
+  app.use(express.static("./client/build"));
+}
+
 app.listen(PORT, () => {
   console.log("server is listening at port", PORT);
 });
@@ -52,7 +57,6 @@ mongoose.connect(process.env.MONGO_URI, {
   useUnifiedTopology: true,
   useFindAndModify: false,
   useCreateIndex: true,
-  runValidators: true
 });
 
 mongoose.connection.once("open", () => {
