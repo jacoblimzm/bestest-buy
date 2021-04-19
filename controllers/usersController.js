@@ -22,14 +22,12 @@ users.post("/", (req, res) => {
 
   bcrypt.hash(newUser.password, saltRounds, (err, hash) => {
     if (err) {
-      console.log(err);
       res.send(err);
     } else {
       // if all is successful, change the password to the user to the hash.
       newUser.password = hash;
       User.create(newUser, (err, createdUser) => {
         if (err) {
-          console.log(err);
           res.send(err);
         } else {
           console.log(createdUser);
@@ -76,7 +74,7 @@ users.delete("/:id", (req, res) => {
     //built-in method of passport to check if current user is authenticated. returns a boolean
     User.findByIdAndDelete(req.params.id, (err, deletedUser) => {
       if (err) {
-        console.log(err);
+        res.send(err);
       } else {
         res.send(deletedUser, {
           message: "User has been successfully deleted!",

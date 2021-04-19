@@ -13,8 +13,9 @@ const sessions = express.Router();
 // LOG IN Route
 sessions.post("/", (req, res, next) => {
     passport.authenticate("local", (err, user, info) => {
+        console.log(user) // a boolean determining if a user is found or not.
         if (err) {
-            console.log(err);
+            res.send(err);
         } else if (!user) {
             res.send({message: "User does not exist!"})
         } else {
