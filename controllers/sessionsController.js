@@ -13,7 +13,9 @@ const sessions = express.Router();
 
 // LOG IN Route
 sessions.post("/", (req, res, next) => {
+    
     passport.authenticate("local", (err, user, info) => {
+
         if (err) {
             console.log(err);
         } else if (!user) {
