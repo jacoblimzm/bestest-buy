@@ -38,7 +38,7 @@ orders.get("/:id", (req, res) => {
         data: latestOrder,
       });
     }
-  }).populate("ordersHistory.oproductId")
+  }).populate("ordersHistory.productId")
   .populate({path:"userId", select:["username","_id","email","isAdmin"]});
 });
 

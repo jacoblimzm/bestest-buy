@@ -2,17 +2,19 @@ const mongoose = require("mongoose");
 
 const orderSchema = mongoose.Schema({
   userId:{
-    type: mongoose.Schema.Types.ObjectId, ref: 'user', required: [true, "userId is required"]
+    type: mongoose.Schema.Types.ObjectId, ref: "user", required: [true, "userId is required"]
   },
   ordersHistory: [
     {
       productId: {
-        type: mongoose.Schema.Types.ObjectId, ref: 'products'
+        type: mongoose.Schema.Types.ObjectId, ref: "products"
       },
       quantity: {
         type: Number,
-        min: 1,
-      }
+        required: [true, "Quantity is required"], 
+        min: [1, "Quantity can not be less than 1"]
+        
+      },
     }
   ],
   createdAt: { type: Date, default: Date.now },
