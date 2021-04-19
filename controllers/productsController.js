@@ -10,12 +10,24 @@ products.get("/seed", (req, res) => {
     });
 });
 
+// show all products
 products.get("/", (req, res) => {
     Product.find({}, (err, allProduct) => {
         if (err) {
             res.status(400).send({ message: "Unable to find product." });
         } else {
             res.status(200).send(allProduct);
+        }
+    });
+});
+
+//find by catergories
+products.get("/:categories", (req, res) => {
+    Product.find({ category: req.params.categories }, (err, productCategory) => {
+        if (err) {
+            res.status(400).send({ message: "Unable to find category." });
+        } else {
+            res.status(200).send(productCategory);
         }
     });
 });
