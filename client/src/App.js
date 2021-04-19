@@ -1,6 +1,7 @@
 import axios from "axios";
 import "./App.css";
 import { useState } from "react";
+import Nav from './components/Nav';
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -71,6 +72,8 @@ function App() {
       });
   };
   return (
+    <>
+    <Nav/>
     <div className="App">
       <div>
         <h1>Register</h1>
@@ -98,7 +101,8 @@ function App() {
           <button onClick={handleLogOut}>Log Out</button>
         </div>
       )}
-    </div>
+      </div>
+      </>
   );
 }
 
