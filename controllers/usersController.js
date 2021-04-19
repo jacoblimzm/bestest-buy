@@ -58,7 +58,7 @@ users.put("/:id", (req, res) => {
           { new: true },
           (err, updatedUser) => {
             if (err) {
-              res.send({ message: "Did not updated successfully." });
+              res.send({ message: "Did not update successfully." });
             } else {
               res.send(updatedUser);
             }

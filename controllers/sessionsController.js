@@ -8,14 +8,11 @@ require("../passport/passportConfig")(passport);
 const sessions = express.Router();
 
 
-
 // --------------------------------------- ROUTES ---------------------------------------
 
 // LOG IN Route
 sessions.post("/", (req, res, next) => {
-    
     passport.authenticate("local", (err, user, info) => {
-
         if (err) {
             console.log(err);
         } else if (!user) {
