@@ -8,6 +8,9 @@ import ProductList from "./pages/ProductList";
 
 import UserProvider from "./context/UserProvider";
 
+//Pages
+import Home from './pages/Home'
+
 function App() {
   return (
     <Router>
