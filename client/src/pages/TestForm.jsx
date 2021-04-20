@@ -10,6 +10,7 @@ const TestForm = () => {
     const username = e.target.username.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    console.log("user", username);
 
     // upon submit, an API POST request must be made to the backend to /usersbackend
     axios
@@ -31,6 +32,7 @@ const TestForm = () => {
     const username = e.target.username.value;
     const password = e.target.password.value;
     // upon submit, an API POST request must be made to the backend to /usersbackend
+    
     axios
       .post("/sessionsbackend", {
         username,

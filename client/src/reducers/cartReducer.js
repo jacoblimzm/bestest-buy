@@ -40,4 +40,4 @@ const cartReducer = (cart, action) => {
   }
 };
 
-export default cartReducer
+export default cartReducer;
