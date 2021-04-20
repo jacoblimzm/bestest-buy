@@ -36,10 +36,13 @@ const usersController = require("./controllers/usersController");
 const sessionsController = require("./controllers/sessionsController");
 const cartsController = require("./controllers/cartsController");
 const productsController = require("./controllers/productsController.js");
+const categoriesController = require("./controllers/categoriesController.js");
+
 app.use("/usersbackend", usersController);
 app.use("/sessionsbackend", sessionsController);
 app.use("/cartsbackend", cartsController);
 app.use("/productsbackend", productsController);
+app.use("/categoriesbackend", categoriesController);
 
 
 // --------------------------------------- CONNECTIONS ---------------------------------------
