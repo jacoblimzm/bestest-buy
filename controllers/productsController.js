@@ -32,6 +32,17 @@ products.get("/:categories", (req, res) => {
     });
 });
 
+//find by ID
+products.get("/findproduct/:id", (req, res) => {
+    Product.findById(req.params.id, (err, productID) => {
+        if (err) {
+            res.status(400).send({ message: "Unable to find ID." });
+        } else {
+            res.status(200).send(productID);
+        }
+    });
+});
+
 //add new product
 products.post("/", (req, res) => {
     Product.create(req.body, (error, createProducts) => {

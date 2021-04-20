@@ -35,7 +35,7 @@ const productsSeed = [{
     brand: "Swisse",
     description: "100 capsule",
     category: "Health & Wellness",
-    image: "https://www.google.com/url?sa=i&url=https%3A%2F%2Fswisse.com.au%2Four-products%2Fswisse-ultiboost-vitamin-c-chewable&psig=AOvVaw1hI3dxCbpus_ieN1Du94Tp&ust=1618986296125000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCMj5nYuYjPACFQAAAAAdAAAAABAL",
+    image: "x",
     price: 70,
 },
 {
@@ -47,3 +47,10 @@ const productsSeed = [{
     price: 18,
 }]
 module.exports = productsSeed;
+
+// https://ibb.co/VBvQm7j
+// https://ibb.co/y491sCk
+// https://ibb.co/vPzZwBZ
+// https://ibb.co/1vVSgFV
+// https://ibb.co/kKrPgS2
+// https://ibb.co/z5jzCs6
