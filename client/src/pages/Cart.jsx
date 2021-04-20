@@ -6,7 +6,7 @@ export default function Cart() {
     const [Cart, setCart] = useState([]);
     const [cart, setCart] = useState({});
     const handleCartOut = () => {
-        axios.post("/backend").then((res) => {
+        axios.post("/ordersbackend", {}).then((res) => {
             console.log(res.data);
             setCart(res.data);
         }).catch((error) => {
