@@ -3,7 +3,7 @@ const products = express.Router();
 const Product = require("../models/products.js");
 const productsSeed = require("../models/seed.js")
 
-//list all products
+//seed all products data from seed.js
 products.get("/seed", (req, res) => {
     Product.create(productsSeed, (error, seedData) => {
         res.redirect("/productsbackend");
