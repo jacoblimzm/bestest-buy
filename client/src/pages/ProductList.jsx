@@ -3,8 +3,11 @@ import "@fontsource/roboto";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
+import { useParams } from "react-router";
 
 const ProductList = () => {
+  const { category } = useParams();
+  console.log(category);
   const [allProducts, setAllProducts] = useState([
     {
       _id: "607e480f95c64f67220c430e",
@@ -74,19 +77,32 @@ const ProductList = () => {
     },
   ]);
 
-  const getAllProducts = () => {
-    axios
-      .get("/productsbackend")
-      .then((res) => {
-        console.log(res.data); //backend responds with the user data of the current session!
-        setAllProducts(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+  const getAllProducts = (category) => {
+    if (category === "All") {
+      axios
+        .get(`/productsbackend`)
+        .then((res) => {
+          console.log(res.data); //backend responds with the user data of the current session!
+          setAllProducts(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      axios
+        .get(`/productsbackend/${category}`)
+        .then((res) => {
+          console.log(res.data); //backend responds with the user data of the current session!
+          setAllProducts(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   };
+
   useEffect(() => {
-    getAllProducts();
+    getAllProducts(category);
   }, []);
   return (
     <Grid container spacing={2} justify="center">
