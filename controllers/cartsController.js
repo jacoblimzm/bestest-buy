@@ -38,8 +38,9 @@ carts.get("/:id", (req, res) => {
         data: latestCart,
       });
     }
-  }).populate('orders.productId')
-  .populate({path:'userId', select:["username","_id","email","isAdmin"]});
+  }).populate("currentCart.productId")
+  .populate("ordersHistory.productId")
+  .populate({path:"userId", select:["username","_id","email","isAdmin"]});
 });
 
 //THIS IS DELETE THE WHOLE CART. NOT THE PRODUCTS in ORDERS array.
@@ -84,7 +85,7 @@ carts.put("/:id", (req, res) => {
     }
   )
   // .populate('orders.productId')
-  .populate({path:'userId', select:["username","_id","email","isAdmin"]})
+  .populate({path: "userId", select:["username","_id","email","isAdmin"]})
   ;
 
   
