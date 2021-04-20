@@ -20,6 +20,9 @@ function App() {
             <div className="App">
               <Switch>
                 <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/products/:category">
                   <ProductList />
                 </Route>
               </Switch>
