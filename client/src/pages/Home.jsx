@@ -51,7 +51,6 @@ const useStyles = makeStyles(theme => ({
     },
 }));
 
-
 export default function Home() {
     const [Category, setCategory] = useState([]);
     const [categories, setCategories] = useState({});
@@ -63,7 +62,6 @@ export default function Home() {
             console.log(error);
         })
     }, []);
-
     const handleClick = (event) => {
         event.preventDefault();
         console.log("Go to category page");

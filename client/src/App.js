@@ -1,12 +1,14 @@
-import axios from "axios";
 import "./App.css";
-import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CartProvider from "./context/CartProvider";
 import Container from "@material-ui/core/Container";
 import ProductList from "./pages/ProductList";
 import UserProvider from "./context/UserProvider";
-import Home from './pages/Home'
+
+//Pages
+import Home from "./pages/Home";
+import ProductDetails from "./pages/ProductDetails";
+>>>>>>> ea161bd70fda7ca86b0704871164c78d8a0dda3c
 
 function App() {
   return (
@@ -18,6 +20,12 @@ function App() {
             <div className="App">
               <Switch>
                 <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/product/:productId">
+                  <ProductDetails />
+                </Route>
+                <Route path="/products/:category">
                   <ProductList />
                 </Route>
               </Switch>
