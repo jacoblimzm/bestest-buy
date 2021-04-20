@@ -30,7 +30,7 @@ const ProductDetails = () => {
   });
   const getProductDetails = (id) => {
     axios
-      .get(`/productsbackend/${id}`)
+      .get(`/productsbackend/findproduct/${id}`)
       .then((res) => {
         console.log(res.data);
         setProductState(res.data);
@@ -41,7 +41,7 @@ const ProductDetails = () => {
   };
 
   useEffect(() => {
-    // getProductDetails(productId);
+    getProductDetails(productId);
   }, []);
 
   const useStyles = makeStyles({
