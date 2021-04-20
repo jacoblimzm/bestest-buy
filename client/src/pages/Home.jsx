@@ -22,10 +22,11 @@ const useStyles = makeStyles({
 
 
 export default function Home() {
-    const BASE_URL = "http://localhost:4000";
     const [Category, setCategory] = useState([]);
     const [categories, setCategories] = useState({});
-    axios.get(BASE_URL + "/productsbackend").then((res) => {
+
+    axios.get("/productsbackend").then((res) => {
+        console.log(res.data);
         setCategory(res.data);
     }).catch((error) => {
         console.log(error);
@@ -34,21 +35,21 @@ export default function Home() {
         event.preventDefault();
         console.log("Go to category page");
     }
-
     const classes = useStyles();
+
     return (
         <>
             <h4>Your shopping spree starts now.</h4>
-            <Button onclick="scrolldown">Shop now</Button>
-            <Button onclick="scrollTop">Scroll up</Button>
-            <Card className={classes.root}>
-                {Category.map((categories) => {
-                    return (
+            <Button>Shop now</Button>
+            <Button>Scroll up</Button>
+            {Category.map((categories) => {
+                return (
+                    <Card className={classes.root}>
                         <CardActionArea onClick={handleClick}>
                             <CardActions>
                                 <CardMedia
                                     className={classes.media}
-                                    image={categories.image}
+                                    image="https://picsum.photos/500/500"
                                     title={categories.category}
                                 />
                                 <CardContent>
@@ -58,9 +59,10 @@ export default function Home() {
                                 </CardContent>
                             </CardActions>
                         </CardActionArea>
-                    );
-                })}
-            </Card>
+                    </Card>
+                );
+            })}
+
         </>
     )
 }
