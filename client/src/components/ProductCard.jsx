@@ -17,7 +17,7 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
       maxWidth: 300,
     },
     media: {
-      height: 140,
+      height: 150,
     },
     link: {
         textDecoration: "none",
@@ -31,7 +31,7 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
       <Grid item sm={4} md={3}>
         <Card className={classes.root}>
           <CardActionArea>
-            <Link to={`/products/${_id}`} className={classes.link}>
+            <Link to={`/product/${_id}`} className={classes.link}>
               <CardMedia
                 className={classes.media}
                 image="https://picsum.photos/500/500"
