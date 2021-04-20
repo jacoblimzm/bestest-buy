@@ -8,12 +8,14 @@ import UserProvider from "./context/UserProvider";
 //Pages
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+>>>>>>> ea161bd70fda7ca86b0704871164c78d8a0dda3c
 
 function App() {
   return (
     <Router>
       <CartProvider>
         <UserProvider>
+          <Home />
           <Container maxWidth="lg">
             <div className="App">
               <Switch>
