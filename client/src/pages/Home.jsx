@@ -40,7 +40,7 @@ export default function Home() {
         <>
             <h4>Your shopping spree starts now.</h4>
             <Button onclick="scrolldown">Shop now</Button>
-            <Button onclick="scrollTop">^</Button>
+            <Button onclick="scrollTop">Scroll up</Button>
             <Card className={classes.root}>
                 {Category.map((categories) => {
                     return (
