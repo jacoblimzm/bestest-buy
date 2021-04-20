@@ -3,6 +3,7 @@ import "./App.css";
 import { useState } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import TestForm from "./pages/TestForm";
+import CartProvider from "./context/CartProvider";
 
 //Pages
 import Home from './pages/Home'
@@ -10,14 +11,16 @@ import Home from './pages/Home'
 function App() {
   return (
     <Router>
-      <div className="App">
+      <CartProvider>
         <Home />
-        <Switch>
-          <Route exact path="/">
-            <TestForm />
-          </Route>
-        </Switch>
-      </div>
+        <div className="App">
+          <Switch>
+            <Route exact path="/">
+              <TestForm />
+            </Route>
+          </Switch>
+        </div>
+      </CartProvider>
     </Router>
   );
 }
