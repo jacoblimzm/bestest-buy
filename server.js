@@ -40,7 +40,7 @@ const categoriesController = require("./controllers/categoriesController.js");
 
 app.use("/usersbackend", usersController);
 app.use("/sessionsbackend", sessionsController);
-app.use("/cartsbackend", cartsController);
+app.use("/ordersbackend", cartsController);
 app.use("/productsbackend", productsController);
 app.use("/categoriesbackend", categoriesController);
 
