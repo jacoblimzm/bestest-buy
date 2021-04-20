@@ -104,7 +104,7 @@ return (
     </Menu>
 
     <Button color="inherit" onClick={()=>{history.push("/signup")}}>Sign Up</Button>
-    <Button color="inherit" onClick={()=>{history.push("/")}}>Login</Button>
+    <Button color="inherit" onClick={()=>{history.push("/login")}}>Login</Button>
     {state.isAuthenticated && <Typography>{state.user.username}</Typography> }
   </Toolbar>
 </AppBar>
