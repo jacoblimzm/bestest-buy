@@ -11,7 +11,7 @@ const ProductList = () => {
   const [allProducts, setAllProducts] = useState([]);
 
   const getAllProducts = (category) => {
-    if (category === "All") {
+    if (category === "Shop all brands") {
       axios
         .get(`/productsbackend`)
         .then((res) => {

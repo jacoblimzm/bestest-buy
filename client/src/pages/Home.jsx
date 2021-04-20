@@ -12,6 +12,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from "@material-ui/core";
+
 //To configure material-ui
 const useStyles = makeStyles(theme => ({
     root: {
@@ -29,18 +30,17 @@ const useStyles = makeStyles(theme => ({
         justifyContent: 'center',
     },
     marginAutoContainer: {
-        width: 1920,
+        width: 1200,
         height: 1080,
         justifyContent: 'center',
         display: 'flex',
     },
     homelogocenter: {
-        marginTop: 500,
-        marginLeft: 100,
+        marginTop: 450,
 
     },
     hometextcenter: {
-        marginTop: 550,
+        marginTop: 500,
         alignItems: 'center',
         marginLeft: -255,
     },
@@ -53,7 +53,6 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home() {
     const [Category, setCategory] = useState([]);
-    const [categories, setCategories] = useState({});
     useEffect(() => {
         axios.get("/productsbackend").then((res) => {
             console.log(res.data);
@@ -68,6 +67,14 @@ export default function Home() {
     }
     const classes = useStyles();
 
+    // const defineRoute = () => {
+    //     if (categories.category === "Shop all brands") {
+    //         return "/products";
+    //     } else {
+    //         return `/products/${categories.category}`
+    //     }
+    // }
+
     return (
         <>
             <div className={classes.marginAutoContainer}>
@@ -81,6 +88,7 @@ export default function Home() {
             <Grid container spacing={4} justify="center">
                 {Category.map((categories) => {
                     return (
+
                         <Grid item sm={4} md={3} >
                             <Card className={classes.root}>
                                 <CardActionArea onClick={handleClick}>
