@@ -12,16 +12,44 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from "@material-ui/core";
-
 //To configure material-ui
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         maxWidth: 300,
     },
     media: {
         height: 200,
     },
-});
+    marginAutoItem: {
+        margin: 'auto'
+    },
+    alignItemsAndJustifyContent: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    marginAutoContainer: {
+        width: 1920,
+        height: 1080,
+        justifyContent: 'center',
+        display: 'flex',
+    },
+    homelogocenter: {
+        marginTop: 500,
+        marginLeft: 100,
+
+    },
+    hometextcenter: {
+        marginTop: 550,
+        alignItems: 'center',
+        marginLeft: -255,
+    },
+    homeshopbtncenter: {
+        marginTop: 900,
+        alignItems: 'center',
+        marginLeft: -200,
+    },
+}));
 
 
 export default function Home() {
@@ -44,9 +72,14 @@ export default function Home() {
 
     return (
         <>
-            <h4>Your shopping spree starts now.</h4>
-            <Button>Shop now</Button>
+            <div className={classes.marginAutoContainer}>
 
+                <h1 className={classes.homelogocenter}>BESTEST BUY</h1>
+
+                <h3 className={classes.hometextcenter}>Your shopping spree starts now.</h3>
+
+                <Button className={classes.homeshopbtncenter}>Shop now</Button>
+            </div>
             <Grid container spacing={4} justify="center">
                 {Category.map((categories) => {
                     return (
@@ -56,7 +89,7 @@ export default function Home() {
                                     <Link to={`/products/${categories.category}`} >
                                         <CardMedia
                                             className={classes.media}
-                                            image="https://i.ibb.co/rtTVqkd/b5ccba14af09af98586d57eafeed9563.jpg"
+                                            image={categories.image}
                                             title={categories.category}
                                         />
                                         <CardContent>
@@ -73,7 +106,7 @@ export default function Home() {
                     );
                 })}
             </Grid>
-            <Button>Scroll up</Button>
+            <Button className={classes.marginAutoItem}>Scroll up</Button>
         </>
     )
 }
