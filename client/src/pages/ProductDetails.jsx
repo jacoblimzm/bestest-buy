@@ -13,6 +13,7 @@ import {
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import AddToCartButton from "../components/AddToCartButton";
 
 const ProductDetails = () => {
   const { productId } = useParams();
@@ -194,6 +195,7 @@ const ProductDetails = () => {
               </Typography>
             </CardContent>
             <CardActions>
+            <AddToCartButton productProp={productState} />
               <Button variant="contained" size="small" color="primary">
                 Add to Cart
               </Button>
