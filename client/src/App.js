@@ -8,6 +8,7 @@ import UserProvider from "./context/UserProvider";
 //Pages
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+import Cart from "./pages/Cart"
 
 function App() {
   return (
@@ -25,6 +26,9 @@ function App() {
                 </Route>
                 <Route path="/products/:category">
                   <ProductList />
+                </Route>
+                <Route exact path="/cart">
+                  <Cart />
                 </Route>
               </Switch>
             </div>

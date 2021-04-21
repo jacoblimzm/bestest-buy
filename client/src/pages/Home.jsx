@@ -67,14 +67,6 @@ export default function Home() {
     }
     const classes = useStyles();
 
-    // const defineRoute = () => {
-    //     if (categories.category === "Shop all brands") {
-    //         return "/products";
-    //     } else {
-    //         return `/products/${categories.category}`
-    //     }
-    // }
-
     return (
         <>
             <div className={classes.marginAutoContainer}>
