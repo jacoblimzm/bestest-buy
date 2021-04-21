@@ -5,7 +5,7 @@ const categoriesSeed = [
     },
     {
         image: "https://i.imgur.com/aotNAsq.jpg",
-        category: "Beauty & personal care",
+        category: "Beauty & Personal Care",
     },
     {
         image: "https://i.imgur.com/gXUjbyp.jpg",
