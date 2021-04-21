@@ -1,30 +1,30 @@
 const categoriesSeed = [
     {
-        image: "x",
+        image: "https://i.imgur.com/jfvlh2L.jpg",
         category: "All",
     },
     {
-        image: "x",
+        image: "https://i.imgur.com/aotNAsq.jpg",
         category: "Beauty & personal care",
     },
     {
-        image: "x",
+        image: "https://i.imgur.com/gXUjbyp.jpg",
         category: "Health & Wellness",
     },
     {
-        image: "x",
+        image: "https://i.imgur.com/0YYWMqv.jpg",
         category: "Food & Beverages",
     },
     {
-        image: "x",
+        image: "https://i.imgur.com/ORBUYeG.jpg",
         category: "Household",
     },
     {
-        image: "x",
+        image: "https://i.imgur.com/WTpY3hN.jpg",
         category: "Electronics",
     },
     {
-        image: "x",
+        image: "https://i.imgur.com/jTlZv6H.jpg",
         category: "Fashion",
     }]
 
