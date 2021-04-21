@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from "react";
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu} from "@material-ui/core";
+import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu, Link} from "@material-ui/core";
 import {UserContext} from "../context/UserProvider";
 import { useHistory } from "react-router-dom";
 
@@ -66,12 +66,15 @@ return (
             return (
                 <>
                  <MenuItem id={category} 
-                 onClick={()=>{handleClose(); history.push(`/products/${category.category}`)}}> 
+                 onClick={()=>{handleClose();
+{/* <Link to={`/products/${categories.category}`}></Link> */}
+                history.push(`/products/${category.category}`)}}> 
                  {category.category}</MenuItem>
                 </>
             );
         })
       }
+      
     </Menu>
 
     <Button color="inherit" onClick={()=>{history.push("/signup")}}>Sign Up</Button>
