@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(3, 0, 2),
   },
   formControl: {
-    minWidth: 140,
+    width: "100%",
   },
   selectEmpty: {
     marginTop: theme.spacing(2),
@@ -44,22 +44,22 @@ const useStyles = makeStyles((theme) => ({
 const AddProduct = () => {
   const classes = useStyles();
   const [formValues, setFormValues] = useState({
-      name: "",
-      brand: "",
-      description: "",
-      category: "",
-      image: "",
-      price: ""
+    name: "",
+    brand: "",
+    description: "",
+    category: "",
+    image: "",
+    price: "",
   });
+  const [categories, setCategories] = useState([])
 
   const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      setFormValues( {
-          ...formValues,
-          [name]: value
-      })
-
-  }
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
+  };
 
   return (
     <Grid container direction="row" justify="center">
@@ -96,7 +96,9 @@ const AddProduct = () => {
                   id="brand"
                   label="Brand"
                   name="brand"
-                  autoComplete="lname"
+                  autoComplete="brand"
+                  value={formValues.brand}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -107,7 +109,9 @@ const AddProduct = () => {
                   id="description"
                   label="Short Description"
                   name="description"
-                  autoComplete="email"
+                  autoComplete="description"
+                  value={formValues.description}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -116,9 +120,11 @@ const AddProduct = () => {
                   required
                   fullWidth
                   id="image-url"
-                  label="Image Url"
+                  label="Image URL"
                   name="Image Link"
                   autoComplete="image-url"
+                  value={formValues.image}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -131,18 +137,19 @@ const AddProduct = () => {
                   type="number"
                   id="price"
                   autoComplete="price"
+                  value={formValues.price}
+                  onChange={handleInputChange}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
-                <FormControl required className={classes.formControl}>
+                <FormControl variant="outlined" className={classes.formControl}>
                   <InputLabel id="category-label">Category</InputLabel>
                   <Select
                     labelId="category-select-input"
                     id="category-select-input"
-                    // value={age}
-                    // onChange={handleChange}
-                    autoWidth
-                    className={classes.selectEmpty}
+                    value={formValues.category}
+                    onChange={handleInputChange}
+                    label="Age"
                   >
                     <MenuItem value="">
                       <em>None</em>
@@ -162,7 +169,7 @@ const AddProduct = () => {
               color="primary"
               className={classes.submit}
             >
-              Sign Up
+              Add Product
             </Button>
           </form>
         </div>
