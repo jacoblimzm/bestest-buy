@@ -4,7 +4,7 @@ const passport = require("passport");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const cors = require("cors");
-
+// const isUserAuthenticated = require("./passport/middleware");
 
 // --------------------------------------- CONSTANTS ---------------------------------------
 const app = express();
@@ -14,6 +14,7 @@ const SECRET = process.env.SECRET;
 // --------------------------------------- MIDDLEWARE ---------------------------------------
 app.use(express.json()); // for parsing raw json information
 app.use(express.urlencoded({ extended: true })); // for parsing form information.
+// app.use(isUserAuthenticated);
 app.use(cors({
   origin: "http://localhost:3000", //location of the react app that is connected to
   credentials: true
