@@ -5,25 +5,25 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import AddToCartButton from "./AddToCartButton";
 
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 300,
+  },
+  media: {
+    height: 150,
+  },
+  link: {
+    textDecoration: "none",
+    color: "#000",
+  },
+});
+
 const ProductCard = (props) => {
-  const useStyles = makeStyles({
-    root: {
-      maxWidth: 300,
-    },
-    media: {
-      height: 150,
-    },
-    link: {
-      textDecoration: "none",
-      color: "#000",
-    },
-  });
   const classes = useStyles();
 
   return (
