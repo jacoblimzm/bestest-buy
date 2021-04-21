@@ -5,45 +5,12 @@ import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Me
 import {UserContext} from "../context/UserProvider";
 import { useHistory } from "react-router-dom";
 
-// const initialcategories= [
-//   {
-//       "_id": "607f1007af4ad218e900b7a3",
-//       "category": "Beauty & personal care",
-//       "__v": 0
-//   },
-//   {
-//       "_id": "607f1007af4ad218e900b7a4",
-//       "category": "Health & Wellness",
-//       "__v": 0
-//   },
-//   {
-//       "_id": "607f1007af4ad218e900b7a5",
-//       "category": "Food & Beverages",
-//       "__v": 0
-//   },
-//   {
-//       "_id": "607f1007af4ad218e900b7a6",
-//       "category": "Household",
-//       "__v": 0
-//   },
-//   {
-//       "_id": "607f1007af4ad218e900b7a7",
-//       "category": "Electronics",
-//       "__v": 0
-//   },
-//   {
-//       "_id": "607f1007af4ad218e900b7a8",
-//       "category": "Fashion",
-//       "__v": 0
-//   }
-// ];
-
 const Nav = () => {
   // react global stuffs, material ui usestyles, makestyles
   const history = useHistory();
   const classes = makeStyles();
   const {state} = useContext(UserContext);
-  const [categories,setCategories] =useState({});
+  const [categories,setCategories] =useState([]);
 
 
 
@@ -98,8 +65,8 @@ return (
         categories.map((category)=> {
             return (
                 <>
-                 <MenuItem id={category._id} 
-                 onClick={()=>{handleClose(); history.push(`/products/${category._id}`)}}> 
+                 <MenuItem id={category} 
+                 onClick={()=>{handleClose(); history.push(`/products/${category.category}`)}}> 
                  {category.category}</MenuItem>
                 </>
             );

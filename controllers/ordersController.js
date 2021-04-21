@@ -39,7 +39,7 @@ orders.get("/:id", (req, res) => {
       });
     }
   }).populate("ordersHistory.productId")
-  .populate({path:"userId", select:["username","_id","email","role"]});
+    .populate({ path: "userId", select: ["username", "_id", "email", "role"] });
 });
 
 //DELETE ORDER
@@ -83,10 +83,10 @@ orders.put("/:id", (req, res) => {
       }
     }
   )
-  .populate({path: "userId", select:["username","_id","email","role"]})
-  ;
+    .populate({ path: "userId", select: ["username", "_id", "email", "role"] })
+    ;
 
-  
+
 });
 
 module.exports = orders;
