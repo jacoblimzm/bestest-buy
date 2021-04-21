@@ -14,20 +14,47 @@ import Typography from '@material-ui/core/Typography';
 import { Grid } from "@material-ui/core";
 
 //To configure material-ui
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     root: {
         maxWidth: 300,
     },
     media: {
         height: 200,
     },
-});
+    marginAutoItem: {
+        margin: 'auto'
+    },
+    alignItemsAndJustifyContent: {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    marginAutoContainer: {
+        width: 1200,
+        height: 1080,
+        justifyContent: 'center',
+        display: 'flex',
+    },
+    homelogocenter: {
+        marginTop: 450,
+
+    },
+    hometextcenter: {
+        marginTop: 500,
+        alignItems: 'center',
+        marginLeft: -255,
+    },
+    homeshopbtncenter: {
+        marginTop: 900,
+        alignItems: 'center',
+        marginLeft: -200,
+    },
+}));
 
 export default function Home() {
     const [Category, setCategory] = useState([]);
-    const [categories, setCategories] = useState({});
     useEffect(() => {
-        axios.get("/productsbackend").then((res) => {
+        axios.get("/categoriesbackend").then((res) => {
             console.log(res.data);
             setCategory(res.data);
         }).catch((error) => {
@@ -42,19 +69,25 @@ export default function Home() {
 
     return (
         <>
-            <h4>Your shopping spree starts now.</h4>
-            <Button>Shop now</Button>
+            <div className={classes.marginAutoContainer}>
 
+                <h1 className={classes.homelogocenter}>BESTEST BUY</h1>
+
+                <h3 className={classes.hometextcenter}>Your shopping spree starts now.</h3>
+
+                <Button className={classes.homeshopbtncenter}>Shop now</Button>
+            </div>
             <Grid container spacing={4} justify="center">
                 {Category.map((categories) => {
                     return (
+
                         <Grid item sm={4} md={3} >
                             <Card className={classes.root}>
                                 <CardActionArea onClick={handleClick}>
                                     <Link to={`/products/${categories.category}`} >
                                         <CardMedia
                                             className={classes.media}
-                                            image="https://i.ibb.co/rtTVqkd/b5ccba14af09af98586d57eafeed9563.jpg"
+                                            image={categories.image}
                                             title={categories.category}
                                         />
                                         <CardContent>
@@ -71,7 +104,7 @@ export default function Home() {
                     );
                 })}
             </Grid>
-            <Button>Scroll up</Button>
+            <Button className={classes.marginAutoItem}>Scroll up</Button>
         </>
     )
 }

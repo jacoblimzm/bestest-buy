@@ -6,7 +6,7 @@ const userReducer = (userState, action) => {
     case LOGIN_SUCCESS:
       return {
           ...userState,
-          user: action.payload.userObj,
+          user: action.payload,
           isAuthenticated: true,
       };
     case LOGOUT_SUCCESS:
@@ -19,4 +19,4 @@ const userReducer = (userState, action) => {
   }
 };
 
-export default userReducer
+export default userReducer;

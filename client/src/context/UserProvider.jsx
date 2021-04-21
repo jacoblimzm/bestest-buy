@@ -8,10 +8,11 @@ const UserProvider = ({children}) => {
         isAuthenticated: false,
         user: {},
     }
-    const [state, dispatch] = useReducer(userReducer,initialState)
+    const [state, dispatch] = useReducer(userReducer,initialState);
+
     return ( 
-        <UserContext.Provider value={{ state, dispatch }}>
-        {children}
+        <UserContext.Provider value={[state, dispatch]}>
+            {children}
         </UserContext.Provider>
      );
 }
