@@ -7,6 +7,9 @@ import ProductList from "./pages/ProductList";
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp"
+import AddProduct from "./pages/AddProduct";
 
 function App() {
   return (
@@ -26,6 +29,9 @@ function App() {
           </Route>
           <Route exact path="/cart">
             <Cart />
+          </Route>
+          <Route path="/addnewproduct">
+            <AddProduct />
           </Route>
         </Switch>
       </div>
