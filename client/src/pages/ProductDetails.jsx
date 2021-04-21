@@ -11,12 +11,18 @@ import {
   Icon,
 } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router";
+import AddToCartButton from "../components/AddToCartButton";
+import RemoveFromCartButton from "../components/RemoveFromCart";
+import { CartContext } from "../context/CartProvider";
+import { calculateCartTotalCost, calculateCartTotalItems} from "../actions/functions"
 
 const ProductDetails = () => {
   const { productId } = useParams();
   //   console.log(productId);
+  const cart = useContext(CartContext);
+
   const [productState, setProductState] = useState({
     _id: "607e480f95c64f67220c430e",
     name: "Vitamin-C",
@@ -28,6 +34,7 @@ const ProductDetails = () => {
     createdAt: "2021-04-20T03:18:39.012Z",
     __v: 0,
   });
+
   const getProductDetails = (id) => {
     axios
       .get(`/productsbackend/findproduct/${id}`)
@@ -187,16 +194,17 @@ const ProductDetails = () => {
                 color="textPrimary"
                 component="p"
               >
-                3 items in cart
+                {calculateCartTotalItems(cart.state)} items in cart
               </Typography>
-              <Typography variant="h6" color="textPrimary" component="p">
-                $70
-              </Typography>
+              <Typography
+                variant="h6"
+                color="textPrimary"
+                component="p"
+              >${calculateCartTotalCost(cart.state)}</Typography>
             </CardContent>
             <CardActions>
-              <Button variant="contained" size="small" color="primary">
-                Add to Cart
-              </Button>
+              <AddToCartButton productProp={productState} />
+              <RemoveFromCartButton id={productState._id} />
               <Button size="small" color="primary">
                 Return to products
               </Button>

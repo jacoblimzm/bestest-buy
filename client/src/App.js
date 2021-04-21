@@ -1,49 +1,35 @@
 import "./App.css";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import CartProvider from "./context/CartProvider";
-import UserProvider from "./context/UserProvider";
-import Nav from "./components/Nav";
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
+import { Switch, Route } from "react-router-dom";
 import Container from "@material-ui/core/Container";
 import ProductList from "./pages/ProductList";
 
 //Pages
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
-import Cart from "./pages/Cart"
+import Cart from "./pages/Cart";
 
 function App() {
   return (
-    <>
-    <Router>
-      <UserProvider>
-      <CartProvider>
-        < Nav/>
-          <Container maxWidth="lg">
-            <div className="App">
-              <Switch>
-                <Route exact path="/">
-                  <Home />
-                </Route>
-                <Route exact path="/login" component={Login}/>
-                <Route exact path="/signup" component={SignUp}/>
-                <Route path="/product/:productId">
-                  <ProductDetails />
-                </Route>
-                <Route path="/products/:category">
-                  <ProductList />
-                </Route>
-                <Route exact path="/cart">
-                  <Cart />
-                </Route>
-              </Switch>
-            </div>
-          </Container>
-      </CartProvider>
-      </UserProvider>
-    </Router>
-    </>
+    <Container maxWidth="lg">
+      <div className="App">
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          {/* <Route exact path="/login" component={Login} />
+          <Route exact path="/signup" component={SignUp} /> */}
+          <Route path="/product/:productId">
+            <ProductDetails />
+          </Route>
+          <Route path="/products/:category">
+            <ProductList />
+          </Route>
+          <Route exact path="/cart">
+            <Cart />
+          </Route>
+        </Switch>
+      </div>
+    </Container>
   );
 }
 

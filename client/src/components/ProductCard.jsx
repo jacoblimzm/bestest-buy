@@ -9,9 +9,9 @@ import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import AddToCartButton from "./AddToCartButton";
 
-const ProductCard = ({ _id, name, description, brand, price, image }) => {
-
+const ProductCard = (props) => {
   const useStyles = makeStyles({
     root: {
       maxWidth: 300,
@@ -20,9 +20,9 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
       height: 150,
     },
     link: {
-        textDecoration: "none",
-        color: "#000"
-    }
+      textDecoration: "none",
+      color: "#000",
+    },
   });
   const classes = useStyles();
 
@@ -31,15 +31,15 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
       <Grid item sm={4} md={3}>
         <Card className={classes.root}>
           <CardActionArea>
-            <Link to={`/product/${_id}`} className={classes.link}>
+            <Link to={`/product/${props.product._id}`} className={classes.link}>
               <CardMedia
                 className={classes.media}
                 image="https://picsum.photos/500/500"
-                title={name}
+                title={props.product.name}
               />
               <CardContent>
                 <Typography variant="h5" component="h2">
-                  {name}
+                  {props.product.name}
                 </Typography>
                 <Typography
                   gutterBottom
@@ -47,21 +47,16 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
                   color="textPrimary"
                   component="p"
                 >
-                  ({brand})
+                  ({props.product.brand})
                 </Typography>
                 <Typography variant="h6" color="textPrimary" component="p">
-                  ${price}
+                  ${props.product.price}
                 </Typography>
               </CardContent>
             </Link>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
-              Details
-            </Button>
-            <Button variant="contained" size="small" color="primary">
-              Add to Cart
-            </Button>
+            <AddToCartButton productProp={props.product} />
           </CardActions>
         </Card>
       </Grid>
