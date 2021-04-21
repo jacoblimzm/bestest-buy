@@ -1,6 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const User = require("../models/users");
+const isUserAuthenticated = require("../passport/middleware");
 
 // --------------------------------------- CONSTANTS ---------------------------------------
 const users = express.Router();
@@ -9,7 +10,7 @@ const saltRounds = 10;
 // --------------------------------------- ROUTES ---------------------------------------
 
 // SHOW User route
-users.get("/", (req, res) => {
+users.get("/", isUserAuthenticated, (req, res) => {
   console.log(req.isAuthenticated());
   res.send(req.user); //recall that the entire user and session is stored inside of req.user when authenticated with passport.
   // res.json() returns a similar response as res.send().
@@ -20,6 +21,7 @@ users.post("/", (req, res) => {
   const newUser = req.body;
   console.log(newUser);
 
+  // do validation checks: if fields empty, or if user already exists.
   bcrypt.hash(newUser.password, saltRounds, (err, hash) => {
     if (err) {
       res.send(err);
@@ -40,11 +42,9 @@ users.post("/", (req, res) => {
 });
 
 // EDIT User Route
-users.put("/:id", (req, res) => {
-  if (req.isAuthenticated()) {
-    //built-in method of passport to check if current user is authenticated. returns a boolean
+users.put("/:id", isUserAuthenticated, (req, res) => {
 
-    const editedUser = req.body;
+  const editedUser = req.body;
     bcrypt.hash(editedUser.password, saltRounds, (err, hash) => {
       if (err) {
         res.send(err);
@@ -64,26 +64,31 @@ users.put("/:id", (req, res) => {
         );
       }
     });
-  } else {
-    res.send({ message: "Request is denied. Not a valid login session." });
-  }
+
+  // if (req.isAuthenticated()) {
+  //   //built-in method of passport to check if current user is authenticated. returns a boolean
+  // } else { // not necessary since middleware has been used
+  //   res.send({ message: "Request is denied. Not a valid login session." });
+  // }
 });
 
-users.delete("/:id", (req, res) => {
-  if (req.isAuthenticated()) {
-    //built-in method of passport to check if current user is authenticated. returns a boolean
-    User.findByIdAndDelete(req.params.id, (err, deletedUser) => {
-      if (err) {
-        res.send(err);
-      } else {
-        res.send(deletedUser, {
-          message: "User has been successfully deleted!",
-        });
-      }
-    });
-  } else {
-    res.send({ message: "Request is denied. Not a valid login session." });
-  }
+users.delete("/:id", isUserAuthenticated, (req, res) => {
+
+  User.findByIdAndDelete(req.params.id, (err, deletedUser) => {
+    if (err) {
+      res.send(err);
+    } else {
+      res.send(deletedUser, {
+        message: "User has been successfully deleted!",
+      });
+    }
+  });
+
+  // if (req.isAuthenticated()) {  
+  //   //built-in method of passport to check if current user is authenticated. returns a boolean
+  // } else {
+  //   res.send({ message: "Request is denied. Not a valid login session." });
+  // }
 });
 
 module.exports = users;
