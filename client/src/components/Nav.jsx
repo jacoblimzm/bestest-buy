@@ -5,45 +5,45 @@ import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Me
 import {UserContext} from "../context/UserProvider";
 import { useHistory } from "react-router-dom";
 
-const initialcategories= [
-  {
-      "_id": "607f1007af4ad218e900b7a3",
-      "category": "Beauty & personal care",
-      "__v": 0
-  },
-  {
-      "_id": "607f1007af4ad218e900b7a4",
-      "category": "Health & Wellness",
-      "__v": 0
-  },
-  {
-      "_id": "607f1007af4ad218e900b7a5",
-      "category": "Food & Beverages",
-      "__v": 0
-  },
-  {
-      "_id": "607f1007af4ad218e900b7a6",
-      "category": "Household",
-      "__v": 0
-  },
-  {
-      "_id": "607f1007af4ad218e900b7a7",
-      "category": "Electronics",
-      "__v": 0
-  },
-  {
-      "_id": "607f1007af4ad218e900b7a8",
-      "category": "Fashion",
-      "__v": 0
-  }
-];
+// const initialcategories= [
+//   {
+//       "_id": "607f1007af4ad218e900b7a3",
+//       "category": "Beauty & personal care",
+//       "__v": 0
+//   },
+//   {
+//       "_id": "607f1007af4ad218e900b7a4",
+//       "category": "Health & Wellness",
+//       "__v": 0
+//   },
+//   {
+//       "_id": "607f1007af4ad218e900b7a5",
+//       "category": "Food & Beverages",
+//       "__v": 0
+//   },
+//   {
+//       "_id": "607f1007af4ad218e900b7a6",
+//       "category": "Household",
+//       "__v": 0
+//   },
+//   {
+//       "_id": "607f1007af4ad218e900b7a7",
+//       "category": "Electronics",
+//       "__v": 0
+//   },
+//   {
+//       "_id": "607f1007af4ad218e900b7a8",
+//       "category": "Fashion",
+//       "__v": 0
+//   }
+// ];
 
 const Nav = () => {
   // react global stuffs, material ui usestyles, makestyles
   const history = useHistory();
   const classes = makeStyles();
-  const [state] = useContext(UserContext);
-  const [categories,setCategories] =useState(initialcategories);
+  const {state} = useContext(UserContext);
+  const [categories,setCategories] =useState({});
 
 
 
@@ -60,8 +60,14 @@ const Nav = () => {
   };
 
   //useEffect, callling of APIS
-
-
+  useEffect(() => {
+    axios.get("/categoriesbackend").then((res) => {
+        console.log(res.data);
+        setCategories(res.data);
+    }).catch((error) => {
+        console.log(error);
+    })
+}, []);
 
 return (
 
@@ -77,7 +83,7 @@ return (
     <div style={{flexGrow:1}}></div>
 
     <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-      Open Menu
+      Shop Category
     </Button>
 
     <Menu
@@ -87,9 +93,7 @@ return (
       open={Boolean(anchorEl)}
       onClose={handleClose}
     >
-      {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-      <MenuItem onClick={handleClose}>My account</MenuItem>
-      <MenuItem onClick={handleClose}>Logout</MenuItem> */}
+
       {
         categories.map((category)=> {
             return (

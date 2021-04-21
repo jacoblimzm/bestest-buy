@@ -32,8 +32,8 @@ const Login = () => {
     });
 
     const classes = useStyles();
-    const [state,dispatch] = useContext(UserContext);
-
+    const {state,dispatch} = useContext(UserContext);
+      console.log(state);
     const handleChangeInputValues = attr => event =>{
         setInputValues({...inputValues, [attr]: event.target.value})
     };
@@ -50,7 +50,7 @@ const handleLogIn = (e) => {
       })
       .then((res) => {
         console.log(res.data); // the backend responds with a json object!!
-        
+        console.log(res.status)
         dispatch({type: LOGIN_SUCCESS, payload: res.data});
         
         // handleAddBookmark(res.data); // need to haul the user object to the TOP;
@@ -83,7 +83,7 @@ return (
             required
             fullWidth
             id="username"
-            label="username"
+            label="Username"
             name="username"
             autoComplete="username"
             value={inputValues.username}
@@ -114,7 +114,7 @@ return (
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>

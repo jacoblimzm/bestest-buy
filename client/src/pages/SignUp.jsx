@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import axios from 'axios';
 import { CssBaseline, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Button} from '@material-ui/core';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   const SignUp = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
+    const [snackbarColor, setSnackbarcolor] = useState("info");
     const [inputValues, setInputValues] = useState({
       username: "",
       password: "",
@@ -47,18 +49,24 @@ const useStyles = makeStyles((theme) => ({
         })
         .then((res) => {
           console.log(res.data);
+          setOpen(true);
+          //setMessage(res.data.message)
+          if (res.status ===200){
+            //set snackbar to Greenb
+          } else{
+            //set snackbar to Ren
+          }
+          
+        })
+      }
+    const handleClick = () => {
+    const handleClose = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
 
-  const handleClick = () => {
-    setOpen(true);
-  };
-
-  const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setOpen(false);
-  };
+      setOpen(false);
+    };
   
     return (
       <Container component="main" maxWidth="xs">
@@ -118,8 +126,8 @@ const useStyles = makeStyles((theme) => ({
             </Button>
             <Grid container justify="flex-end">
               <Grid item>
-                <Link href="/" variant="body2">
-                  Already have an account? Sign in
+                <Link href="/login" variant="body2">
+                  Already have an account? Login
                 </Link>
               </Grid>
             </Grid>
@@ -131,9 +139,9 @@ const useStyles = makeStyles((theme) => ({
           horizontal: 'left',
         }}
         open={open}
-        autoHideDuration={3000}
+        autoHideDuration={5000}
         onClose={handleClose}
-        message="Sign up successful!"
+        message={"sign up is succesful."}
         action={
           <>
             <Button color="secondary" size="small" onClick={handleClose}>
@@ -149,7 +157,8 @@ const useStyles = makeStyles((theme) => ({
 
       
     );
+
   };
-}}
+};
 
 export default SignUp;
