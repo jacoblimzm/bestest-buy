@@ -1,9 +1,12 @@
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import CartProvider from "./context/CartProvider";
+import UserProvider from "./context/UserProvider";
+import Nav from "./components/Nav";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
 import Container from "@material-ui/core/Container";
 import ProductList from "./pages/ProductList";
-import UserProvider from "./context/UserProvider";
 
 //Pages
 import Home from "./pages/Home";
@@ -12,15 +15,19 @@ import Cart from "./pages/Cart"
 
 function App() {
   return (
+    <>
     <Router>
+      <UserProvider>
       <CartProvider>
-        <UserProvider>
+        < Nav/>
           <Container maxWidth="lg">
             <div className="App">
               <Switch>
                 <Route exact path="/">
                   <Home />
                 </Route>
+                <Route exact path="/login" component={Login}/>
+                <Route exact path="/signup" component={SignUp}/>
                 <Route path="/product/:productId">
                   <ProductDetails />
                 </Route>
@@ -33,9 +40,10 @@ function App() {
               </Switch>
             </div>
           </Container>
-        </UserProvider>
       </CartProvider>
+      </UserProvider>
     </Router>
+    </>
   );
 }
 

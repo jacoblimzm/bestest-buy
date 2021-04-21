@@ -11,7 +11,6 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 const SECRET = process.env.SECRET;
 
-
 // --------------------------------------- MIDDLEWARE ---------------------------------------
 app.use(express.json()); // for parsing raw json information
 app.use(express.urlencoded({ extended: true })); // for parsing form information.
@@ -34,13 +33,13 @@ app.use(passport.session());
 // --------------------------------------- CONTROLLERS ---------------------------------------
 const usersController = require("./controllers/usersController");
 const sessionsController = require("./controllers/sessionsController");
-// const cartsController = require("./controllers/orderController");
+const ordersController = require("./controllers/ordersController");
 const productsController = require("./controllers/productsController.js");
 const categoriesController = require("./controllers/categoriesController.js");
 
 app.use("/usersbackend", usersController);
 app.use("/sessionsbackend", sessionsController);
-// app.use("/ordersbackend", cartsController);
+app.use("/ordersbackend", ordersController);
 app.use("/productsbackend", productsController);
 app.use("/categoriesbackend", categoriesController);
 
