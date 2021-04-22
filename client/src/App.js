@@ -8,7 +8,7 @@ import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
-import SignUp from "./pages/SignUp"
+import SignUp from "./pages/SignUp";
 import AddProduct from "./pages/AddProduct";
 import ErrorPage from "./pages/ErrorPage";
 
