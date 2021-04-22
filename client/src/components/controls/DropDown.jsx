@@ -21,16 +21,22 @@ const useStyles = makeStyles((theme) => ({
 
 const DropDown = (props) => {
   const classes = useStyles();
-  const { name, label, value, handleInputChange, options } = props;
+  const {
+    name,
+    label,
+    value,
+    handleInputChange,
+    options,
+    errorMessage = null,
+  } = props;
 
   return (
     <FormControl
       variant="outlined"
       className={classes.formControl}
-      // {...(errors.category && {
-      //   error: true,
-      //   helperText: errors.category,
-      // })} // for DropDown the error and the error message is in FormControl
+      {...(errorMessage && {
+        error: true,
+      })} // for DropDown the error message is in FormControl
     >
       <InputLabel id="input-label">{label}</InputLabel>
       <Select
@@ -52,8 +58,8 @@ const DropDown = (props) => {
           );
         })}
       </Select>
-      <FormHelperText>
-        {/* {errors.category ? errors.category : "Required"} */}
+      <FormHelperText> 
+        {errorMessage ? errorMessage : "Required"}
       </FormHelperText>
     </FormControl>
   );
