@@ -89,7 +89,8 @@ return (
   onClose={handleClose}
 >
   <MenuItem onClick={()=>{history.push("/myprofile")}}>Profile</MenuItem>
-  <MenuItem onClick={()=>{history.push("/orders")}}>Orders</MenuItem>
+  <MenuItem onClick={()=>{history.push("/cart")}}>My Cart</MenuItem>
+  <MenuItem onClick={()=>{history.push("/orders")}}>My Order</MenuItem>
   <MenuItem onClick={()=>{history.push("/")}}>Logout</MenuItem>
 </Menu>
 </>
