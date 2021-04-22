@@ -10,9 +10,6 @@ import { useHistory } from 'react-router';
 const SubmitDialog = ( {dialogOpen, setDialogOpen} ) => {
   const history = useHistory();
 
-  const handleClickOpen = () => {
-    setDialogOpen(true);
-  };
 
   const handleClose = () => {
     setDialogOpen(false);
@@ -39,7 +36,7 @@ const SubmitDialog = ( {dialogOpen, setDialogOpen} ) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="outlined" color="primary">
-            Add One More Item
+            Add One More Item/Edit
           </Button>
           <Button onClick={handleProceedToShop} variant="outlined" color="primary" autoFocus>
             Proceed to Shop
