@@ -36,7 +36,7 @@ const SubmitDialog = ( {dialogOpen, setDialogOpen} ) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} variant="outlined" color="primary">
-            Add One More Item/Edit Item
+            Add One More Item/Edit
           </Button>
           <Button onClick={handleProceedToShop} variant="outlined" color="primary" autoFocus>
             Proceed to Shop
