@@ -25,23 +25,20 @@ const SubmitDialog = ( {dialogOpen, setDialogOpen} ) => {
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Open alert dialog
-      </Button>
       <Dialog
         open={dialogOpen}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby="submit-success"
+        aria-describedby="submit-success"
       >
-        <DialogTitle id="alert-dialog-title">{"Welcome to Bestest Buy!"}</DialogTitle>
+        <DialogTitle id="welcome-message">{"Welcome to Bestest Buy!"}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
+          <DialogContentText id="success-message">
             Success! The item is now stored in the database and ready to be sold.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
+          <Button onClick={handleClose} variant="outlined" color="primary">
             Add One More Item
           </Button>
           <Button onClick={handleProceedToShop} variant="outlined" color="primary" autoFocus>
