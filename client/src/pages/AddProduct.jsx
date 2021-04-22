@@ -16,6 +16,7 @@ import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SubmitDialog from "../components/SubmitDialog";
 import { useHistory } from "react-router";
+import { useForm } from "../components/useForm";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -55,10 +56,11 @@ const initialFormValues = {
 const AddProduct = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [formValues, setFormValues] = useState(initialFormValues);
   const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const {formValues, setFormValues, handleInputChange} = useForm(initialFormValues);
 
   // Step 1: Define form validate function which will check if the formValues state is empty or not
   const validate = (fieldValues = formValues) => {
@@ -98,16 +100,16 @@ const AddProduct = () => {
     return Object.values(tempError).every((errorString) => errorString === "");
   };
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({
-      ...formValues,
-      [name]: value,
-    });
+//   const handleInputChange = (e) => {
+//     const { name, value } = e.target;
+//     setFormValues({
+//       ...formValues,
+//       [name]: value,
+//     });
 
-    // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
-    validate({ [name]: value });
-  };
+//     // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
+//     validate({ [name]: value });
+//   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
