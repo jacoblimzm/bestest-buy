@@ -12,7 +12,7 @@ const UserProvider = ({children}) => {
     const [state, dispatch] = useReducer(userReducer,initialState);
 
     return ( 
-        <UserContext.Provider value={[state, dispatch]}>
+        <UserContext.Provider value={{state, dispatch}}>
             {children}
         </UserContext.Provider>
      );
