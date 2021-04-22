@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
 
 const DropDown = (props) => {
   const classes = useStyles();
-  const { name, label, value, handleInputChange, menuItemArray } = props;
+  const { name, label, value, handleInputChange, options } = props;
 
   return (
     <FormControl
@@ -44,7 +44,7 @@ const DropDown = (props) => {
         <MenuItem value="">
           <em>None</em>
         </MenuItem>
-        {menuItemArray.map((category) => {
+        {options.map((category) => {
           return (
             <MenuItem key={category._id} value={category.category}>
               {category.category}
