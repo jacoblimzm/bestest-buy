@@ -7,7 +7,7 @@ import { useParams } from "react-router";
 
 const ProductList = () => {
   const { category } = useParams();
-  console.log(category);
+  // console.log(category);
   const [allProducts, setAllProducts] = useState([]);
 
   const getAllProducts = (category) => {
@@ -36,7 +36,8 @@ const ProductList = () => {
 
   useEffect(() => {
     getAllProducts(category);
-  }, []);
+  }, [category]); //HERE need to monitor category with is the params in the link
+
   return (
     <Grid container spacing={2} justify="center">
       {allProducts.map((product, index) => {

@@ -32,8 +32,8 @@ const Login = () => {
     });
 
     const classes = useStyles();
-    const [state,dispatch] = useContext(UserContext);
-
+    const user = useContext(UserContext);
+    
     const handleChangeInputValues = attr => event =>{
         setInputValues({...inputValues, [attr]: event.target.value})
     };
@@ -50,8 +50,8 @@ const handleLogIn = (e) => {
       })
       .then((res) => {
         console.log(res.data); // the backend responds with a json object!!
-        
-        dispatch({type: LOGIN_SUCCESS, payload: res.data});
+        console.log(res.status)
+        user.dispatch({type: LOGIN_SUCCESS, payload: res.data});
         
         // handleAddBookmark(res.data); // need to haul the user object to the TOP;
       })
@@ -83,11 +83,11 @@ return (
             required
             fullWidth
             id="username"
-            label="username"
+            label="Username"
             name="username"
             autoComplete="username"
             value={inputValues.username}
-            onChange={handleChangeInputValues('username')}
+            onChange={handleChangeInputValues("username")}
             autoFocus
           />
           <TextField
@@ -101,7 +101,7 @@ return (
             id="password"
             autoComplete="current-password"
             value={inputValues.password}
-            onChange={handleChangeInputValues('password')}
+            onChange={handleChangeInputValues("password")}
           />
           <Button
             type="submit" 
@@ -114,7 +114,7 @@ return (
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="/" variant="body2">
+              <Link href="/signup" variant="body2">
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
