@@ -32,8 +32,10 @@ export default function CartTable(props) {
     const cartData = cart.state
 
 
-    const itemMap = (props.item === [] ? "-" : props.item)
+    const itemMap = (props.item === [] ? [] : props.item)
+    console.log(itemMap);
 
+    const totalItemPrice = (itemMap.quantity * itemMap.price)
 
 
     return (
@@ -43,13 +45,16 @@ export default function CartTable(props) {
                 <TableCell>
                     <Avatar alt={itemMap.name} src={itemMap.image} variant="square" />
                     {itemMap.name}
+
                 </TableCell>
-                <TableCell align="right">{itemMap.quantity}
+                <TableCell align="right">{itemMap.quantity}</TableCell>
+                <TableCell align="right">{itemMap.price}</TableCell>
+                <TableCell align="right">{totalItemPrice}</TableCell>
+                <TableCell align="right">
                     <Button onClick={() => cart.dispatch({ type: ADD_TO_CART, payload: { product: itemMap } })} color="primary">+</Button>
                     <Button onClick={() => cart.dispatch({ type: REMOVE_FROM_CART, payload: { productId: itemMap._id } })} color="primary">-</Button>
                 </TableCell>
-                <TableCell align="right">{calculateCartTotalItems(itemMap)}</TableCell>
-                <TableCell align="right">{calculateCartTotalCost(itemMap)}</TableCell>
+
             </TableRow>
 
         </>

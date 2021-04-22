@@ -7,7 +7,7 @@ import { calculateCartTotalCost } from "../actions/functions"
 import { Redirect } from "react-router-dom"
 
 //material-ui imports
-import { Grid } from "@material-ui/core";
+import { Button, Grid } from "@material-ui/core";
 
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
@@ -35,70 +35,47 @@ export default function Cart() {
 
     const classes = useStyles();
 
-    // usecontext to get cart current data
+    // usecontext to get cart & user current data
     const cart = useContext(CartContext);
     console.log(cart.state);
     const cartData = (cart.state === [] ? <h2>Your cart is currently empty</h2> : cart.state)
-    // [
-    //     {
-    //         name: "T-Shirt",
-    //         brand: "Zara",
-    //         description: "Grey crew neck",
-    //         category: "Fashion",
-    //         image: "https://i.ibb.co/5MnkdgT/grey-t-shirt-01.jpg",
-    //         price: 20,
-    //         quantity: 1,
-    //     },
-    //     {
-    //         name: "Macbook pro",
-    //         brand: "Apple",
-    //         description: "Macbook pro 13 inch",
-    //         category: "Electronics",
-    //         image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
-    //         price: 2000,
-    //         quantity: 2,
-    //     },
-    //     {
-    //         name: "Air-fryer",
-    //         brand: "Philips",
-    //         description: "Black 5 litre",
-    //         category: "Household",
-    //         image: "https://i.ibb.co/61KL9gc/airfryer-01.jpg",
-    //         price: 500,
-    //         quantity: 3,
-    //     }]
 
-    // const userInfo = useContext(UserContext);
-    // console.log(userData.state);
-    // const userData = userInfo.state
+    const userInfo = useContext(UserContext);
+    const userData = userInfo.state
 
+    //calculation for total from import function
     const invoiceTotal = calculateCartTotalCost(cart.state === [] ? 0 : cart.state)
 
-    // const handleCartOut = () => {
-    //     if (userData._id === "") {
-    //         return "Please Login to add to cart."
-    //     } else {
-    //         axios.post("/ordersbackend", {
-    //             userId: userData,
-    //             ordersHistory: cartData,
-    //             total: invoiceTotal,
-    //         }).then((res) => {
-    //             console.log(res.data);
-    //         }).catch((error) => {
-    //             console.log(error);
-    //         })
-    //         return <Redirect to={"/orders"} />
-    //     }
-    // }
+    const handleCartOut = () => {
+        if (userData._id === "") {
+            return "Please Login to add to cart."
+        } else {
+            cartData.map((itemData) => {
+                console.log(itemData);
+                axios.post("/ordersbackend", {
+                    userId: userData,
+                    productId: itemData,
+                    quantity: itemData.quantity,
+                    total: invoiceTotal,
+                }).then((res) => {
+                    console.log(res.data);
+                }).catch((error) => {
+                    console.log(error);
+                })
+            })
+
+            return <Redirect to={"/orders"} />
+        }
+    }
     return (
         <>
-            <h1>Cart</h1>
-            <Grid container spacing={2} justify="center">
+            <h1>CART</h1>
+            <Grid container spacing={3} justify="center">
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="spanning table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" colSpan={3}>
+                                <TableCell align="center" colSpan={4}>
                                     Description
             </TableCell>
                                 <TableCell align="right">Price</TableCell>
@@ -108,6 +85,8 @@ export default function Cart() {
                                 <TableCell align="right">Qty.</TableCell>
                                 <TableCell align="right">Unit</TableCell>
                                 <TableCell align="right">Sum</TableCell>
+                                <TableCell align="right">Add/Remove</TableCell>
+
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -117,63 +96,13 @@ export default function Cart() {
                                 )
                             })}
                             <TableRow>
-                                <TableCell colSpan={3}>Total</TableCell>
+                                <TableCell colSpan={4}>Total</TableCell>
                                 <TableCell align="right">{calculateCartTotalCost(cart.state)}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
-                {/* <button onClick={handleCartOut}>Checkout</button> */}
-
-                {/* <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="spanning table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center" colSpan={3}>
-                                    Details
-            </TableCell>
-                                <TableCell align="right">Price</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Desc</TableCell>
-                                <TableCell align="right">Qty.</TableCell>
-                                <TableCell align="right">Unit</TableCell>
-                                <TableCell align="right">Sum</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {rows.map((row) => (
-                                <TableRow key={row.desc}>
-                                    <TableCell>
-                                        <Avatar alt="" src="https://i.ibb.co/5MnkdgT/grey-t-shirt-01.jpg" variant="square" />
-                                        {row.desc}
-                                    </TableCell>
-                                    <TableCell align="right">{row.qty}
-                                        <button>+</button>
-                                        <button>-</button></TableCell>
-                                    <TableCell align="right">{row.unit}</TableCell>
-                                    <TableCell align="right">{ccyFormat(row.price)}</TableCell>
-                                </TableRow>
-                            ))}
-
-                            <TableRow>
-                                <TableCell rowSpan={3} />
-                                <TableCell colSpan={2}>Subtotal</TableCell>
-                                <TableCell align="right">{ccyFormat(invoiceSubtotal)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell>Tax</TableCell>
-                                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                                <TableCell align="right">{ccyFormat(invoiceTaxes)}</TableCell>
-                            </TableRow>
-                            <TableRow>
-                                <TableCell colSpan={2}>Total</TableCell>
-                                <TableCell align="right">{ccyFormat(invoiceTotal)}</TableCell>
-                            </TableRow>
-                        </TableBody>
-                    </Table>
-                </TableContainer>
- */}
+                <Button onClick={handleCartOut}>Check Out</Button>
             </Grid>
         </>
     );
