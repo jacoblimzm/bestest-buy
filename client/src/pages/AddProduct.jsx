@@ -16,7 +16,9 @@ import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SubmitDialog from "../components/SubmitDialog";
 import { useHistory } from "react-router";
-import { useForm } from "../components/useForm";
+import { useForm, Form } from "../components/useForm";
+import Input from "../components/controls/Input";
+import DropDown from "../components/controls/DropDown";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -60,7 +62,9 @@ const AddProduct = () => {
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const {formValues, setFormValues, handleInputChange} = useForm(initialFormValues);
+  const { formValues, setFormValues, handleInputChange } = useForm(
+    initialFormValues
+  ); // abstracting the state, state update, and input change handler into a separate function.
 
   // Step 1: Define form validate function which will check if the formValues state is empty or not
   const validate = (fieldValues = formValues) => {
@@ -100,22 +104,12 @@ const AddProduct = () => {
     return Object.values(tempError).every((errorString) => errorString === "");
   };
 
-//   const handleInputChange = (e) => {
-//     const { name, value } = e.target;
-//     setFormValues({
-//       ...formValues,
-//       [name]: value,
-//     });
-
-//     // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
-//     validate({ [name]: value });
-//   };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // Step 2: upon submission, validate function will check and return a boolean depending on if there are any error messages
     // because
-    if (validate()) { // returns a Boolean based on the validate functionality
+    if (validate()) {
+      // returns a Boolean based on the validate functionality
       axios
         .post("/productsbackend", {
           name: e.target.name.value,
@@ -165,135 +159,61 @@ const AddProduct = () => {
             <Typography component="h1" variant="h5">
               We're always expanding. Add new products for sale!
             </Typography>
-            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+            <Form handleSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    fullWidth
+                  <Input
                     type="text"
-                    autoComplete="fname"
                     name="name"
-                    variant="outlined"
-                    required
-                    id="name"
                     label="Product Name"
-                    autoFocus
                     value={formValues.name}
-                    onChange={handleInputChange}
-                    // Step 3: In ALL the input fields, conditionally render the "error" property and the "helperText" property with the error message
-                    {...(errors.name && {
-                      error: true,
-                      helperText: errors.name,
-                    })}
+                    handleInputChange={handleInputChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
+                  <Input
                     type="text"
-                    fullWidth
-                    variant="outlined"
-                    required
-                    id="brand"
-                    label="Brand"
                     name="brand"
-                    autoComplete="brand"
+                    label="Brand"
                     value={formValues.brand}
-                    onChange={handleInputChange}
-                    {...(errors.brand && {
-                      error: true,
-                      helperText: errors.brand,
-                    })}
+                    handleInputChange={handleInputChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
+                  <Input
                     type="text"
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="description"
-                    label="Short Description"
                     name="description"
-                    autoComplete="description"
+                    label="Description"
                     value={formValues.description}
-                    onChange={handleInputChange}
-                    {...(errors.description && {
-                      error: true,
-                      helperText: errors.description,
-                    })}
+                    handleInputChange={handleInputChange}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
-                    id="image-url"
-                    label="Image URL"
+                  <Input
+                    type="text"
                     name="image"
-                    autoComplete="image-url"
+                    label="Image URL"
                     value={formValues.image}
-                    onChange={handleInputChange}
-                    {...(errors.image && {
-                      error: true,
-                      helperText: errors.image,
-                    })}
+                    handleInputChange={handleInputChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <TextField
-                    variant="outlined"
-                    required
-                    fullWidth
+                  <Input
+                    type="number"
                     name="price"
                     label="Price"
-                    type="number"
-                    id="price"
-                    autoComplete="price"
                     value={formValues.price}
-                    onChange={handleInputChange}
-                    {...(errors.price && {
-                      error: true,
-                      helperText: errors.price,
-                    })}
+                    handleInputChange={handleInputChange}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <FormControl
-                    variant="outlined"
-                    className={classes.formControl}
-                    {...(errors.category && {
-                      error: true,
-                      helperText: errors.category,
-                    })} // for DropDown the error and the error message is in FormControl
-                  >
-                    <InputLabel id="category-label">Category</InputLabel>
-                    <Select
-                      labelId="category-select-input"
-                      id="category-select-input"
-                      name="category"
-                      value={formValues.category}
-                      onChange={handleInputChange}
-                      label="Age"
-                    >
-                      <MenuItem value="">
-                        <em>None</em>
-                      </MenuItem>
-                      {categories.map((category) => {
-                        return (
-                          <MenuItem
-                            key={category._id}
-                            value={category.category}
-                          >
-                            {category.category}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                    <FormHelperText>
-                      {errors.category ? errors.category : "Required"}
-                    </FormHelperText>
-                  </FormControl>
+                  <DropDown
+                    name="category"
+                    label="Category"
+                    value={formValues.category}
+                    handleInputChange={handleInputChange}
+                    menuItemArray={categories}
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <Button
@@ -319,17 +239,19 @@ const AddProduct = () => {
                   </Button>
                 </Grid>
                 <Button
-                    type="button"
-                    fullWidth
-                    variant="outlined"
-                    color="primary"
-                    className={classes.submit}
-                    onClick={() => { history.push("/")}}
-                  >
-                    Back to Shop
-                  </Button>
+                  type="button"
+                  fullWidth
+                  variant="outlined"
+                  color="primary"
+                  className={classes.submit}
+                  onClick={() => {
+                    history.push("/");
+                  }}
+                >
+                  Back to Shop
+                </Button>
               </Grid>
-            </form>
+            </Form>
           </div>
           <Box mt={5}>
             <Typography variant="body2" color="textSecondary" align="center">
