@@ -1,105 +1,208 @@
 import React, { useEffect, useState, useContext } from "react";
+<<<<<<< HEAD
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import { AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu } from "@material-ui/core";
+=======
+import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+  MenuItem,
+  Menu,
+} from "@material-ui/core";
+>>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 import { UserContext } from "../context/UserProvider";
 import { useHistory } from "react-router-dom";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { LOGOUT_SUCCESS } from "../actions/types";
 
 const Nav = () => {
   const history = useHistory();
   const classes = makeStyles();
+<<<<<<< HEAD
   const { state } = useContext(UserContext);
   const [categories, setCategories] = useState([]);
   const [anchorEl, setAnchorEl] = useState(null);
+=======
+  const user = useContext(UserContext);
+  const [categories, setCategories] = useState([]);
+  const [profileAnchor, setProfileAnchor] = useState(null);
+  const [catAnchor, setCatAnchor] = useState(null);
+>>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClickCat = (event) => {
+    setCatAnchor(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseCat = () => {
+    setCatAnchor(null);
+  };
+
+  const handleClickProfile = (event) => {
+    setProfileAnchor(event.currentTarget);
+  };
+
+  const handleCloseProfile = () => {
+    setProfileAnchor(null);
   };
 
   //useEffect, callling of APIS
   useEffect(() => {
-    axios.get("/categoriesbackend").then((res) => {
-      console.log(res.data);
-      setCategories(res.data);
-    }).catch((error) => {
-      console.log(error);
-    })
+    axios
+      .get("/categoriesbackend")
+      .then((res) => {
+        console.log(res.data);
+        setCategories(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
-
     <AppBar position="sticky">
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-        </IconButton>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        ></IconButton>
 
-        <Button color="inherit" onClick={() => { history.push("/") }}>
+        <Button
+          color="inherit"
+          onClick={() => {
+            history.push("/");
+          }}
+        >
           Bestest-Buy
-    </Button>
-
+        </Button>
 
         <div style={{ flexGrow: 1 }}></div>
-
-        <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          Shop Category
-    </Button>
+        <Button
+          color="inherit"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClickCat}
+        >
+          Shop Category <ArrowDropDownIcon fontSize="small" />
+        </Button>
 
         <Menu
           id="simple-menu"
-          anchorEl={anchorEl}
+          anchorEl={catAnchor}
           keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
+          open={Boolean(catAnchor)}
+          onClose={handleCloseCat}
         >
-
-          {
-            categories.map((category) => {
-              return (
-                <>
-                  <MenuItem onClick={(e) => {
+          {categories.map((category) => {
+            return (
+              <>
+                <MenuItem
+                  onClick={(e) => {
                     history.push(`/products/${category.category}`);
-                  }}>
-                    {/* <MenuItem 
-                 component={Link}    
-                 to={`/products/${category.category}`}> */}
-                    {category.category}
-                  </MenuItem>
-                </>
-              );
-            })
-          }
-
+                  }}
+                >
+                  {category.category}
+                </MenuItem>
+              </>
+            );
+          })}
         </Menu>
+        {!user.state.isAuthenticated && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/signup");
+            }}
+          >
+            Sign Up
+          </Button>
+        )}
+        {!user.state.isAuthenticated && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/login");
+            }}
+          >
+            Login
+          </Button>
+        )}
+        {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/addnewproduct");
+            }}
+          >
+            Add product
+          </Button>
+        )}
 
-        <Button color="inherit" onClick={() => { history.push("/signup") }}>Sign Up</Button>
-        <Button color="inherit" onClick={() => { history.push("/login") }}>Login</Button>
-
-        {(state.isAuthenticated) && (
+        {user.state.isAuthenticated && (
           <>
-            <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-              {state.user.username}</Button>
+            <Button
+              color="inherit"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClickProfile}
+            >
+              {user.state.user.username}
+              <ArrowDropDownIcon fontSize="small" />
+            </Button>
             <Menu
               id="simple-menu"
-              anchorEl={anchorEl}
+              anchorEl={profileAnchor}
               keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
+              open={Boolean(profileAnchor)}
+              onClose={handleCloseProfile}
             >
-              <MenuItem onClick={() => { history.push("/myprofile") }}>Profile</MenuItem>
-              <MenuItem onClick={() => { history.push("/cart") }}>My Cart</MenuItem>
-              <MenuItem onClick={() => { history.push("/orders") }}>My Order</MenuItem>
-              <MenuItem onClick={() => { history.push("/") }}>Logout</MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/myprofile");
+                }}
+              >
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/cart");
+                }}
+              >
+                My Cart
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/orders");
+                }}
+              >
+                My Order
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/");
+                  user.dispatch({ type: LOGOUT_SUCCESS, payload: {} });
+                }}
+              >
+                Logout
+              </MenuItem>
             </Menu>
           </>
         )}
       </Toolbar>
     </AppBar>
+<<<<<<< HEAD
 
   )
 }
+=======
+  );
+};
+>>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 
 export default Nav;

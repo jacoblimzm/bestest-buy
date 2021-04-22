@@ -1,26 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { CssBaseline, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Button } from '@material-ui/core';
-// import Alert from '@material-ui/lab/Alert';
-import Snackbar from '@material-ui/core/Snackbar';
-import IconButton from '@material-ui/core/IconButton';
-import CloseIcon from '@material-ui/icons/Close';
-import { makeStyles } from '@material-ui/core/styles';;
-
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import {
+  CssBaseline,
+  Avatar,
+  TextField,
+  Link,
+  Grid,
+  Typography,
+  Container,
+  Button,
+} from "@material-ui/core";
+import Alert from "@material-ui/lab/Alert";
+import Snackbar from "@material-ui/core/Snackbar";
+import IconButton from "@material-ui/core/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
+import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
     marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
   },
   avatar: {
     margin: theme.spacing(1),
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    width: '100%',
+    width: "100%",
     marginTop: theme.spacing(3),
   },
   submit: {
@@ -37,71 +45,77 @@ const SignUp = () => {
     password: "",
     email: "",
     address: "",
-
-  })
+  });
   const [isInputValid, setIsInputValid] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
 
-  const handleChangeInputValues = attr => event => {
-    setInputValues({ ...inputValues, [attr]: event.target.value })
+  const handleChangeInputValues = (attr) => (event) => {
+    setInputValues({ ...inputValues, [attr]: event.target.value });
   };
 
   const handleSignUp = (e) => {
     e.preventDefault();
     setOpen(true);
-    console.log(inputValues.username, inputValues.password, inputValues.email, inputValues.address);
+    console.log(
+      inputValues.username,
+      inputValues.password,
+      inputValues.email,
+      inputValues.address
+    );
     axios
       .post("/usersbackend", {
-        "username": inputValues.username,
-        "password": inputValues.password,
-        "email": inputValues.email,
-        "address": inputValues.address,
+        username: inputValues.username,
+        password: inputValues.password,
+        email: inputValues.email,
+        address: inputValues.address,
       })
       .then((res) => {
         if (!res.data.message) {
-          setSnackbarMessage("Sign up succesful")
+          setSnackbarMessage("Sign up succesful");
         } else {
           setSnackbarMessage(res.data.message);
         }
-        setOpen(false);
       })
-  }
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpen(false);
+  };
 
   useEffect(() => {
-
     const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
     if (inputValues.username.length < 5) {
       setIsInputValid(true);
       setAlertMessage("Username must be more than 5 characters");
-
     } else if (inputValues.password.length < 8) {
       setIsInputValid(true);
       setAlertMessage("Password must be more than 8 characters");
-
     } else if (re.test(inputValues.email) === false) {
       setIsInputValid(true);
       setAlertMessage("Please provide valid email");
-
     } else if (inputValues.address.length === 0) {
       setIsInputValid(true);
       setAlertMessage("Address cannot be empty!");
-
     } else {
       setIsInputValid(false);
-      setAlertMessage("")
+      setAlertMessage("");
     }
-  }, [inputValues])
+  }, [inputValues]);
 
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-        </Avatar>
+        <Avatar className={classes.avatar}></Avatar>
         <Typography component="h1" variant="h5">
           Sign Up
-          </Typography>
+        </Typography>
         <form className={classes.form}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
@@ -159,29 +173,31 @@ const SignUp = () => {
               />
             </Grid>
           </Grid>
-          {/* {isInputValid && <Alert severity="warning">{alertMessage}</Alert>} */}
+          {isInputValid && <Alert severity="warning">{alertMessage}</Alert>}
           <Button
             type="submit"
             fullWidth
             variant="contained"
             color="primary"
-            className={classes.submit} onClick={handleSignUp}
+            disabled={!isInputValid ? false : true}
+            className={classes.submit}
+            onClick={handleSignUp}
           >
             Sign Up
-            </Button>
+          </Button>
           <Grid container justify="flex-end">
             <Grid item>
               <Link href="/login" variant="body2">
                 Already have an account? Login
-                </Link>
+              </Link>
             </Grid>
           </Grid>
         </form>
       </div>
       <Snackbar
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'middle',
+          vertical: "top",
+          horizontal: "middle",
         }}
         open={open}
         autoHideDuration={5000}
@@ -190,8 +206,11 @@ const SignUp = () => {
         message={snackbarMessage}
         action={
           <>
-            <IconButton size="small" aria-label="close" color="inherit" onClick=''
-            // {handleClose}
+            <IconButton
+              size="small"
+              aria-label="close"
+              color="inherit"
+              onClick={handleClose}
             >
               <CloseIcon fontSize="small" />
             </IconButton>
@@ -201,6 +220,4 @@ const SignUp = () => {
     </Container>
   );
 };
-
-
 export default SignUp;
