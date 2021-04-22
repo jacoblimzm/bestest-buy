@@ -12,13 +12,35 @@ import {
 } from "@material-ui/core";
 import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useHistory, useParams } from "react-router";
 import AddToCartButton from "../components/AddToCartButton";
-import RemoveFromCartButton from "../components/RemoveFromCart";
 import { CartContext } from "../context/CartProvider";
 import { calculateCartTotalCost, calculateCartTotalItems} from "../actions/functions"
 
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 300,
+  },
+  media: {
+    height: 300,
+  },
+  link: {
+    textDecoration: "none",
+    color: "#000",
+  },
+  card: {
+    height: "100%",
+  },
+  bottomMargin: {
+    marginBottom: "16px",
+  },
+  highlight: {
+    backgroundColor: "#2196f3",
+  },
+});
+
 const ProductDetails = () => {
+  const history = useHistory();
   const { productId } = useParams();
   //   console.log(productId);
   const cart = useContext(CartContext);
@@ -51,27 +73,6 @@ const ProductDetails = () => {
     getProductDetails(productId);
   }, []);
 
-  const useStyles = makeStyles({
-    root: {
-      maxWidth: 300,
-    },
-    media: {
-      height: 300,
-    },
-    link: {
-      textDecoration: "none",
-      color: "#000",
-    },
-    card: {
-      height: "100%",
-    },
-    bottomMargin: {
-      marginBottom: "16px",
-    },
-    highlight: {
-      backgroundColor: "#2196f3",
-    },
-  });
   const classes = useStyles();
 
   return (
@@ -204,9 +205,8 @@ const ProductDetails = () => {
             </CardContent>
             <CardActions>
               <AddToCartButton productProp={productState} />
-              <RemoveFromCartButton id={productState._id} />
-              <Button size="small" color="primary">
-                Return to products
+              <Button onClick={() => {history.goBack()}} size="small" color="primary">
+                Go Back
               </Button>
             </CardActions>
           </Card>

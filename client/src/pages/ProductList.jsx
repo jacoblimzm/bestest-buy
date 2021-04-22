@@ -11,7 +11,7 @@ const ProductList = () => {
   const [allProducts, setAllProducts] = useState([]);
 
   const getAllProducts = (category) => {
-    if (category === "All") {
+    if (category === "Shop all brands") {
       axios
         .get(`/productsbackend`)
         .then((res) => {
@@ -36,8 +36,7 @@ const ProductList = () => {
 
   useEffect(() => {
     getAllProducts(category);
-  }, [category]); //HERE need to monitor category with is the params in the link
-
+  }, [category]);
   return (
     <Grid container spacing={2} justify="center">
       {allProducts.map((product, index) => {

@@ -4,16 +4,21 @@ const userReducer = (userState, action) => {
 
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return {
-          ...userState,
-          user: action.payload,
-          isAuthenticated: true,
-      };
+      const tempUser = {
+        ...userState,
+        user: action.payload,
+        isAuthenticated: true,
+    };
+    sessionStorage.setItem("user", JSON.stringify(tempUser));
+    
+      return tempUser;
     case LOGOUT_SUCCESS:
-      return {
-          isAuthenticated: false,
-          user: {},
-      };
+      const tempUser1 = {
+        isAuthenticated: false,
+        user: {},        
+      }
+      sessionStorage.setItem("user", JSON.stringify(tempUser1));
+      return tempUser1
     default:
       return userState;
   }

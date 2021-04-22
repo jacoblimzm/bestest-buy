@@ -8,15 +8,13 @@ import CartProvider from "./context/CartProvider";
 import UserProvider from "./context/UserProvider";
 
 ReactDOM.render(
-  <React.StrictMode>
     <Router>
       <CartProvider>
         <UserProvider>
           <App />
         </UserProvider>
       </CartProvider>
-    </Router>
-  </React.StrictMode>,
+    </Router>,
   document.getElementById("root")
 );
 
