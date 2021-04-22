@@ -184,13 +184,7 @@ const Nav = () => {
         )}
       </Toolbar>
     </AppBar>
-<<<<<<< HEAD
-
-  )
-}
-=======
   );
 };
->>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 
 export default Nav;
