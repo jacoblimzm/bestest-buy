@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import { useState } from "react";
 
 // ----------------------------- REUSABLE STATE AND INPUT CONTROL FOR FORMS -----------------------------
-const useForm = (initialFormValues) => {
+const useForm = (initialFormValues, onChangeValidation = false, validate) => {
   const [formValues, setFormValues] = useState(initialFormValues); // state for making the form controlled
   const [errors, setErrors] = useState({}); // state for maintaining errors
 
@@ -13,15 +13,24 @@ const useForm = (initialFormValues) => {
       [name]: value,
     });
 
-    // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
-    // validate({ [name]: value });
+    if (onChangeValidation) {
+      // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
+      validate({ [name]: value });
+    }
   };
+  // abstract form reset into useForm reusable component
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setErrors({});
+  };
+
   return {
     formValues,
     setFormValues,
     errors,
     setErrors,
     handleInputChange,
+    handleReset,
   };
 };
 
@@ -42,12 +51,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-
 const Form = (props) => {
   const classes = useStyles();
   const { handleSubmit } = props;
   return (
-    <form className={classes.form} autoComplete="off" noValidate onSubmit={handleSubmit}>
+    <form
+      className={classes.form}
+      autoComplete="off"
+      noValidate
+      onSubmit={handleSubmit}
+    >
       {props.children}
     </form>
   );
