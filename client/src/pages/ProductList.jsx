@@ -36,7 +36,8 @@ const ProductList = () => {
 
   useEffect(() => {
     getAllProducts(category);
-  }, [category]);
+  }, [category]); //HERE need to monitor category with is the params in the link
+
   return (
     <Grid container spacing={2} justify="center">
       {allProducts.map((product, index) => {

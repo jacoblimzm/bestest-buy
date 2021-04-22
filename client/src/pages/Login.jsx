@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
     },
     form: {
-      width: '100%', // Fix IE 11 issue.
+      width: '100%', 
       marginTop: theme.spacing(1),
     },
     submit: {
@@ -52,18 +52,13 @@ const handleLogIn = (e) => {
         console.log(res.data); // the backend responds with a json object!!
         console.log(res.status)
         user.dispatch({type: LOGIN_SUCCESS, payload: res.data});
-        
-        // handleAddBookmark(res.data); // need to haul the user object to the TOP;
-      })
+          })
       .catch((err) => {
         console.log(err);
       });
 
 
   };
-
-  
-
 
 
 return (

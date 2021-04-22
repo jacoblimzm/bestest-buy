@@ -3,21 +3,15 @@ import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu} from "@material-ui/core";
 import {UserContext} from "../context/UserProvider";
-import { useHistory, Link, Route } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 const Nav = () => {
-  // react global stuffs, material ui usestyles, makestyles
   const history = useHistory();
   const classes = makeStyles();
   const {state} = useContext(UserContext);
   const [categories,setCategories] =useState([]);
-
-
-
-  //component own state, ui presentation layer
   const [anchorEl, setAnchorEl] = useState(null);
 
-  //UI internal logic. (handleclick, handlechange, onSubmit, FUNCTIONS)
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -43,11 +37,9 @@ return (
     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
     </IconButton>
 
-    <Typography variant="h6" className={classes.title} color="inherit">
-     <Link href="/" onClick={()=>{}}>
+    <Button color="inherit" onClick={()=>{history.push("/")}}>
     Bestest-Buy
-     </Link>
-    </Typography>
+    </Button>
 
 
     <div style={{flexGrow:1}}></div>
@@ -84,7 +76,25 @@ return (
 
     <Button color="inherit" onClick={()=>{history.push("/signup")}}>Sign Up</Button>
     <Button color="inherit" onClick={()=>{history.push("/login")}}>Login</Button>
-    {state.isAuthenticated && <Typography>{state.user.username}</Typography> }
+  
+    {(state.isAuthenticated) && (
+      <>
+      <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+      {state.user.username}</Button>
+<Menu
+  id="simple-menu"
+  anchorEl={anchorEl}
+  keepMounted
+  open={Boolean(anchorEl)}
+  onClose={handleClose}
+>
+  <MenuItem onClick={()=>{history.push("/myprofile")}}>Profile</MenuItem>
+  <MenuItem onClick={()=>{history.push("/cart")}}>My Cart</MenuItem>
+  <MenuItem onClick={()=>{history.push("/orders")}}>My Order</MenuItem>
+  <MenuItem onClick={()=>{history.push("/")}}>Logout</MenuItem>
+</Menu>
+</>
+)}
   </Toolbar>
 </AppBar>
 
