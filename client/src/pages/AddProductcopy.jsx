@@ -1,16 +1,22 @@
 import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
+import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import BusinessIcon from "@material-ui/icons/Business";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SubmitDialog from "../components/SubmitDialog";
 import { useHistory } from "react-router";
-import { useForm, Form } from "../components/useForm";
-import Controls from "../components/controls/Controls";
+import { useForm } from "../components/useForm";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -27,8 +33,14 @@ const useStyles = makeStyles((theme) => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
   formControl: {
     width: "100%",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -44,12 +56,15 @@ const initialFormValues = {
 const AddProduct = () => {
   const classes = useStyles();
   const history = useHistory();
+  const [formValues, setFormValues] = useState(initialFormValues);
+  const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
+  // Step 1: Define form validate function which will check if the formValues state is empty or not
   const validate = (fieldValues = formValues) => {
     // pass in the formValues state as a default argument and assign to "fieldValues" parameter as an intermediate object variable to use.
-    // this is necessary to prevent user from submitting an empty form which will crash the if statements as fieldValues will be an empty object.
+    // this is necessary to prevent user from submitting and empty form which will crash the if statements as fieldValues will be an empty object.
     // if (... in ) does not work on undefined
     // in order to make sure the existing errors in state don't get overwritten, have to spread the error state
     const tempError = { ...errors };
@@ -84,23 +99,22 @@ const AddProduct = () => {
     return Object.values(tempError).every((errorString) => errorString === "");
   };
 
-  const {
-    formValues,
-    setFormValues,
-    errors,
-    setErrors,
-    handleInputChange,
-    handleReset,
-  } = useForm(initialFormValues, true, validate); // abstracting the state, state update, and input change handler into a separate function.
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormValues({
+      ...formValues,
+      [name]: value,
+    });
 
-  // Step 1: Define form validate function which will check if the formValues state is empty or not
+    // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
+    validate({ [name]: value });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Step 2: upon submission, validate function will check and return a boolean depending on if there are any error messages
     // because
-    if (validate()) {
-      // returns a Boolean based on the validate functionality
+    if (validate()) { // returns a Boolean based on the validate functionality
       axios
         .post("/productsbackend", {
           name: e.target.name.value,
@@ -119,6 +133,11 @@ const AddProduct = () => {
       setFormValues(initialFormValues);
       setDialogOpen(true);
     }
+  };
+
+  const handleReset = () => {
+    setFormValues(initialFormValues);
+    setErrors({});
   };
 
   useEffect(() => {
@@ -145,94 +164,171 @@ const AddProduct = () => {
             <Typography component="h1" variant="h5">
               We're always expanding. Add new products for sale!
             </Typography>
-            <Form handleSubmit={handleSubmit}>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <Controls.Input
+                  <TextField
+                    fullWidth
                     type="text"
+                    autoComplete="fname"
                     name="name"
+                    variant="outlined"
+                    required
+                    id="name"
                     label="Product Name"
+                    autoFocus
                     value={formValues.name}
-                    handleInputChange={handleInputChange}
-                    errorMessage={errors.name}
+                    onChange={handleInputChange}
+                    // Step 3: In ALL the input fields, conditionally render the "error" property and the "helperText" property with the error message
+                    {...(errors.name && {
+                      error: true,
+                      helperText: errors.name,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Controls.Input
+                  <TextField
                     type="text"
-                    name="brand"
+                    fullWidth
+                    variant="outlined"
+                    required
+                    id="brand"
                     label="Brand"
+                    name="brand"
+                    autoComplete="brand"
                     value={formValues.brand}
-                    handleInputChange={handleInputChange}
-                    errorMessage={errors.brand}
+                    onChange={handleInputChange}
+                    {...(errors.brand && {
+                      error: true,
+                      helperText: errors.brand,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Controls.Input
+                  <TextField
                     type="text"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="description"
+                    label="Short Description"
                     name="description"
-                    label="Description"
+                    autoComplete="description"
                     value={formValues.description}
-                    handleInputChange={handleInputChange}
-                    errorMessage={errors.description}
+                    onChange={handleInputChange}
+                    {...(errors.description && {
+                      error: true,
+                      helperText: errors.description,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Controls.Input
-                    type="text"
-                    name="image"
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="image-url"
                     label="Image URL"
+                    name="image"
+                    autoComplete="image-url"
                     value={formValues.image}
-                    handleInputChange={handleInputChange}
-                    errorMessage={errors.image}
+                    onChange={handleInputChange}
+                    {...(errors.image && {
+                      error: true,
+                      helperText: errors.image,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Controls.Input
-                    type="number"
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
                     name="price"
                     label="Price"
+                    type="number"
+                    id="price"
+                    autoComplete="price"
                     value={formValues.price}
-                    handleInputChange={handleInputChange}
-                    errorMessage={errors.price}
+                    onChange={handleInputChange}
+                    {...(errors.price && {
+                      error: true,
+                      helperText: errors.price,
+                    })}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Controls.DropDown
-                    name="category"
-                    label="Category"
-                    value={formValues.category}
-                    handleInputChange={handleInputChange}
-                    options={categories}
-                    errorMessage={errors.category}
-                  />
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
+                    {...(errors.category && {
+                      error: true,
+                      helperText: errors.category,
+                    })} // for DropDown the error and the error message is in FormControl
+                  >
+                    <InputLabel id="category-label">Category</InputLabel>
+                    <Select
+                      labelId="category-select-input"
+                      id="category-select-input"
+                      name="category"
+                      value={formValues.category}
+                      onChange={handleInputChange}
+                      label="Age"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {categories.map((category) => {
+                        return (
+                          <MenuItem
+                            key={category._id}
+                            value={category.category}
+                          >
+                            {category.category}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                    <FormHelperText>
+                      {errors.category ? errors.category : "Required"}
+                    </FormHelperText>
+                  </FormControl>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Controls.CustomButtom
-                    buttonText="Add Product"
+                  <Button
                     type="submit"
+                    fullWidth
                     variant="contained"
                     color="primary"
-                  />
+                    className={classes.submit}
+                  >
+                    Add Product
+                  </Button>
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Controls.CustomButtom
-                    buttonText="Reset"
+                  <Button
                     type="button"
+                    fullWidth
                     variant="outlined"
                     color="secondary"
+                    className={classes.submit}
                     onClick={handleReset}
-                  />
+                  >
+                    Reset
+                  </Button>
                 </Grid>
-                <Controls.CustomButtom
-                  buttonText="Back To Shop"
-                  type="button"
-                  onClick={() => {
-                    history.push("/");
-                  }}
-                />
+                <Button
+                    type="button"
+                    fullWidth
+                    variant="outlined"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => { history.push("/")}}
+                  >
+                    Back to Shop
+                  </Button>
               </Grid>
-            </Form>
+            </form>
           </div>
           <Box mt={5}>
             <Typography variant="body2" color="textSecondary" align="center">
