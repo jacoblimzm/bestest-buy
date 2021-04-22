@@ -1,11 +1,11 @@
 import { TextField } from "@material-ui/core";
 
 const Input = (props) => {
-  const { name, label, value, handleInputChange } = props;
+  const { name, type, label, value, handleInputChange } = props;
   return (
     <TextField
       fullWidth
-      type="text"
+      type={type}
       autoComplete="fname"
       name={name}
       variant="outlined"
