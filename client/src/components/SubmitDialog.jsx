@@ -5,8 +5,10 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { useHistory } from 'react-router';
 
 const SubmitDialog = ( {dialogOpen, setDialogOpen} ) => {
+  const history = useHistory();
 
   const handleClickOpen = () => {
     setDialogOpen(true);
@@ -18,7 +20,7 @@ const SubmitDialog = ( {dialogOpen, setDialogOpen} ) => {
 
   const handleProceedToShop = () => {
     setDialogOpen(false);
-
+    history.push("/products/All");
   }
 
   return (
