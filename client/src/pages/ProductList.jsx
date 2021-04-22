@@ -36,11 +36,11 @@ const ProductList = () => {
 
   useEffect(() => {
     getAllProducts(category);
-  }, []);
+  }, [category]);
   return (
     <Grid container spacing={2} justify="center">
       {allProducts.map((product, index) => {
-        return <ProductCard {...product} key={index} />;
+        return <ProductCard product={product} key={index} />;
       })}
     </Grid>
   );

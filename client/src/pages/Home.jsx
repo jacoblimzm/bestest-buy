@@ -54,7 +54,7 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
     const [Category, setCategory] = useState([]);
     useEffect(() => {
-        axios.get("/productsbackend").then((res) => {
+        axios.get("/categoriesbackend").then((res) => {
             console.log(res.data);
             setCategory(res.data);
         }).catch((error) => {

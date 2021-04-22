@@ -5,25 +5,25 @@ import CardActionArea from "@material-ui/core/CardActionArea";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
-import Button from "@material-ui/core/Button";
 import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
+import AddToCartButton from "./AddToCartButton";
 
-const ProductCard = ({ _id, name, description, brand, price, image }) => {
+const useStyles = makeStyles({
+  root: {
+    maxWidth: 300,
+  },
+  media: {
+    height: 150,
+  },
+  link: {
+    textDecoration: "none",
+    color: "#000",
+  },
+});
 
-  const useStyles = makeStyles({
-    root: {
-      maxWidth: 300,
-    },
-    media: {
-      height: 150,
-    },
-    link: {
-        textDecoration: "none",
-        color: "#000"
-    }
-  });
+const ProductCard = (props) => {
   const classes = useStyles();
 
   return (
@@ -31,15 +31,15 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
       <Grid item sm={4} md={3}>
         <Card className={classes.root}>
           <CardActionArea>
-            <Link to={`/product/${_id}`} className={classes.link}>
+            <Link to={`/product/${props.product._id}`} className={classes.link}>
               <CardMedia
                 className={classes.media}
                 image="https://picsum.photos/500/500"
-                title={name}
+                title={props.product.name}
               />
               <CardContent>
                 <Typography variant="h5" component="h2">
-                  {name}
+                  {props.product.name}
                 </Typography>
                 <Typography
                   gutterBottom
@@ -47,21 +47,16 @@ const ProductCard = ({ _id, name, description, brand, price, image }) => {
                   color="textPrimary"
                   component="p"
                 >
-                  ({brand})
+                  ({props.product.brand})
                 </Typography>
                 <Typography variant="h6" color="textPrimary" component="p">
-                  ${price}
+                  ${props.product.price}
                 </Typography>
               </CardContent>
             </Link>
           </CardActionArea>
           <CardActions>
-            <Button size="small" color="primary">
-              Details
-            </Button>
-            <Button variant="contained" size="small" color="primary">
-              Add to Cart
-            </Button>
+            <AddToCartButton productProp={props.product} />
           </CardActions>
         </Card>
       </Grid>
