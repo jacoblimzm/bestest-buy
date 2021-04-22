@@ -11,7 +11,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Typography from '@material-ui/core/Typography';
-import { Grid } from "@material-ui/core";
+import Box from '@material-ui/core/Box';
+
+import { Grid, Hidden } from "@material-ui/core";
+
 
 //To configure material-ui
 const useStyles = makeStyles(theme => ({
@@ -44,10 +47,8 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         marginLeft: -255,
     },
-    homeshopbtncenter: {
-        marginTop: 900,
-        alignItems: 'center',
-        marginLeft: -200,
+    backgroudImage: {
+        width: 1920,
     },
 }));
 
@@ -67,25 +68,21 @@ export default function Home() {
     }
     const classes = useStyles();
 
-    // const defineRoute = () => {
-    //     if (categories.category === "Shop all brands") {
-    //         return "/products";
-    //     } else {
-    //         return `/products/${categories.category}`
-    //     }
-    // }
-
     return (
         <>
-            <div className={classes.marginAutoContainer}>
 
-                <h1 className={classes.homelogocenter}>BESTEST BUY</h1>
 
-                <h3 className={classes.hometextcenter}>Your shopping spree starts now.</h3>
-
-                <Button className={classes.homeshopbtncenter}>Shop now</Button>
-            </div>
             <Grid container spacing={4} justify="center">
+                <img src="https://i.imgur.com/AhvmtfB.jpg" className={classes.backgroudImage} edge="start" />
+                <Box className={classes.btnDown} textAlign='center' position="absolute"
+                    top={870}
+                    left="45%"
+                    zIndex="tooltip" >
+                    <h3>Scroll down to shop</h3>
+                    {/* <Button variant="contained" color="primary">
+                        Shop now</Button> */}
+                </Box>
+
                 {Category.map((categories) => {
                     return (
 
@@ -112,7 +109,7 @@ export default function Home() {
                     );
                 })}
             </Grid>
-            <Button className={classes.marginAutoItem}>Scroll up</Button>
+            {/* <Button className={classes.marginAutoItem}>Scroll up</Button> */}
         </>
     )
 }

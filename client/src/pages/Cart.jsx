@@ -1,14 +1,13 @@
 import axios from 'axios';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { CartContext } from "../context/CartProvider"
 import CartTable from "../components/CartTable"
 import { UserContext } from '../context/UserProvider'
 import { calculateCartTotalCost } from "../actions/functions"
-import { Redirect } from "react-router-dom"
-
+import { Redirect, Link } from "react-router-dom"
+// import { OrdersData } from "./Orders"
 //material-ui imports
 import { Button, Grid } from "@material-ui/core";
-
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -43,30 +42,42 @@ export default function Cart() {
     const userInfo = useContext(UserContext);
     const userData = userInfo.state
 
+
     //calculation for total from import function
     const invoiceTotal = calculateCartTotalCost(cart.state === [] ? 0 : cart.state)
+    const [checkOut, setCheckOut] = useState("false");
+    // const [orderData, setOrderData] = useState([]);
 
-    const handleCartOut = () => {
+    const handleCartOut = (event) => {
+        event.preventDefault();
         if (userData._id === "") {
             return "Please Login to add to cart."
         } else {
-            cartData.map((itemData) => {
-                console.log(itemData);
-                axios.post("/ordersbackend", {
-                    userId: userData,
-                    productId: itemData,
-                    quantity: itemData.quantity,
-                    total: invoiceTotal,
-                }).then((res) => {
-                    console.log(res.data);
-                }).catch((error) => {
-                    console.log(error);
-                })
+            console.log(checkOut)
+            console.log(cartData)
+            console.log(userData);
+            console.log(invoiceTotal)
+            axios.post("/ordersbackend", {
+                userId: userData.user._id,
+                ordersHistory:
+                    cartData.map((itemData) => {
+                        return {
+                            productId: itemData._id,
+                            quantity: itemData.quantity,
+                        }
+                    }),
+                total: invoiceTotal,
+            }).then((res) => {
+                console.log(res.data);
+                // setOrderData(res.data);
+            }).catch((error) => {
+                console.log(error);
             })
 
-            return <Redirect to={"/orders"} />
         }
+
     }
+
     return (
         <>
             <h1>CART</h1>
@@ -102,8 +113,10 @@ export default function Cart() {
                         </TableBody>
                     </Table>
                 </TableContainer>
-                <Button onClick={handleCartOut}>Check Out</Button>
+
+                <Link to={checkOut === "true" ? "/orders" : "/cart"} onClick={handleCartOut} className="btn btn-primary">Check out</Link>
             </Grid>
+            {/* <OrdersData orderIds={orderData} /> */}
         </>
     );
 };

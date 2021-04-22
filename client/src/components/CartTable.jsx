@@ -1,5 +1,4 @@
 import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/types";
-import { calculateCartTotalItems, calculateCartTotalCost } from "../actions/functions";
 import { CartContext } from "../context/CartProvider";
 import { useContext } from "react"
 
@@ -28,13 +27,10 @@ export default function CartTable(props) {
     const classes = useStyles();
     //usecontext to get cart current data
     const cart = useContext(CartContext);
-    console.log(cart.state);
     const cartData = cart.state
 
 
     const itemMap = (props.item === [] ? [] : props.item)
-    console.log(itemMap);
-
     const totalItemPrice = (itemMap.quantity * itemMap.price)
 
 
