@@ -10,6 +10,8 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp"
 import AddProduct from "./pages/AddProduct";
+import ErrorPage from "./pages/ErrorPage";
+
 
 function App() {
   return (
@@ -32,6 +34,9 @@ function App() {
           </Route>
           <Route path="/addnewproduct">
             <AddProduct />
+          </Route>
+          <Route>
+            <ErrorPage />
           </Route>
         </Switch>
       </div>
