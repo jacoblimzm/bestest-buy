@@ -3,7 +3,6 @@ import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import TextField from "@material-ui/core/TextField";
-import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import BusinessIcon from "@material-ui/icons/Business";
@@ -16,6 +15,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SubmitDialog from "../components/SubmitDialog";
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -44,30 +44,52 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const initialFormValues = {
-    name: "",
-    brand: "",
-    description: "",
-    category: "",
-    image: "",
-    price: "",
-  }
+  name: "",
+  brand: "",
+  description: "",
+  category: "",
+  image: "",
+  price: "",
+};
 
 const AddProduct = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [formValues, setFormValues] = useState(initialFormValues);
   const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const validate = () => {
-    const tempError = {};
-    tempError.name = formValues.name ? "" : "This field is required.";
-    tempError.brand = formValues.brand ? "" : "This field is required.";
-    tempError.description =
-      formValues.description.length > 5 ? "" : "Minimum 5 characters.";
-    tempError.category = formValues.category ? "" : "This field is required.";
-    tempError.image = formValues.image ? "" : "This field is required.";
-    tempError.price = formValues.price > 0.1 ? "" : "Minimum $0.1.";
+  // Step 1: Define form validate function which will check if the formValues state is empty or not
+  const validate = (fieldValues = formValues) => {
+    // pass in the formValues state as a default argument and assign to "fieldValues" parameter as an intermediate object variable to use.
+    // this is necessary to prevent user from submitting and empty form which will crash the if statements as fieldValues will be an empty object.
+    // if (... in ) does not work on undefined
+    // in order to make sure the existing errors in state don't get overwritten, have to spread the error state
+    const tempError = { ...errors };
+
+    // while the inputs are changing, fieldValues object parameter only has one property, in the form of [name]: value. these checks do single input validation.
+    if ("name" in fieldValues) {
+      tempError.name = fieldValues.name ? "" : "This field is required.";
+    }
+    if ("brand" in fieldValues) {
+      tempError.brand = fieldValues.brand ? "" : "This field is required.";
+    }
+    if ("description" in fieldValues) {
+      tempError.description =
+        fieldValues.description.length > 5 ? "" : "Minimum 5 characters.";
+    }
+    if ("category" in fieldValues) {
+      tempError.category = fieldValues.category
+        ? ""
+        : "This field is required.";
+    }
+    if ("image" in fieldValues) {
+      tempError.image = fieldValues.image ? "" : "This field is required.";
+    }
+    if ("price" in fieldValues) {
+      tempError.price = fieldValues.price > 0.1 ? "" : "Minimum $0.1.";
+    }
     setErrors({
       ...tempError,
     });
@@ -82,36 +104,41 @@ const AddProduct = () => {
       ...formValues,
       [name]: value,
     });
+
+    // while input is changing, pass in an  OBJECT to the validate function which will take the [name]: value of the input that has changed.
+    validate({ [name]: value });
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validate()) {
-      window.alert("success!");
+    // Step 2: upon submission, validate function will check and return a boolean depending on if there are any error messages
+    // because
+    if (validate()) { // returns a Boolean based on the validate functionality
+      axios
+        .post("/productsbackend", {
+          name: e.target.name.value,
+          brand: e.target.brand.value,
+          description: e.target.description.value,
+          category: e.target.category.value,
+          image: e.target.image.value,
+          price: e.target.price.value,
+        })
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      setFormValues(initialFormValues);
+      setDialogOpen(true);
     }
-    // axios
-    //   .post("/productsbackend", {
-    //     name: e.target.name.value,
-    //     brand: e.target.brand.value,
-    //     description: e.target.description.value,
-    //     category: e.target.category.value,
-    //     image: e.target.image.value,
-    //     price: e.target.price.value,
-    //   })
-    //   .then((res) => {
-    //     console.log(res.data);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
-    // setFormValues({});
-    // setDialogOpen(true);
   };
 
   const handleReset = () => {
-      setFormValues(initialFormValues);
-  }
-  
+    setFormValues(initialFormValues);
+    setErrors({});
+  };
+
   useEffect(() => {
     axios
       .get("/categoriesbackend")
@@ -151,6 +178,7 @@ const AddProduct = () => {
                     autoFocus
                     value={formValues.name}
                     onChange={handleInputChange}
+                    // Step 3: In ALL the input fields, conditionally render the "error" property and the "helperText" property with the error message
                     {...(errors.name && {
                       error: true,
                       helperText: errors.name,
@@ -288,6 +316,16 @@ const AddProduct = () => {
                     Reset
                   </Button>
                 </Grid>
+                <Button
+                    type="button"
+                    fullWidth
+                    variant="outlined"
+                    color="primary"
+                    className={classes.submit}
+                    onClick={() => { history.push("/")}}
+                  >
+                    Back to Shop
+                  </Button>
               </Grid>
             </form>
           </div>
