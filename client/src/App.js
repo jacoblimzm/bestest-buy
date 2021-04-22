@@ -42,9 +42,9 @@ function App() {
             <Route exact path="/cart">
               <Cart />
             </Route>
-            <Route path="/addnewproduct">
+            {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && <Route path="/addnewproduct">
               <AddProduct />
-            </Route>
+            </Route>}
             <Route>
               <ErrorPage />
             </Route>
