@@ -53,8 +53,25 @@ const AddProduct = () => {
     image: "",
     price: "",
   });
+  const [errors, setErrors] = useState({})
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const validate = () => {
+      const tempError = {};
+      tempError.name = formValues.name ? "" : "This field is required."
+      tempError.brand = formValues.brand ? "" : "This field is required."
+      tempError.description = formValues.description.length > 5 ? "" : "Minimum 5 characters."
+      tempError.category = formValues.category ? "" : "This field is required."
+      tempError.image = formValues.image ? "" : "This field is required."
+      tempError.price = formValues.price > 0.1 ? "" : "Minimum $0.1."
+      setErrors( {
+          ...tempError
+      } )
+
+      // Object.values returns an array with the values of an object. Check to see if every error message is blank. Only if all blank, return true
+      return Object.values(tempError).every( errorString => errorString === "")
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -66,23 +83,26 @@ const AddProduct = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios
-      .post("/productsbackend", {
-        name: e.target.name.value,
-        brand: e.target.brand.value,
-        description: e.target.description.value,
-        category: e.target.category.value,
-        image: e.target.image.value,
-        price: e.target.price.value,
-      })
-      .then((res) => {
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    setFormValues({});
-    setDialogOpen(true);
+    if(validate()) {
+        window.alert("success!")
+    }
+    // axios
+    //   .post("/productsbackend", {
+    //     name: e.target.name.value,
+    //     brand: e.target.brand.value,
+    //     description: e.target.description.value,
+    //     category: e.target.category.value,
+    //     image: e.target.image.value,
+    //     price: e.target.price.value,
+    //   })
+    //   .then((res) => {
+    //     console.log(res.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // setFormValues({});
+    // setDialogOpen(true);
   };
 
   useEffect(() => {
@@ -124,6 +144,7 @@ const AddProduct = () => {
                     autoFocus
                     value={formValues.name}
                     onChange={handleInputChange}
+                    {...(errors.name && {error: true, helperText:errors.name})}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -138,6 +159,7 @@ const AddProduct = () => {
                     autoComplete="brand"
                     value={formValues.brand}
                     onChange={handleInputChange}
+                    {...(errors.brand && {error: true, helperText:errors.brand})}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -152,6 +174,7 @@ const AddProduct = () => {
                     autoComplete="description"
                     value={formValues.description}
                     onChange={handleInputChange}
+                    {...(errors.description && {error: true, helperText:errors.description})}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -165,6 +188,7 @@ const AddProduct = () => {
                     autoComplete="image-url"
                     value={formValues.image}
                     onChange={handleInputChange}
+                    {...(errors.image && {error: true, helperText:errors.image})}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -179,12 +203,14 @@ const AddProduct = () => {
                     autoComplete="price"
                     value={formValues.price}
                     onChange={handleInputChange}
+                    {...(errors.price && {error: true, helperText:errors.price})}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <FormControl
                     variant="outlined"
                     className={classes.formControl}
+                    {...(errors.category && {error: true, helperText:errors.category})} // for DropDown the error and the error message is in FormControl
                   >
                     <InputLabel id="category-label">Category</InputLabel>
                     <Select
@@ -209,7 +235,7 @@ const AddProduct = () => {
                         );
                       })}
                     </Select>
-                    <FormHelperText>Required</FormHelperText>
+                    <FormHelperText>{errors.category ? errors.category: "Required"}</FormHelperText>
                   </FormControl>
                 </Grid>
               </Grid>
