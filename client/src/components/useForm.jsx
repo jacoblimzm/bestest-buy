@@ -3,7 +3,8 @@ import { useState } from "react";
 
 // ----------------------------- REUSABLE STATE AND INPUT CONTROL FOR FORMS -----------------------------
 const useForm = (initialFormValues) => {
-  const [formValues, setFormValues] = useState(initialFormValues);
+  const [formValues, setFormValues] = useState(initialFormValues); // state for making the form controlled
+  const [errors, setErrors] = useState({}); // state for maintaining errors
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -18,6 +19,8 @@ const useForm = (initialFormValues) => {
   return {
     formValues,
     setFormValues,
+    errors,
+    setErrors,
     handleInputChange,
   };
 };
