@@ -1,4 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
+<<<<<<< HEAD
+import axios from 'axios';
+import { makeStyles } from '@material-ui/core/styles';
+import { AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu } from "@material-ui/core";
+=======
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -9,6 +14,7 @@ import {
   MenuItem,
   Menu,
 } from "@material-ui/core";
+>>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 import { UserContext } from "../context/UserProvider";
 import { useHistory } from "react-router-dom";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
@@ -17,10 +23,16 @@ import { LOGOUT_SUCCESS } from "../actions/types";
 const Nav = () => {
   const history = useHistory();
   const classes = makeStyles();
+<<<<<<< HEAD
+  const { state } = useContext(UserContext);
+  const [categories, setCategories] = useState([]);
+  const [anchorEl, setAnchorEl] = useState(null);
+=======
   const user = useContext(UserContext);
   const [categories, setCategories] = useState([]);
   const [profileAnchor, setProfileAnchor] = useState(null);
   const [catAnchor, setCatAnchor] = useState(null);
+>>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 
   const handleClickCat = (event) => {
     setCatAnchor(event.currentTarget);
@@ -184,7 +196,13 @@ const Nav = () => {
         )}
       </Toolbar>
     </AppBar>
+<<<<<<< HEAD
+
+  )
+}
+=======
   );
 };
+>>>>>>> 890caf8a3512eb8ca4c96be2945939980254fe11
 
 export default Nav;

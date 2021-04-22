@@ -13,4 +13,4 @@ const calculateCartTotalItems = (cartArray) => {
   return total;
 };
 
-export {calculateCartTotalCost, calculateCartTotalItems}
+export { calculateCartTotalCost, calculateCartTotalItems }

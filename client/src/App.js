@@ -6,6 +6,7 @@ import ProductList from "./pages/ProductList";
 //Pages
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+import Orders from "./pages/Orders"
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";

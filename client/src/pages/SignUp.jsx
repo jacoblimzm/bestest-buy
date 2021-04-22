@@ -201,7 +201,8 @@ const SignUp = () => {
         }}
         open={open}
         autoHideDuration={5000}
-        onClose={handleClose}
+        onClose=''
+        // {handleClose}
         message={snackbarMessage}
         action={
           <>
