@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
@@ -28,14 +27,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%", // Fix IE 11 issue.
     marginTop: theme.spacing(3),
   },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
   formControl: {
     width: "100%",
-  },
-  selectEmpty: {
-    marginTop: theme.spacing(2),
   },
 }));
 
@@ -54,18 +47,9 @@ const AddProduct = () => {
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const {
-    formValues,
-    setFormValues,
-    errors,
-    setErrors,
-    handleInputChange,
-  } = useForm(initialFormValues); // abstracting the state, state update, and input change handler into a separate function.
-
-  // Step 1: Define form validate function which will check if the formValues state is empty or not
   const validate = (fieldValues = formValues) => {
     // pass in the formValues state as a default argument and assign to "fieldValues" parameter as an intermediate object variable to use.
-    // this is necessary to prevent user from submitting and empty form which will crash the if statements as fieldValues will be an empty object.
+    // this is necessary to prevent user from submitting an empty form which will crash the if statements as fieldValues will be an empty object.
     // if (... in ) does not work on undefined
     // in order to make sure the existing errors in state don't get overwritten, have to spread the error state
     const tempError = { ...errors };
@@ -100,6 +84,17 @@ const AddProduct = () => {
     return Object.values(tempError).every((errorString) => errorString === "");
   };
 
+  const {
+    formValues,
+    setFormValues,
+    errors,
+    setErrors,
+    handleInputChange,
+    handleReset,
+  } = useForm(initialFormValues, true, validate); // abstracting the state, state update, and input change handler into a separate function.
+
+  // Step 1: Define form validate function which will check if the formValues state is empty or not
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Step 2: upon submission, validate function will check and return a boolean depending on if there are any error messages
@@ -123,14 +118,7 @@ const AddProduct = () => {
         });
       setFormValues(initialFormValues);
       setDialogOpen(true);
-    } else {
-        window.alert("Form submission failed")
     }
-  };
-
-  const handleReset = () => {
-    setFormValues(initialFormValues);
-    setErrors({});
   };
 
   useEffect(() => {
@@ -176,6 +164,7 @@ const AddProduct = () => {
                     label="Brand"
                     value={formValues.brand}
                     handleInputChange={handleInputChange}
+                    errorMessage={errors.brand}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -185,6 +174,7 @@ const AddProduct = () => {
                     label="Description"
                     value={formValues.description}
                     handleInputChange={handleInputChange}
+                    errorMessage={errors.description}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -194,6 +184,7 @@ const AddProduct = () => {
                     label="Image URL"
                     value={formValues.image}
                     handleInputChange={handleInputChange}
+                    errorMessage={errors.image}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -203,6 +194,7 @@ const AddProduct = () => {
                     label="Price"
                     value={formValues.price}
                     handleInputChange={handleInputChange}
+                    errorMessage={errors.price}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -212,43 +204,33 @@ const AddProduct = () => {
                     value={formValues.category}
                     handleInputChange={handleInputChange}
                     options={categories}
+                    errorMessage={errors.category}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Button
+                  <Controls.CustomButtom
+                    buttonText="Add Product"
                     type="submit"
-                    fullWidth
                     variant="contained"
                     color="primary"
-                    className={classes.submit}
-                  >
-                    Add Product
-                  </Button>
+                  />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Button
+                  <Controls.CustomButtom
+                    buttonText="Reset"
                     type="button"
-                    fullWidth
                     variant="outlined"
                     color="secondary"
-                    className={classes.submit}
                     onClick={handleReset}
-                  >
-                    Reset
-                  </Button>
+                  />
                 </Grid>
-                <Button
+                <Controls.CustomButtom
+                  buttonText="Back To Shop"
                   type="button"
-                  fullWidth
-                  variant="outlined"
-                  color="primary"
-                  className={classes.submit}
                   onClick={() => {
                     history.push("/");
                   }}
-                >
-                  Back to Shop
-                </Button>
+                />
               </Grid>
             </Form>
           </div>
