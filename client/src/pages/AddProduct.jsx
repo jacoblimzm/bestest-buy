@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -14,6 +14,8 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormHelperText from "@material-ui/core/FormHelperText";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
+import axios from "axios";
+import SubmitDialog from "../components/SubmitDialog";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -51,7 +53,8 @@ const AddProduct = () => {
     image: "",
     price: "",
   });
-  const [categories, setCategories] = useState([])
+  const [categories, setCategories] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -61,127 +64,177 @@ const AddProduct = () => {
     });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    axios
+      .post("/productsbackend", {
+        name: e.target.name.value,
+        brand: e.target.brand.value,
+        description: e.target.description.value,
+        category: e.target.category.value,
+        image: e.target.image.value,
+        price: e.target.price.value,
+      })
+      .then((res) => {
+        console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    setFormValues({});
+    setDialogOpen(true);
+  };
+
+  useEffect(() => {
+    axios
+      .get("/categoriesbackend")
+      .then((res) => {
+        console.log(res.data);
+        setCategories(res.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
-    <Grid container direction="row" justify="center">
-      <Grid item xs={8} sm={6} md={4}>
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <BusinessIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            We're always expanding. Add new products for sale!
-          </Typography>
-          <form className={classes.form} noValidate>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="fname"
-                  name="name"
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="name"
-                  label="Product Name"
-                  autoFocus
-                  value={formValues.name}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="brand"
-                  label="Brand"
-                  name="brand"
-                  autoComplete="brand"
-                  value={formValues.brand}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="description"
-                  label="Short Description"
-                  name="description"
-                  autoComplete="description"
-                  value={formValues.description}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  id="image-url"
-                  label="Image URL"
-                  name="Image Link"
-                  autoComplete="image-url"
-                  value={formValues.image}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  variant="outlined"
-                  required
-                  fullWidth
-                  name="price"
-                  label="Price"
-                  type="number"
-                  id="price"
-                  autoComplete="price"
-                  value={formValues.price}
-                  onChange={handleInputChange}
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <FormControl variant="outlined" className={classes.formControl}>
-                  <InputLabel id="category-label">Category</InputLabel>
-                  <Select
-                    labelId="category-select-input"
-                    id="category-select-input"
-                    value={formValues.category}
+    <>
+      <Grid container direction="row" justify="center">
+        <Grid item xs={8} sm={6} md={4}>
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <BusinessIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              We're always expanding. Add new products for sale!
+            </Typography>
+            <form className={classes.form} noValidate onSubmit={handleSubmit}>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    fullWidth
+                    type="text"
+                    autoComplete="fname"
+                    name="name"
+                    variant="outlined"
+                    required
+                    id="name"
+                    label="Product Name"
+                    autoFocus
+                    value={formValues.name}
                     onChange={handleInputChange}
-                    label="Age"
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    type="text"
+                    fullWidth
+                    variant="outlined"
+                    required
+                    id="brand"
+                    label="Brand"
+                    name="brand"
+                    autoComplete="brand"
+                    value={formValues.brand}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    type="text"
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="description"
+                    label="Short Description"
+                    name="description"
+                    autoComplete="description"
+                    value={formValues.description}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    id="image-url"
+                    label="Image URL"
+                    name="image"
+                    autoComplete="image-url"
+                    value={formValues.image}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <TextField
+                    variant="outlined"
+                    required
+                    fullWidth
+                    name="price"
+                    label="Price"
+                    type="number"
+                    id="price"
+                    autoComplete="price"
+                    value={formValues.price}
+                    onChange={handleInputChange}
+                  />
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <FormControl
+                    variant="outlined"
+                    className={classes.formControl}
                   >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                  <FormHelperText>Required</FormHelperText>
-                </FormControl>
+                    <InputLabel id="category-label">Category</InputLabel>
+                    <Select
+                      labelId="category-select-input"
+                      id="category-select-input"
+                      name="category"
+                      value={formValues.category}
+                      onChange={handleInputChange}
+                      label="Age"
+                    >
+                      <MenuItem value="">
+                        <em>None</em>
+                      </MenuItem>
+                      {categories.map((category) => {
+                        return (
+                          <MenuItem
+                            key={category._id}
+                            value={category.category}
+                          >
+                            {category.category}
+                          </MenuItem>
+                        );
+                      })}
+                    </Select>
+                    <FormHelperText>Required</FormHelperText>
+                  </FormControl>
+                </Grid>
               </Grid>
-            </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Add Product
-            </Button>
-          </form>
-        </div>
-        <Box mt={5}>
-          <Typography variant="body2" color="textSecondary" align="center">
-            {"Copyright Focused Designs © "}
-            {new Date().getFullYear()}
-            {"."}
-          </Typography>
-        </Box>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+              >
+                Add Product
+              </Button>
+            </form>
+          </div>
+          <Box mt={5}>
+            <Typography variant="body2" color="textSecondary" align="center">
+              {"Copyright © Focused Designs "}
+              {new Date().getFullYear()}
+              {"."}
+            </Typography>
+          </Box>
+        </Grid>
+        <SubmitDialog dialogOpen={dialogOpen} setDialogOpen={setDialogOpen} />
       </Grid>
-    </Grid>
+    </>
   );
 };
 
