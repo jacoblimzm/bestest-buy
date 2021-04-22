@@ -1,6 +1,7 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { CssBaseline, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container, Button} from '@material-ui/core';
+import Alert from '@material-ui/lab/Alert';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   const SignUp = () => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
-    const [snackbarColor, setSnackbarcolor] = useState("info");
+    const [snackbarMessage, setSnackbarMessage] = useState("Server Errror!");
     const [inputValues, setInputValues] = useState({
       username: "",
       password: "",
@@ -38,42 +39,70 @@ const useStyles = makeStyles((theme) => ({
       address: "",
 
     })
+    const [isInputValid, setIsInputValid] = useState(false);
+    const [alertMessage, setAlertMessage] = useState("");
+
+    const handleChangeInputValues = attr => event =>{
+      setInputValues({...inputValues, [attr]: event.target.value})
+  };
     
     const handleSignUp = (e) => {
       e.preventDefault();
-      console.log(inputValues.username,inputValues.password);
+      setOpen(true);
+      console.log(inputValues.username, inputValues.password, inputValues.email, inputValues.address);
       axios
-        .post("/sessionsbackend", {
+        .post("/usersbackend", {
           "username": inputValues.username,
           "password": inputValues.password,
           "email": inputValues.email,
           "address": inputValues.address,
         })
         .then((res) => {
-          console.log(res.data);
-          setOpen(true);
-          //setMessage(res.data.message)
-          if (res.status ===200){
-            //set snackbar to Greenb
+          if(!res.data.message){
+            setSnackbarMessage("Sign up succesful")
           } else{
-            //set snackbar to Ren
+            setSnackbarMessage(res.data.message);
           }
-          
         })
-      }
-
-      const handleClick = () => {
-        setOpen(true);
+        .catch((err) => {
+          console.log(err);
+        });
       };
+
     
       const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
           return;
         }
-    
         setOpen(false);
       };
   
+      useEffect(()=>{
+
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        
+          if(inputValues.username.length < 5){
+            setIsInputValid(true);
+            setAlertMessage("Username must be more than 5 characters");
+
+          } else if (inputValues.password.length < 8){
+            setIsInputValid(true);
+            setAlertMessage("Password must be more than 8 characters");
+
+          } else if(re.test(inputValues.email) === false){
+            setIsInputValid(true);
+            setAlertMessage("Please provide valid email");
+
+          } else if(inputValues.address.length === 0){
+            setIsInputValid(true);
+            setAlertMessage("Address cannot be empty!");
+
+          } else{
+            setIsInputValid(false);
+            setAlertMessage("")
+          }
+      },[inputValues])
+      
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -83,7 +112,7 @@ const useStyles = makeStyles((theme) => ({
           <Typography component="h1" variant="h5">
             Sign Up
           </Typography>
-          <form className={classes.form} noValidate>
+          <form className={classes.form}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
@@ -94,6 +123,8 @@ const useStyles = makeStyles((theme) => ({
                   fullWidth
                   id="username"
                   label="Username"
+                  value={inputValues.username}
+            onChange={handleChangeInputValues("username")}
                   autoFocus
                 />
               </Grid>
@@ -106,6 +137,8 @@ const useStyles = makeStyles((theme) => ({
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                  value={inputValues.email}
+            onChange={handleChangeInputValues("email")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -118,6 +151,8 @@ const useStyles = makeStyles((theme) => ({
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  value={inputValues.password}
+            onChange={handleChangeInputValues("password")}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -129,15 +164,18 @@ const useStyles = makeStyles((theme) => ({
                   label="Address"
                   name="address"
                   autoComplete="address"
+                  value={inputValues.address}
+            onChange={handleChangeInputValues("address")}
                 />
               </Grid>
               </Grid>
+              {isInputValid && <Alert severity="warning">{alertMessage}</Alert>}
             <Button
               type="submit"
               fullWidth
               variant="contained"
               color="primary"
-              className={classes.submit}
+              className={classes.submit} onClick={handleSignUp}
             >
               Sign Up
             </Button>
@@ -152,18 +190,15 @@ const useStyles = makeStyles((theme) => ({
         </div>
         <Snackbar
         anchorOrigin={{
-          vertical: 'middle',
+          vertical: 'top',
           horizontal: 'middle',
         }}
         open={open}
-        autoHideDuration={4000}
+        autoHideDuration={5000}
         onClose={handleClose}
-        message={"sign up is succesful."}
+        message={snackbarMessage}
         action={
           <>
-            <Button color="secondary" size="small" onClick={handleClose}>
-              UNDO
-            </Button>
             <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
               <CloseIcon fontSize="small" />
             </IconButton>

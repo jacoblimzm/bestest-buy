@@ -1,9 +1,9 @@
 import React, {useEffect, useState, useContext} from "react";
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
-import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu, Link} from "@material-ui/core";
+import {AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu} from "@material-ui/core";
 import {UserContext} from "../context/UserProvider";
-import { useHistory } from "react-router-dom";
+import { useHistory, Link, Route } from "react-router-dom";
 
 const Nav = () => {
   // react global stuffs, material ui usestyles, makestyles
@@ -43,9 +43,12 @@ return (
     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
     </IconButton>
 
-    <Typography variant="h6" className={classes.title}>
-      Bestest-Buy
+    <Typography variant="h6" className={classes.title} color="inherit">
+     <Link href="/" onClick={()=>{}}>
+    Bestest-Buy
+     </Link>
     </Typography>
+
 
     <div style={{flexGrow:1}}></div>
 
@@ -65,11 +68,13 @@ return (
         categories.map((category)=> {
             return (
                 <>
-                 <MenuItem id={category} 
-                 onClick={()=>{handleClose();
-{/* <Link to={`/products/${categories.category}`}></Link> */}
-                history.push(`/products/${category.category}`)}}> 
-                 {category.category}</MenuItem>
+                <MenuItem onClick={(e)=>{
+                  history.push(`/products/${category.category}`);}}>
+                 {/* <MenuItem 
+                 component={Link}    
+                 to={`/products/${category.category}`}> */}
+                        {category.category}
+                 </MenuItem>
                 </>
             );
         })

@@ -32,8 +32,8 @@ const Login = () => {
     });
 
     const classes = useStyles();
-    const {state,dispatch} = useContext(UserContext);
-      console.log(state);
+    const user = useContext(UserContext);
+    
     const handleChangeInputValues = attr => event =>{
         setInputValues({...inputValues, [attr]: event.target.value})
     };
@@ -51,7 +51,7 @@ const handleLogIn = (e) => {
       .then((res) => {
         console.log(res.data); // the backend responds with a json object!!
         console.log(res.status)
-        dispatch({type: LOGIN_SUCCESS, payload: res.data});
+        user.dispatch({type: LOGIN_SUCCESS, payload: res.data});
         
         // handleAddBookmark(res.data); // need to haul the user object to the TOP;
       })
@@ -87,7 +87,7 @@ return (
             name="username"
             autoComplete="username"
             value={inputValues.username}
-            onChange={handleChangeInputValues('username')}
+            onChange={handleChangeInputValues("username")}
             autoFocus
           />
           <TextField
@@ -101,7 +101,7 @@ return (
             id="password"
             autoComplete="current-password"
             value={inputValues.password}
-            onChange={handleChangeInputValues('password')}
+            onChange={handleChangeInputValues("password")}
           />
           <Button
             type="submit" 
