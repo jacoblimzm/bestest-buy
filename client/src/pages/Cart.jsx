@@ -38,35 +38,36 @@ export default function Cart() {
     // usecontext to get cart current data
     const cart = useContext(CartContext);
     console.log(cart.state);
-    const cartData = [
-        {
-            name: "T-Shirt",
-            brand: "Zara",
-            description: "Grey crew neck",
-            category: "Fashion",
-            image: "https://i.ibb.co/5MnkdgT/grey-t-shirt-01.jpg",
-            price: 20,
-            quantity: 1,
-        },
-        {
-            name: "Macbook pro",
-            brand: "Apple",
-            description: "Macbook pro 13 inch",
-            category: "Electronics",
-            image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
-            price: 2000,
-            quantity: 2,
-        },
-        {
-            name: "Air-fryer",
-            brand: "Philips",
-            description: "Black 5 litre",
-            category: "Household",
-            image: "https://i.ibb.co/61KL9gc/airfryer-01.jpg",
-            price: 500,
-            quantity: 3,
-        }]
-    // (cart.state === [] ? <h2>Your cart is currently empty</h2> : cart.state)
+    const cartData = (cart.state === [] ? <h2>Your cart is currently empty</h2> : cart.state)
+    // [
+    //     {
+    //         name: "T-Shirt",
+    //         brand: "Zara",
+    //         description: "Grey crew neck",
+    //         category: "Fashion",
+    //         image: "https://i.ibb.co/5MnkdgT/grey-t-shirt-01.jpg",
+    //         price: 20,
+    //         quantity: 1,
+    //     },
+    //     {
+    //         name: "Macbook pro",
+    //         brand: "Apple",
+    //         description: "Macbook pro 13 inch",
+    //         category: "Electronics",
+    //         image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
+    //         price: 2000,
+    //         quantity: 2,
+    //     },
+    //     {
+    //         name: "Air-fryer",
+    //         brand: "Philips",
+    //         description: "Black 5 litre",
+    //         category: "Household",
+    //         image: "https://i.ibb.co/61KL9gc/airfryer-01.jpg",
+    //         price: 500,
+    //         quantity: 3,
+    //     }]
+
     // const userInfo = useContext(UserContext);
     // console.log(userData.state);
     // const userData = userInfo.state
@@ -98,7 +99,7 @@ export default function Cart() {
                         <TableHead>
                             <TableRow>
                                 <TableCell align="center" colSpan={3}>
-                                    CART
+                                    Description
             </TableCell>
                                 <TableCell align="right">Price</TableCell>
                             </TableRow>
@@ -116,7 +117,7 @@ export default function Cart() {
                                 )
                             })}
                             <TableRow>
-                                <TableCell colSpan={2}>Total</TableCell>
+                                <TableCell colSpan={3}>Total</TableCell>
                                 <TableCell align="right">{calculateCartTotalCost(cart.state)}</TableCell>
                             </TableRow>
                         </TableBody>

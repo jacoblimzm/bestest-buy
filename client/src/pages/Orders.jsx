@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import axios from "axios";
+import { UserContext } from '../context/UserProvider'
 
 //material ui import
 import { makeStyles } from '@material-ui/core/styles';
@@ -27,47 +28,52 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders() {
     const classes = useStyles();
-    const orders = [
-        {
-            name: "Macbook pro",
-            brand: "Apple",
-            description: "Macbook pro 13 inch",
-            category: "Electronics",
-            image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
-            price: 2000,
-            quantity: 1,
-            total: 2000,
-        }, {
-            name: "Macbook pro",
-            brand: "Apple",
-            description: "Macbook pro 13 inch",
-            category: "Electronics",
-            image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
-            price: 2000,
-            quantity: 1,
-            total: 2000,
-        }, {
-            name: "Macbook pro",
-            brand: "Apple",
-            description: "Macbook pro 13 inch",
-            category: "Electronics",
-            image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
-            price: 2000,
-            quantity: 1,
-            total: 2000,
-        },]
-    // const [orders, setOrders] = useState([]);
-    // useEffect(() => {
-    //     axios.get(`/ordersbackend/${userData.id}`).then((res) => {
-    //         console.log(res.data);
-    //         setOrders(res.data);
-    //     }).catch((error) => {
-    //         console.log(error);
-    //     })
-    // }, []);
+    // const orders = [
+    //     {
+    //         name: "Macbook pro",
+    //         brand: "Apple",
+    //         description: "Macbook pro 13 inch",
+    //         category: "Electronics",
+    //         image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
+    //         price: 2000,
+    //         quantity: 1,
+    //         total: 2000,
+    //     }, {
+    //         name: "Macbook pro",
+    //         brand: "Apple",
+    //         description: "Macbook pro 13 inch",
+    //         category: "Electronics",
+    //         image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
+    //         price: 2000,
+    //         quantity: 1,
+    //         total: 2000,
+    //     }, {
+    //         name: "Macbook pro",
+    //         brand: "Apple",
+    //         description: "Macbook pro 13 inch",
+    //         category: "Electronics",
+    //         image: "https://i.ibb.co/Swcgm6g/Macbook-01.jpg",
+    //         price: 2000,
+    //         quantity: 1,
+    //         total: 2000,
+    //     },]
+
+    const userInfo = useContext(UserContext);
+    console.log(userData.state);
+    const userData = userInfo.state
+
+    const [orders, setOrders] = useState([]);
+    useEffect(() => {
+        axios.get(`/ordersbackend/${userData.id}`).then((res) => {
+            console.log(res.data);
+            setOrders(res.data);
+        }).catch((error) => {
+            console.log(error);
+        })
+    });
     return (
         <>
-            <Grid container spacing={2}>
+            <Grid container spacing={6}>
                 <Grid item xs={12} md={6}>
                     <Typography variant="h6" className={classes.title}>
                         Orders
@@ -78,18 +84,14 @@ export default function Orders() {
                                 return (
                                     <ListItem>
                                         <ListItemAvatar>
-                                            <Avatar alt="image"
-                                                // {currentOrder.ordersHistory[0].productId.name} 
-                                                src={currentOrder.image}
-                                                // {currentOrder.ordersHistory[0].productId.image} 
+                                            <Avatar alt={currentOrder.ordersHistory[0].productId.name}
+                                                src={currentOrder.ordersHistory[0].productId.image}
                                                 variant="square" />
 
                                         </ListItemAvatar>
                                         <ListItemText
-                                            primary="hello"
-                                            // {currentOrder.ordersHistory[0].productId.name}
-                                            secondary="hi"
-                                        // {`Price: ${currentOrder.ordersHistory[0].productId.price} | Quantity: ${currentOrder.ordersHistory[0].quantity} | Date: ${currentOrder.createdAt}`}
+                                            primary={currentOrder.ordersHistory[0].productId.name}
+                                            secondary={`Price: ${currentOrder.ordersHistory[0].productId.price} | Quantity: ${currentOrder.ordersHistory[0].quantity} | Date: ${currentOrder.createdAt}`}
                                         />
                                     </ListItem>
                                 );
