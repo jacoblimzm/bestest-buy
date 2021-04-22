@@ -5,10 +5,8 @@ import {
   AppBar,
   Toolbar,
   IconButton,
-  Typography,
   Button,
   MenuItem,
-  MenuClose,
   Menu,
 } from "@material-ui/core";
 import { UserContext } from "../context/UserProvider";
@@ -123,6 +121,17 @@ const Nav = () => {
             Login
           </Button>
         )}
+        {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/addnewproduct");
+            }}
+          >
+            Add product
+          </Button>
+        )}
+
         {user.state.isAuthenticated && (
           <>
             <Button
