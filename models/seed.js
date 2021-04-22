@@ -47,4 +47,5 @@ const productsSeed = [
         image: "https://i.ibb.co/QX1ryV8/facial-cleanser-01.jpg",
         price: 18,
     }]
+
 module.exports = productsSeed;

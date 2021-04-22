@@ -18,6 +18,7 @@ const cartReducer = (cart, action) => {
         updatedCart[itemIndex] = updatedItem;
         //   updatedCart[itemIndex].quantity++; // could potentially replace the 5 lines above it.
       }
+      localStorage.setItem("cart", JSON.stringify(updatedCart))
       return updatedCart;
 
     case REMOVE_FROM_CART:
@@ -34,7 +35,9 @@ const cartReducer = (cart, action) => {
       } else {
           updatedCart1[itemIndex1] = updatedItem1;
       }
+      localStorage.setItem("cart", JSON.stringify(updatedCart1))
       return updatedCart1;
+      
     default:
       return cart;
   }

@@ -11,7 +11,7 @@ const ProductList = () => {
   const [allProducts, setAllProducts] = useState([]);
 
   const getAllProducts = (category) => {
-    if (category === "All") {
+    if (category === "Shop all brands") {
       axios
         .get(`/productsbackend`)
         .then((res) => {
@@ -41,7 +41,7 @@ const ProductList = () => {
   return (
     <Grid container spacing={2} justify="center">
       {allProducts.map((product, index) => {
-        return <ProductCard {...product} key={index} />;
+        return <ProductCard product={product} key={index} />;
       })}
     </Grid>
   );
