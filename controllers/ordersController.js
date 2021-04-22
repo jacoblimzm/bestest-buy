@@ -47,7 +47,7 @@ orders.delete("/:id", (req, res) => {
   Order.findByIdAndRemove(req.params.id, (err, deletedOrder) => {
     if (err) {
       res.status(400).send({
-        error: err.mess,
+        error: err.message,
         message: "Delete order unsuccessful!",
         data: {},
       });

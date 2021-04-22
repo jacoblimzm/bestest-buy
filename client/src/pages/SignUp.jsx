@@ -89,15 +89,15 @@ const useStyles = makeStyles((theme) => ({
             setIsInputValid(true);
             setAlertMessage("Password must be more than 8 characters");
 
-          } else if(re.test(inputValues.email) === false){
+          } else if (re.test(inputValues.email) === false){
             setIsInputValid(true);
             setAlertMessage("Please provide valid email");
 
-          } else if(inputValues.address.length === 0){
+          } else if (inputValues.address.length === 0){
             setIsInputValid(true);
             setAlertMessage("Address cannot be empty!");
 
-          } else{
+          } else {
             setIsInputValid(false);
             setAlertMessage("")
           }

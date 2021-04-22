@@ -10,6 +10,7 @@ import Cart from "./pages/Cart"
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import Nav from "./components/Nav";
+import MyProfile from "./pages/MyProfile";
 
 function App() {
 
@@ -24,6 +25,9 @@ function App() {
                 </Route>
                 <Route exact path="/login">
                 <Login />
+                </Route>
+                <Route exact path="/myprofile">
+                <MyProfile/>
                 </Route>
                 <Route exact path="/signup">
                 <SignUp />
