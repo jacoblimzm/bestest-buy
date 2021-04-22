@@ -2,23 +2,16 @@ import React, { useEffect, useState } from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import BusinessIcon from "@material-ui/icons/Business";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
-import InputLabel from "@material-ui/core/InputLabel";
-import MenuItem from "@material-ui/core/MenuItem";
-import FormHelperText from "@material-ui/core/FormHelperText";
-import FormControl from "@material-ui/core/FormControl";
-import Select from "@material-ui/core/Select";
 import axios from "axios";
 import SubmitDialog from "../components/SubmitDialog";
 import { useHistory } from "react-router";
 import { useForm, Form } from "../components/useForm";
-import Input from "../components/controls/Input";
-import DropDown from "../components/controls/DropDown";
+import Controls from "../components/controls/Controls";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -58,13 +51,16 @@ const initialFormValues = {
 const AddProduct = () => {
   const classes = useStyles();
   const history = useHistory();
-  const [errors, setErrors] = useState({});
   const [categories, setCategories] = useState([]);
   const [dialogOpen, setDialogOpen] = useState(false);
 
-  const { formValues, setFormValues, handleInputChange } = useForm(
-    initialFormValues
-  ); // abstracting the state, state update, and input change handler into a separate function.
+  const {
+    formValues,
+    setFormValues,
+    errors,
+    setErrors,
+    handleInputChange,
+  } = useForm(initialFormValues); // abstracting the state, state update, and input change handler into a separate function.
 
   // Step 1: Define form validate function which will check if the formValues state is empty or not
   const validate = (fieldValues = formValues) => {
@@ -127,6 +123,8 @@ const AddProduct = () => {
         });
       setFormValues(initialFormValues);
       setDialogOpen(true);
+    } else {
+        window.alert("Form submission failed")
     }
   };
 
@@ -162,16 +160,17 @@ const AddProduct = () => {
             <Form handleSubmit={handleSubmit}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
-                  <Input
+                  <Controls.Input
                     type="text"
                     name="name"
                     label="Product Name"
                     value={formValues.name}
                     handleInputChange={handleInputChange}
+                    errorMessage={errors.name}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Input
+                  <Controls.Input
                     type="text"
                     name="brand"
                     label="Brand"
@@ -180,7 +179,7 @@ const AddProduct = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Input
+                  <Controls.Input
                     type="text"
                     name="description"
                     label="Description"
@@ -189,7 +188,7 @@ const AddProduct = () => {
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <Input
+                  <Controls.Input
                     type="text"
                     name="image"
                     label="Image URL"
@@ -198,7 +197,7 @@ const AddProduct = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <Input
+                  <Controls.Input
                     type="number"
                     name="price"
                     label="Price"
@@ -207,12 +206,12 @@ const AddProduct = () => {
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
-                  <DropDown
+                  <Controls.DropDown
                     name="category"
                     label="Category"
                     value={formValues.category}
                     handleInputChange={handleInputChange}
-                    menuItemArray={categories}
+                    options={categories}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
