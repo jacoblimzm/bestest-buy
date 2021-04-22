@@ -1,5 +1,7 @@
+import { makeStyles } from "@material-ui/core";
 import { useState } from "react";
 
+// ----------------------------- REUSABLE STATE AND INPUT CONTROL FOR FORMS -----------------------------
 const useForm = (initialFormValues) => {
   const [formValues, setFormValues] = useState(initialFormValues);
 
@@ -16,9 +18,36 @@ const useForm = (initialFormValues) => {
   return {
     formValues,
     setFormValues,
-    handleInputChange
+    handleInputChange,
   };
 };
 
-export { useForm };
+// ----------------------------- REUSABLE FORM COMPONENT -----------------------------
+const useStyles = makeStyles((theme) => ({
+  form: {
+    width: "100%", // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  formControl: {
+    width: "100%",
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
+
+const Form = (props) => {
+  const classes = useStyles();
+  const { handleSubmit } = props;
+  return (
+    <form className={classes.form} noValidate onSubmit={handleSubmit}>
+      {props.children}
+    </form>
+  );
+};
+
+export { useForm, Form };
