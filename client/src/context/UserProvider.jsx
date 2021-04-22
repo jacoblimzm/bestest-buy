@@ -4,10 +4,11 @@ import userReducer from "../reducers/userReducer"
 export const UserContext = createContext();
 
 const UserProvider = ({children}) => {
-    const initialState = {
+    const initial = {
         isAuthenticated: false,
         user: {},
     }
+    const initialState = JSON.parse(sessionStorage.getItem("user")) || initial;
     const [state, dispatch] = useReducer(userReducer,initialState);
 
     return ( 
