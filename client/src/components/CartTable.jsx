@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
         table: {
             minWidth: 700,
         },
+
     }
 }));
 
@@ -40,6 +41,8 @@ export default function CartTable(props) {
             <TableRow key={itemMap.name}>
                 <TableCell>
                     <Avatar alt={itemMap.name} src={itemMap.image} variant="square" />
+                </TableCell>
+                <TableCell>
                     {itemMap.name}
 
                 </TableCell>

@@ -1,71 +1,114 @@
-// import { useState, useEffect, useContext } from 'react';
-// import axios from "axios";
-// import _ from 'lodash';
-// //material ui import
-// import { makeStyles } from '@material-ui/core/styles';
-// import List from '@material-ui/core/List';
-// import ListItem from '@material-ui/core/ListItem';
-// import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-// import ListItemText from '@material-ui/core/ListItemText';
-// import Avatar from '@material-ui/core/Avatar';
-// import Grid from '@material-ui/core/Grid';
-// import Typography from '@material-ui/core/Typography';
+import { useState, useContext, useEffect } from "react";
+import axios from "axios";
+import { UserContext } from "../context/UserProvider";
 
-// const useStyles = makeStyles((theme) => ({
-//     root: {
-//         flexGrow: 5,
-//         maxWidth: 1000,
-//     },
-//     demo: {
-//         backgroundColor: theme.palette.background.paper,
-//     },
-//     title: {
-//         margin: theme.spacing(10, 0, 2),
-//     },
-// }));
+//material ui import
+import Grid from "@material-ui/core/Grid";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles, useTheme } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import CardMedia from "@material-ui/core/CardMedia";
 
-// export default function Orders() {
-//     const classes = useStyles();
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+  },
+  details: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  content: {
+    flex: "1 0 auto",
+  },
+  cover: {
+    width: 151,
+  },
+  controls: {
+    display: "flex",
+    alignItems: "center",
+    paddingLeft: theme.spacing(1),
+    paddingBottom: theme.spacing(1),
+  },
+  playIcon: {
+    height: 38,
+    width: 38,
+  },
+}));
 
-//     // const [ordersData, setOrdersData] = useState();
-//     const orders = () => {
-//         return (axios.get("/ordersbackend/").then(response => response.data))
+export default function Orders() {
+  const theme = useTheme();
 
-//     }
+  const classes = useStyles();
 
-//     const findName = { JSONPath: $orders }
-// }
-// console.log(findName)
-// return (
-//     <>
-//         <Grid container spacing={6} onMouseOver={orders}>
-//             <Grid item xs={12} md={8}>
-//                 <Typography variant="h6" className={classes.title}>
-//                     Orders
-//           </Typography>
-//                 <div className={classes.demo}>
-//                     <List>
-//                         {orders.latestOrder[0].ordersHistory.map((currentOrder) => {
-//                             return (
-//                                 <ListItem>
-//                                     <ListItemAvatar>
-//                                         <Avatar alt=''
-//                                             src={currentOrder.productId.image}
-//                                             variant="square" />
+  const userInfo = useContext(UserContext);
+  const userData = userInfo.state.user;
+  console.log("id", userData._id);
+  const [orderData, setOrderData] = useState({});
 
-//                                     </ListItemAvatar>
-//                                     <ListItemText
-//                                         primary={currentOrder.productId.name}
-//                                         secondary={currentOrder.productId.price + "|" + currentOrder.productId.quantity + "|" + currentOrder.productId.total}
-//                                     />
-//                                 </ListItem>
-//                             );
-//                         })}
-//                         <ListItem primary="20" />
-//                     </List>
-//                 </div>
-//             </Grid>
-//         </Grid>
-//     </>
-// )
-// }
+  useEffect(() => {
+    axios
+      .get(`/ordersbackend/${userData._id}`)
+      .then((res) => {
+        console.log(res.data);
+        setOrderData(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    console.log("hello world");
+  });
+
+  console.log(orderData);
+  return (
+    <>
+      <h1>Orders History</h1>
+      <Grid container spacing={5} justify="center">
+        <Grid width="75%" item xs={5} md={6}>
+          <Typography variant="h6" className={classes.title}>
+            {orderData?.data[0]?.createdAt}
+          </Typography>
+          {orderData?.data[0]?.ordersHistory.map((currentOrder) => {
+            return (
+              <Card className={classes.root}>
+                <CardMedia
+                  className={classes.cover}
+                  image={currentOrder.productId.image}
+                />
+                <div className={classes.details}>
+                  <CardContent className={classes.content}>
+                    <Typography
+                      align="left"
+                      color="primary"
+                      component="h5"
+                      variant="h5"
+                    >
+                      {currentOrder.productId.name}
+                    </Typography>
+                    <Typography
+                      align="left"
+                      variant="subtitle1"
+                      color="primary"
+                    >
+                      {"Price:  " + currentOrder.productId.price}
+                    </Typography>
+                    <Typography
+                      align="left"
+                      variant="subtitle1"
+                      color="primary"
+                    >
+                      {"Quantity:  " + currentOrder.quantity}
+                    </Typography>
+                  </CardContent>
+                </div>
+              </Card>
+            );
+          })}
+          <Typography align="left" color="primary" component="h5" variant="h5">
+            {"Total" + orderData.data[0].total}
+          </Typography>
+        </Grid>
+      </Grid>
+    </>
+  );
+}

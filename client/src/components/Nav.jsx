@@ -38,6 +38,8 @@ const Nav = () => {
     setProfileAnchor(null);
   };
 
+  console.log(user.state)
+  console.log("JSON Parsed", JSON.parse(sessionStorage.getItem("user")))
   //useEffect, callling of APIS
   useEffect(() => {
     axios
@@ -121,7 +123,7 @@ const Nav = () => {
             Login
           </Button>
         )}
-        {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && (
+        {JSON.parse(sessionStorage.getItem("user"))?.user?.role === "admin" && (
           <Button
             color="inherit"
             onClick={() => {

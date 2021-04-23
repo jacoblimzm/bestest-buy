@@ -17,6 +17,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Box from '@material-ui/core/Box';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -81,18 +82,18 @@ export default function Cart() {
     return (
         <>
             <h1>CART</h1>
-            <Grid container spacing={3} justify="center">
+            <Grid container spacing={2} justify="center">
                 <TableContainer component={Paper}>
                     <Table className={classes.table} aria-label="spanning table">
                         <TableHead>
                             <TableRow>
-                                <TableCell align="center" colSpan={4}>
+                                <TableCell align="center" colSpan={5}>
                                     Description
             </TableCell>
                                 <TableCell align="right">Price</TableCell>
                             </TableRow>
                             <TableRow>
-                                <TableCell>Product Name</TableCell>
+                                <TableCell colSpan={2}>Product Name</TableCell>
                                 <TableCell align="right">Qty.</TableCell>
                                 <TableCell align="right">Unit</TableCell>
                                 <TableCell align="right">Sum</TableCell>
@@ -107,14 +108,23 @@ export default function Cart() {
                                 )
                             })}
                             <TableRow>
-                                <TableCell colSpan={4}>Total</TableCell>
+                                <TableCell colSpan={5}>Total</TableCell>
                                 <TableCell align="right">{calculateCartTotalCost(cart.state)}</TableCell>
                             </TableRow>
                         </TableBody>
                     </Table>
                 </TableContainer>
+                <Box onClick={handleCartOut} className={classes.btnDown} textAlign='center' position="absolute"
+                    top={800}
+                    left="78%"
+                    zIndex="tooltip" >
 
-                <Link to={checkOut === "true" ? "/orders" : "/cart"} onClick={handleCartOut} className="btn btn-primary">Check out</Link>
+                    <Button variant="contained" color="primary">
+                        Check out</Button>
+                </Box>
+
+                {/* <Link to={checkOut === "true" ? "/orders" : "/cart"} onClick={handleCartOut} className="btn btn-primary" component="button"
+                    variant="body2">Check out</Link> */}
             </Grid>
             {/* <OrdersData orderIds={orderData} /> */}
         </>
