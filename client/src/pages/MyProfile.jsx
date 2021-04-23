@@ -3,9 +3,7 @@ import {
   Grid,
   Typography,
   TextField,
-  FormControlLabel,
-  Checkbox,
-  Button,
+  Button
 } from "@material-ui/core";
 import { UserContext } from "../context/UserProvider";
 import axios from "axios";
@@ -25,7 +23,7 @@ const MyProfile = () => {
   const [snackbarMessage, setSnackbarMessage] = useState("Server Errror!");
   const [inputValues, setInputValues] = useState({
     username: user.state.user.username,
-    password: user.state.user.password,
+    password: "",
     email: user.state.user.email,
     address: user.state.user.address,
   });
@@ -103,83 +101,98 @@ const MyProfile = () => {
       <Typography variant="h4" gutterBottom>
         My Profile
       </Typography>
-      <Grid container spacing={4}>
-        <Grid item xs={3}>
-          <TextField
-            required
-            id="username"
-            name="username"
-            label="username"
-            fullWidth
-            disabled
-            autoComplete="username"
-            value={inputValues.username}
-            onChange={handleChangeInputValues("username")}
-          />
-        </Grid>
-        <br />
-        <Grid item xs={3}>
-          <TextField
-            required
-            id="password"
-            name="password"
-            label="password"
-            fullWidth
-            disabled={isEdit ? false : true}
-            autoComplete="password"
-            type={false ? "text" : "password"}
-            value={inputValues.password}
-            onChange={handleChangeInputValues("password")}
-          />
-        </Grid>
-        <br />
-        <Grid item xs={3}>
-          <TextField
-            required
-            id="email"
-            name="email"
-            label="email"
-            fullWidth
-            disabled={isEdit ? false : true}
-            autoComplete="email"
-            value={inputValues.email}
-            onChange={handleChangeInputValues("email")}
-          />
-        </Grid>
-        <br />
-        <Grid item xs={3}>
-          <TextField
-            required
-            id="address"
-            name="address"
-            label="address"
-            fullWidth
-            disabled={isEdit ? false : true}
-            autoComplete="address"
-            value={inputValues.address}
-            onChange={handleChangeInputValues("address")}
-          />
-        </Grid>
-        {isInputValid && <Alert severity="warning">{alertMessage}</Alert>}
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleEdit}
-            className={classes.button}
-          >
-            Edit
-          </Button>{" "}
+      <Grid container direction="row" justify="center">
+        <Grid item xs={8} sm={6}>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="username"
+              name="username"
+              label="username"
+              fullWidth
+              disabled
+              autoComplete="username"
+              value={inputValues.username}
+              onChange={handleChangeInputValues("username")}
+            />
+          </Grid>
           <br />
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="password"
+              name="password"
+              label="Provide new or current password"
+              fullWidth
+              disabled={false}
+              type={false ? "text" : "password"}
+              value={inputValues.password}
+              onChange={handleChangeInputValues("password")}
+            />
+          </Grid>
           <br />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleSave}
-            className={classes.button}
-          >
-            Save
-          </Button>
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="email"
+              name="email"
+              label="email"
+              fullWidth
+              disabled={isEdit ? false : true}
+              autoComplete="email"
+              value={inputValues.email}
+              onChange={handleChangeInputValues("email")}
+            />
+          </Grid>
+          <br />
+          <Grid item xs={12}>
+            <TextField
+              required
+              id="address"
+              name="address"
+              label="address"
+              fullWidth
+              disabled={isEdit ? false : true}
+              autoComplete="address"
+              value={inputValues.address}
+              onChange={handleChangeInputValues("address")}
+            />
+          </Grid>
+          {isInputValid && (
+            <Alert
+              style={{ marginTop: "1.5vh", marginBottom: "1.5vh" }}
+              severity="warning"
+            >
+              {alertMessage}
+            </Alert>
+          )}
+          <Grid item xs={12}>
+            <Grid container justify="center">
+            
+              <Grid item xs={3}>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={handleEdit}
+                  className={classes.button}
+                  fullWidth
+                >
+                  Edit
+                </Button>{" "}
+              </Grid>
+              <Grid xs={3}></Grid>
+              <Grid item xs={3}>
+                <Button
+                  variant="outlined" color="secondary"
+                  onClick={handleSave}
+                  className={classes.button}
+                  fullWidth
+                >
+                  Save
+                </Button>
+              </Grid>
+            </Grid>
+          </Grid>
         </Grid>
       </Grid>
       <Snackbar

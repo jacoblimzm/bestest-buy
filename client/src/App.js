@@ -6,6 +6,7 @@ import ProductList from "./pages/ProductList";
 //Pages
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+import Orders from "./pages/Orders"
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
@@ -42,9 +43,9 @@ function App() {
             <Route exact path="/cart">
               <Cart />
             </Route>
-            <Route path="/addnewproduct">
+            {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && <Route path="/addnewproduct">
               <AddProduct />
-            </Route>
+            </Route>}
             <Route>
               <ErrorPage />
             </Route>

@@ -4,11 +4,8 @@ import {
   CssBaseline,
   Avatar,
   TextField,
-  FormControlLabel,
-  Checkbox,
   Link,
   Grid,
-  Box,
   Typography,
   Container,
   Button,
@@ -204,7 +201,8 @@ const SignUp = () => {
         }}
         open={open}
         autoHideDuration={5000}
-        onClose={handleClose}
+        onClose=''
+        // {handleClose}
         message={snackbarMessage}
         action={
           <>

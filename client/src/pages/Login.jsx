@@ -69,13 +69,13 @@ const Login = () => {
           setAlertMessage(
             "Login success, you will be redirected to the homepage"
           );
-
+          user.dispatch({ type: LOGIN_SUCCESS, payload: res.data });
           setTimeout(() => {
             history.push("/");
           }, 3000);
         }
 
-        user.dispatch({ type: LOGIN_SUCCESS, payload: res.data });
+      
       })
       .catch((err) => {
         console.log(err);
@@ -85,12 +85,11 @@ const Login = () => {
     e.preventDefault();
     setOpen(true);
     console.log("BUTTON LOGIN CLICKED");
-    // upon submit, an API POST request must be made to the backend to /usersbackend
     console.log(inputValues.username, inputValues.password);
 
     if (sessionStorage.getItem("user") === null) {
       callLoginApi();
-    } else if (JSON.parse(sessionStorage.getItem("user")).user.role) {
+    } else if (JSON.parse(sessionStorage.getItem("user")).isAuthenticated) {
       //user is login
       setAlertMessage("User already login, please logout!");
     } else {
