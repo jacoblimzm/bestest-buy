@@ -47,11 +47,11 @@ export default function CartTable(props) {
 
                 </TableCell>
                 <TableCell align="right">{itemMap.quantity}</TableCell>
-                <TableCell align="right">{itemMap.price}</TableCell>
-                <TableCell align="right">{totalItemPrice}</TableCell>
+                <TableCell align="right">${itemMap.price}</TableCell>
+                <TableCell align="right">${totalItemPrice}</TableCell>
                 <TableCell align="right">
-                    <Button onClick={() => cart.dispatch({ type: ADD_TO_CART, payload: { product: itemMap } })} color="primary">+</Button>
-                    <Button onClick={() => cart.dispatch({ type: REMOVE_FROM_CART, payload: { productId: itemMap._id } })} color="primary">-</Button>
+                    <Button variant="contained" onClick={() => cart.dispatch({ type: ADD_TO_CART, payload: { product: itemMap } })} color="primary">+</Button>
+                    <Button variant="outlined" onClick={() => cart.dispatch({ type: REMOVE_FROM_CART, payload: { productId: itemMap._id } })} color="primary">-</Button>
                 </TableCell>
 
             </TableRow>
