@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardActionArea from "@material-ui/core/CardActionArea";
@@ -9,6 +9,7 @@ import { Grid } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import { Link } from "react-router-dom";
 import AddToCartButton from "./AddToCartButton";
+import { UserContext } from "../context/UserProvider";
 
 const useStyles = makeStyles({
   root: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles({
 });
 
 const ProductCard = (props) => {
+  const user = useContext(UserContext);
   const classes = useStyles();
 
   return (
@@ -55,9 +57,11 @@ const ProductCard = (props) => {
               </CardContent>
             </Link>
           </CardActionArea>
-          <CardActions>
-            <AddToCartButton productProp={props.product} />
-          </CardActions>
+          {user.state.isAuthenticated && (
+            <CardActions>
+              <AddToCartButton productProp={props.product} />
+            </CardActions>
+          )}
         </Card>
       </Grid>
     </>
