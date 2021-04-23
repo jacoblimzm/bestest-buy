@@ -20,7 +20,6 @@ import EditProduct from "./pages/EditProduct";
 
 function App() {
   const user = useContext(UserContext);
-  console.log(user.state);
   return (
     <>
       <Nav />

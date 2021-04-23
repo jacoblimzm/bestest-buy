@@ -20,6 +20,7 @@ import {
   calculateCartTotalItems,
 } from "../actions/functions";
 import { UserContext } from "../context/UserProvider";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -182,6 +183,13 @@ const ProductDetails = () => {
               >
                 Yes
               </Typography>
+              {user.state.user.role === "admin" && (
+                <Link to={`/edit/${productState._id}`} className={classes.link}>
+                  <Button size="medium" color="primary">
+                    Edit Product
+                  </Button>
+                </Link>
+              )}
             </CardContent>
           </Card>
         </Grid>
@@ -214,7 +222,6 @@ const ProductDetails = () => {
                   Login to begin adding to cart!
                 </Typography>
               )}
-
               <Button
                 onClick={() => {
                   history.goBack();
