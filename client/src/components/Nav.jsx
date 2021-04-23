@@ -39,7 +39,7 @@ const Nav = () => {
   };
 
   console.log(user.state)
-  console.log("JSON Parsed", JSON.parse(sessionStorage.getItem("user")))
+  const isAdmin = JSON.parse(sessionStorage.getItem("user"))?.user?.role === "admin"
   //useEffect, callling of APIS
   useEffect(() => {
     axios
@@ -123,7 +123,7 @@ const Nav = () => {
             Login
           </Button>
         )}
-        {JSON.parse(sessionStorage.getItem("user"))?.user?.role === "admin" && (
+        {isAdmin && (
           <Button
             color="inherit"
             onClick={() => {
