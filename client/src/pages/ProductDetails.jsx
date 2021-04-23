@@ -15,7 +15,12 @@ import { useContext, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router";
 import AddToCartButton from "../components/AddToCartButton";
 import { CartContext } from "../context/CartProvider";
-import { calculateCartTotalCost, calculateCartTotalItems} from "../actions/functions"
+import {
+  calculateCartTotalCost,
+  calculateCartTotalItems,
+} from "../actions/functions";
+import { UserContext } from "../context/UserProvider";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -44,6 +49,7 @@ const ProductDetails = () => {
   const { productId } = useParams();
   //   console.log(productId);
   const cart = useContext(CartContext);
+  const user = useContext(UserContext);
 
   const [productState, setProductState] = useState({
     _id: "607e480f95c64f67220c430e",
@@ -61,7 +67,6 @@ const ProductDetails = () => {
     axios
       .get(`/productsbackend/findproduct/${id}`)
       .then((res) => {
-        console.log(res.data);
         setProductState(res.data);
       })
       .catch((err) => {
@@ -177,6 +182,13 @@ const ProductDetails = () => {
               >
                 Yes
               </Typography>
+              {user.state.user.role === "admin" && (
+                <Link to={`/edit/${productState._id}`} className={classes.link}>
+                  <Button size="medium" color="primary">
+                    Edit Product
+                  </Button>
+                </Link>
+              )}
             </CardContent>
           </Card>
         </Grid>
@@ -186,7 +198,7 @@ const ProductDetails = () => {
               <Icon>
                 <ShoppingCartIcon />
               </Icon>
-              <Typography display="inline" variant="h5" component="h2">
+              <Typography display="inline" variant="h5" component="h5">
                 Cart
               </Typography>
               <Typography
@@ -197,15 +209,25 @@ const ProductDetails = () => {
               >
                 {calculateCartTotalItems(cart.state)} items in cart
               </Typography>
-              <Typography
-                variant="h6"
-                color="textPrimary"
-                component="p"
-              >${calculateCartTotalCost(cart.state)}</Typography>
+              <Typography variant="h6" color="textPrimary" component="p">
+                ${calculateCartTotalCost(cart.state)}
+              </Typography>
             </CardContent>
             <CardActions>
-              <AddToCartButton productProp={productState} />
-              <Button onClick={() => {history.goBack()}} size="small" color="primary">
+              {user.state.isAuthenticated ? (
+                <AddToCartButton productProp={productState} />
+              ) : (
+                <Typography variant="body1" color="textSecondary">
+                  Login to begin adding to cart!
+                </Typography>
+              )}
+              <Button
+                onClick={() => {
+                  history.goBack();
+                }}
+                size="small"
+                color="primary"
+              >
                 Go Back
               </Button>
             </CardActions>

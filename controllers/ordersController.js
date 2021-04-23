@@ -42,7 +42,7 @@ orders.get("/", (req, res) => {
 
 // Only can view own order. 
 orders.get("/:id", (req, res) => {
-  Order.findById(req.params.id, (err, latestOrder) => {
+  Order.find({userId: req.params.id}, (err, latestOrder) => {
     if (err) {
       res.status(400).send({
         error: err.message,

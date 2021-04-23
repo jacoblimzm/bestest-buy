@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actions/types";
+import { ADD_TO_CART, CHECKOUT, REMOVE_FROM_CART } from "../actions/types";
 
 const cartReducer = (cart, action) => {
   switch (action.type) {
@@ -18,7 +18,7 @@ const cartReducer = (cart, action) => {
         updatedCart[itemIndex] = updatedItem;
         //   updatedCart[itemIndex].quantity++; // could potentially replace the 5 lines above it.
       }
-      localStorage.setItem("cart", JSON.stringify(updatedCart))
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
       return updatedCart;
 
     case REMOVE_FROM_CART:
@@ -27,17 +27,18 @@ const cartReducer = (cart, action) => {
         (item) => item._id === action.payload.productId // the payload property HAS to be name "productId" and accept a string;
       );
       const updatedItem1 = {
-          ...updatedCart1[itemIndex1],
-      }
+        ...updatedCart1[itemIndex1],
+      };
       updatedItem1.quantity--;
       if (updatedItem1.quantity <= 0) {
-          updatedCart1.splice(itemIndex1, 1); // remove the product with qty 0 from the cart.
+        updatedCart1.splice(itemIndex1, 1); // remove the product with qty 0 from the cart.
       } else {
-          updatedCart1[itemIndex1] = updatedItem1;
+        updatedCart1[itemIndex1] = updatedItem1;
       }
-      localStorage.setItem("cart", JSON.stringify(updatedCart1))
+      localStorage.setItem("cart", JSON.stringify(updatedCart1));
       return updatedCart1;
-      
+    case CHECKOUT:
+      return [];
     default:
       return cart;
   }
