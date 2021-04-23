@@ -17,7 +17,7 @@ sessions.post("/", (req, res, next) => {
         if (err) {
             res.send(err);
         } else if (!user) {
-            res.send({message: "User does not exist!"})
+            res.send(info)
         } else {
             req.login(user, (err) => {
                 if (err) {

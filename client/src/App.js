@@ -6,41 +6,53 @@ import ProductList from "./pages/ProductList";
 //Pages
 import Home from "./pages/Home";
 import ProductDetails from "./pages/ProductDetails";
+import Orders from "./pages/Orders"
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
+import Nav from "./components/Nav";
+import MyProfile from "./pages/MyProfile";
 import AddProduct from "./pages/AddProduct";
 import ErrorPage from "./pages/ErrorPage";
 
-
 function App() {
   return (
-    <Container maxWidth="lg">
-      <div className="App">
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          {/* <Route exact path="/login" component={Login} />
-          <Route exact path="/signup" component={SignUp} /> */}
-          <Route path="/product/:productId">
-            <ProductDetails />
-          </Route>
-          <Route path="/products/:category">
-            <ProductList />
-          </Route>
-          <Route exact path="/cart">
-            <Cart />
-          </Route>
-          <Route path="/addnewproduct">
-            <AddProduct />
-          </Route>
-          <Route>
-            <ErrorPage />
-          </Route>
-        </Switch>
-      </div>
-    </Container>
+    <>
+      <Nav />
+      <Container maxWidth="lg">
+        <div className="App">
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route exact path="/login">
+              <Login />
+            </Route>
+            <Route exact path="/myprofile">
+              <MyProfile />
+            </Route>
+            <Route exact path="/signup">
+              <SignUp />
+            </Route>
+            <Route path="/product/:productId">
+              <ProductDetails />
+            </Route>
+            <Route path="/products/:category">
+              <ProductList />
+            </Route>
+            <Route exact path="/cart">
+              <Cart />
+            </Route>
+            {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && <Route path="/addnewproduct">
+              <AddProduct />
+            </Route>}
+            <Route>
+              <ErrorPage />
+            </Route>
+          </Switch>
+        </div>
+      </Container>
+    </>
   );
 }
 

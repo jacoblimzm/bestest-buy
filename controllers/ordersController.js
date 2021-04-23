@@ -21,6 +21,24 @@ orders.post("/", (req, res) => {
     }
   });
 });
+//Created by Eleanor- to test out data
+orders.get("/", (req, res) => {
+  Order.find({}, (err, latestOrder) => {
+    if (err) {
+      res.status(400).send({
+        error: err.message,
+        message: "Retrieve order unsuccessful!",
+        data: {},
+      });
+    } else {
+      res.status(200).send({
+        latestOrder
+      });
+    }
+  }).populate("ordersHistory.productId")
+    .populate({ path: "userId", select: ["username", "_id", "email", "role"] });
+});
+
 
 // Only can view own order. 
 orders.get("/:id", (req, res) => {
@@ -47,7 +65,7 @@ orders.delete("/:id", (req, res) => {
   Order.findByIdAndRemove(req.params.id, (err, deletedOrder) => {
     if (err) {
       res.status(400).send({
-        error: err.mess,
+        error: err.message,
         message: "Delete order unsuccessful!",
         data: {},
       });

@@ -1,115 +1,190 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from 'axios';
-import { makeStyles } from '@material-ui/core/styles';
-import { AppBar, Toolbar, IconButton, Typography, Button, MenuItem, MenuClose, Menu } from "@material-ui/core";
+import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Button,
+  MenuItem,
+  Menu,
+} from "@material-ui/core";
 import { UserContext } from "../context/UserProvider";
 import { useHistory } from "react-router-dom";
-
-const initialcategories = [
-  {
-    "_id": "607f1007af4ad218e900b7a3",
-    "category": "Beauty & personal care",
-    "__v": 0
-  },
-  {
-    "_id": "607f1007af4ad218e900b7a4",
-    "category": "Health & Wellness",
-    "__v": 0
-  },
-  {
-    "_id": "607f1007af4ad218e900b7a5",
-    "category": "Food & Beverages",
-    "__v": 0
-  },
-  {
-    "_id": "607f1007af4ad218e900b7a6",
-    "category": "Household",
-    "__v": 0
-  },
-  {
-    "_id": "607f1007af4ad218e900b7a7",
-    "category": "Electronics",
-    "__v": 0
-  },
-  {
-    "_id": "607f1007af4ad218e900b7a8",
-    "category": "Fashion",
-    "__v": 0
-  }
-];
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { LOGOUT_SUCCESS } from "../actions/types";
 
 const Nav = () => {
-  // react global stuffs, material ui usestyles, makestyles
   const history = useHistory();
   const classes = makeStyles();
-  const [state] = useContext(UserContext);
-  const [categories, setCategories] = useState(initialcategories);
+  const user = useContext(UserContext);
+  const [categories, setCategories] = useState([]);
+  const [profileAnchor, setProfileAnchor] = useState(null);
+  const [catAnchor, setCatAnchor] = useState(null);
 
-
-
-  //component own state, ui presentation layer
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  //UI internal logic. (handleclick, handlechange, onSubmit, FUNCTIONS)
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClickCat = (event) => {
+    setCatAnchor(event.currentTarget);
   };
 
-  const handleClose = () => {
-    setAnchorEl(null);
+  const handleCloseCat = () => {
+    setCatAnchor(null);
+  };
+
+  const handleClickProfile = (event) => {
+    setProfileAnchor(event.currentTarget);
+  };
+
+  const handleCloseProfile = () => {
+    setProfileAnchor(null);
   };
 
   //useEffect, callling of APIS
-
-
+  useEffect(() => {
+    axios
+      .get("/categoriesbackend")
+      .then((res) => {
+        console.log(res.data);
+        setCategories(res.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
 
   return (
-
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Toolbar>
-        <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-        </IconButton>
+        <IconButton
+          edge="start"
+          className={classes.menuButton}
+          color="inherit"
+          aria-label="menu"
+        ></IconButton>
 
-        <Typography variant="h6" className={classes.title}>
+        <Button
+          color="inherit"
+          onClick={() => {
+            history.push("/");
+          }}
+        >
           Bestest-Buy
-    </Typography>
+        </Button>
 
         <div style={{ flexGrow: 1 }}></div>
-
-        <Button color="inherit" aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
-          Open Menu
-    </Button>
+        <Button
+          color="inherit"
+          aria-controls="simple-menu"
+          aria-haspopup="true"
+          onClick={handleClickCat}
+        >
+          Shop Category <ArrowDropDownIcon fontSize="small" />
+        </Button>
 
         <Menu
           id="simple-menu"
-          anchorEl={anchorEl}
+          anchorEl={catAnchor}
           keepMounted
-          open={Boolean(anchorEl)}
-          onClose={handleClose}
+          open={Boolean(catAnchor)}
+          onClose={handleCloseCat}
         >
-          {/* <MenuItem onClick={handleClose}>Profile</MenuItem>
-      <MenuItem onClick={handleClose}>My account</MenuItem>
-      <MenuItem onClick={handleClose}>Logout</MenuItem> */}
-          {
-            categories.map((category) => {
-              return (
-                <>
-                  <MenuItem id={category._id}
-                    onClick={() => { handleClose(); history.push(`/products/${category._id}`) }}>
-                    {category.category}</MenuItem>
-                </>
-              );
-            })
-          }
+          {categories.map((category) => {
+            return (
+              <>
+                <MenuItem
+                  onClick={(e) => {
+                    history.push(`/products/${category.category}`);
+                  }}
+                >
+                  {category.category}
+                </MenuItem>
+              </>
+            );
+          })}
         </Menu>
+        {!user.state.isAuthenticated && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/signup");
+            }}
+          >
+            Sign Up
+          </Button>
+        )}
+        {!user.state.isAuthenticated && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/login");
+            }}
+          >
+            Login
+          </Button>
+        )}
+        {JSON.parse(sessionStorage.getItem("user")).user.role === "admin" && (
+          <Button
+            color="inherit"
+            onClick={() => {
+              history.push("/addnewproduct");
+            }}
+          >
+            Add product
+          </Button>
+        )}
 
-        <Button color="inherit" onClick={() => { history.push("/signup") }}>Sign Up</Button>
-        <Button color="inherit" onClick={() => { history.push("/login") }}>Login</Button>
-        {state.isAuthenticated && <Typography>{state.user.username}</Typography>}
+        {user.state.isAuthenticated && (
+          <>
+            <Button
+              color="inherit"
+              aria-controls="simple-menu"
+              aria-haspopup="true"
+              onClick={handleClickProfile}
+            >
+              {user.state.user.username}
+              <ArrowDropDownIcon fontSize="small" />
+            </Button>
+            <Menu
+              id="simple-menu"
+              anchorEl={profileAnchor}
+              keepMounted
+              open={Boolean(profileAnchor)}
+              onClose={handleCloseProfile}
+            >
+              <MenuItem
+                onClick={() => {
+                  history.push("/myprofile");
+                }}
+              >
+                Profile
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/cart");
+                }}
+              >
+                My Cart
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/orders");
+                }}
+              >
+                My Order
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  history.push("/");
+                  user.dispatch({ type: LOGOUT_SUCCESS, payload: {} });
+                }}
+              >
+                Logout
+              </MenuItem>
+            </Menu>
+          </>
+        )}
       </Toolbar>
     </AppBar>
-
-  )
-}
+  );
+};
 
 export default Nav;
