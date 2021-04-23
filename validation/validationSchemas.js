@@ -7,6 +7,7 @@ const userValidSchema = Joi.object({
   password: Joi.string().min(8).max(12).required(),
   email: Joi.string().lowercase().email().required(),
   address: Joi.string().required(),
+  role: Joi.string().required(),
 });
 
 // product validation schema
