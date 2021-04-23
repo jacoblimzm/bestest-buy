@@ -38,14 +38,14 @@ const Nav = () => {
     setProfileAnchor(null);
   };
 
-  console.log(user.state)
+  // console.log(user.state)
   const isAdmin = JSON.parse(sessionStorage.getItem("user"))?.user?.role === "admin"
   //useEffect, callling of APIS
   useEffect(() => {
     axios
       .get("/categoriesbackend")
       .then((res) => {
-        console.log(res.data);
+        // console.log(res.data);
         setCategories(res.data);
       })
       .catch((error) => {
@@ -79,7 +79,7 @@ const Nav = () => {
           aria-haspopup="true"
           onClick={handleClickCat}
         >
-          Shop Category <ArrowDropDownIcon fontSize="small" />
+          Category <ArrowDropDownIcon fontSize="small" />
         </Button>
 
         <Menu

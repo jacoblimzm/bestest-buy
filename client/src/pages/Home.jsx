@@ -35,7 +35,6 @@ export default function Home() {
     axios
       .get("/categoriesbackend")
       .then((res) => {
-        console.log(res.data);
         setCategory(res.data);
       })
       .catch((error) => {

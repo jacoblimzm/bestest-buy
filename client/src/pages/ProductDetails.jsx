@@ -67,7 +67,6 @@ const ProductDetails = () => {
     axios
       .get(`/productsbackend/findproduct/${id}`)
       .then((res) => {
-        console.log(res.data);
         setProductState(res.data);
       })
       .catch((err) => {

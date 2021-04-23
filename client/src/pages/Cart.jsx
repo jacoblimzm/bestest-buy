@@ -1,10 +1,10 @@
 import axios from "axios";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CartContext } from "../context/CartProvider";
 import CartTable from "../components/CartTable";
 import { UserContext } from "../context/UserProvider";
 import { calculateCartTotalCost } from "../actions/functions";
-import { Redirect, Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 // import { OrdersData } from "./Orders"
 //material-ui imports
 import { Button, Grid } from "@material-ui/core";
@@ -37,7 +37,7 @@ export default function Cart() {
 
   // usecontext to get cart & user current data
   const cart = useContext(CartContext);
-  console.log(cart.state);
+  // console.log(cart.state);
   const cartData =
     cart.state === [] ? <h2>Your cart is currently empty</h2> : cart.state;
 
@@ -48,7 +48,7 @@ export default function Cart() {
   const invoiceTotal = calculateCartTotalCost(
     cart.state === [] ? 0 : cart.state
   );
-  const [checkOut, setCheckOut] = useState("false");
+  // const [checkOut, setCheckOut] = useState("false");
   // const [orderData, setOrderData] = useState([]);
 
   const handleCartOut = (event) => {
@@ -108,8 +108,8 @@ export default function Cart() {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {cartData.map((item) => {
-                  return <CartTable item={item} />;
+                {cartData.map((item, index) => {
+                  return <CartTable item={item} key={index}/>;
                 })}
                 <TableRow>
                   <TableCell colSpan={5}>Total</TableCell>

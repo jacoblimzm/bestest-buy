@@ -10,7 +10,6 @@ const AddToCartButton = ({ productProp }) => {
     cart.dispatch({ type: ADD_TO_CART, payload: { product: item } });
   };
 
-  console.log(cart.state);
   return (
     <Button onClick={() => {handleClick(productProp)}} variant="contained" size="small" color="primary">
       Add to Cart
