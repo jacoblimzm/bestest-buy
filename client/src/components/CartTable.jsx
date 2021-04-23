@@ -25,10 +25,8 @@ const useStyles = makeStyles((theme) => ({
 
 
 export default function CartTable(props) {
-    const classes = useStyles();
     //usecontext to get cart current data
     const cart = useContext(CartContext);
-    const cartData = cart.state
 
 
     const itemMap = (props.item === [] ? [] : props.item)

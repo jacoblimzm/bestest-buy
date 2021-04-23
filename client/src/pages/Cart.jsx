@@ -18,6 +18,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import Box from "@material-ui/core/Box";
+import { CHECKOUT } from "../actions/types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -78,7 +79,8 @@ export default function Cart() {
           console.log(error);
         });
     }
-
+    cart.dispatch({type: CHECKOUT})
+    localStorage.setItem("cart", "[]")
     history.push("/orders")
   };
 
