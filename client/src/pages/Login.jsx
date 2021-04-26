@@ -9,14 +9,13 @@ import {
   TextField,
   Button,
   Grid,
-  Link,
 } from "@material-ui/core";
 import { UserContext } from "../context/UserProvider";
 import { LOGIN_SUCCESS } from "../actions/types";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -36,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+    textDecoration: "none"
+  }
 }));
 
 const Login = () => {
@@ -151,7 +153,7 @@ const Login = () => {
           </Button>
           <Grid container>
             <Grid item>
-              <Link href="/signup" variant="body2">
+              <Link to="/signup" variant="body2" className={classes.link}>
                 {"Don't have an account? Sign Up"}
               </Link>
             </Grid>
