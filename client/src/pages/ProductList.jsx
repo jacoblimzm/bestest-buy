@@ -15,7 +15,7 @@ const ProductList = () => {
       axios
         .get(`/productsbackend`)
         .then((res) => {
-          console.log(res.data); //backend responds with the user data of the current session!
+          // console.log(res.data); //backend responds with the user data of the current session!
           setAllProducts(res.data);
         })
         .catch((err) => {

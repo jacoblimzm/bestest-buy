@@ -36,7 +36,7 @@ const ProductCard = (props) => {
             <Link to={`/product/${props.product._id}`} className={classes.link}>
               <CardMedia
                 className={classes.media}
-                image="https://picsum.photos/500/500"
+                image={props.product.image}
                 title={props.product.name}
               />
               <CardContent>
