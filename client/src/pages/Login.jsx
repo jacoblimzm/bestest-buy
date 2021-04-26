@@ -86,8 +86,7 @@ const Login = () => {
   const handleLogIn = (e) => {
     e.preventDefault();
     setOpen(true);
-    console.log("BUTTON LOGIN CLICKED");
-    console.log(inputValues.username, inputValues.password);
+    // console.log("BUTTON LOGIN CLICKED");
 
     if (sessionStorage.getItem("user") === null) {
       callLoginApi();

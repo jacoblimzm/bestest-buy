@@ -93,7 +93,7 @@ const ProductDetails = () => {
           <Card elevation={3} className={classes.card}>
             <CardMedia
               className={classes.media}
-              image="https://picsum.photos/500/500"
+              image={productState.image}
               title={productState.name}
             />
             <CardContent>
