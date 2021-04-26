@@ -4,7 +4,6 @@ import {
   CssBaseline,
   Avatar,
   TextField,
-  Link,
   Grid,
   Typography,
   Container,
@@ -15,6 +14,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { makeStyles } from "@material-ui/core/styles";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,6 +34,9 @@ const useStyles = makeStyles((theme) => ({
   submit: {
     margin: theme.spacing(3, 0, 2),
   },
+  link: {
+    textDecoration: "none"
+  }
 }));
 
 const SignUp = () => {
@@ -187,7 +190,7 @@ const SignUp = () => {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="/login" variant="body2">
+              <Link to="/login" variant="body2" className={classes.link}>
                 Already have an account? Login
               </Link>
             </Grid>
